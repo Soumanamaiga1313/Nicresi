@@ -1,0 +1,3 @@
+# Netlify publie uniquement le dossier du site (aperçus des PR).
+[build]
+  publish = "public"
