@@ -3,17 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NICRESI — La Nigérienne des Créations et des Solutions Informatiques</title>
-  <meta name="description" content="NICRESI installe des Wi-Fi zones, fournit les cartes d'accès, installe Starlink et l'énergie solaire, et réalise vos réseaux et prestations informatiques au Niger.">
-  <meta name="theme-color" content="#000000">
-  <meta property="og:title" content="NICRESI — Créer. Connecter. Construire.">
-  <meta property="og:description" content="Wi-Fi zones, cartes d'accès, Starlink, énergie solaire, réseaux et informatique au Niger.">
+  <title>NICRESI — Sites web, logiciels, réseaux et énergie au Niger</title>
+  <meta name="description" content="NICRESI conçoit des sites web, applications et logiciels sur mesure, déploie des infrastructures réseau et solaires, et forme et accompagne ses clients au Niger. Créer. Connecter. Construire.">
+  <link rel="canonical" href="https://nicresi.com/">
+  <meta name="theme-color" content="#111111">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:image" content="img/logo-complet.jpg">
+  <meta property="og:site_name" content="NICRESI">
+  <meta property="og:url" content="https://nicresi.com/">
+  <meta property="og:title" content="NICRESI — Des idées aux solutions, nous donnons vie à vos projets">
+  <meta property="og:description" content="Sites web, applications, logiciels, réseaux, Starlink, énergie solaire, formation et accompagnement au Niger.">
+  <meta property="og:image" content="https://nicresi.com/img/logo-complet.jpg">
   <link rel="icon" href="img/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="img/icone-192.png">
   <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "NICRESI",
+    "alternateName": "La Nigérienne des Créations et des Solutions Informatiques",
+    "slogan": "Créer. Connecter. Construire.",
+    "url": "https://nicresi.com/",
+    "logo": "https://nicresi.com/img/logo-complet.jpg",
+    "email": "servicenicresi@gmail.com",
+    "telephone": "+22793191920",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Téra",
+      "addressRegion": "Tillabéri",
+      "addressCountry": "NE"
+    },
+    "areaServed": "Niger"
+  }
+  </script>
 </head>
 <body>
   <a class="evitement" href="#contenu">Aller au contenu</a>
@@ -29,112 +52,369 @@
         <span class="visuellement-cache">Menu</span>
       </button>
       <nav id="menu" class="menu" aria-label="Navigation principale">
-        <a href="#services">Services</a>
-        <a href="#terrain">Réalisations</a>
-        <a href="#wifi-zones">Wi-Fi zones</a>
-        <a href="#contact">Contact</a>
-        <a class="bouton bouton--petit" href="/owner">Espace propriétaire</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#methode">Méthode</a>
+        <a href="#realisations">Réalisations</a>
+        <a href="#nicresi-control">NICRESI Control</a>
+        <a href="#formation">Formation</a>
+        <a href="#a-propos">À propos</a>
+        <a class="bouton bouton--petit" href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
   <main id="contenu">
+
+    <!-- 1. Accueil -->
     <section id="accueil" class="accueil">
       <div class="conteneur accueil__grille">
-        <div>
+        <div class="accueil__texte">
           <p class="surtitre">La Nigérienne des Créations et des Solutions Informatiques</p>
-          <h1>Créer. Connecter. <span class="or">Construire.</span></h1>
-          <p class="accueil__texte">
-            NICRESI installe et exploite des Wi-Fi zones, fournit les cartes d'accès,
-            installe Starlink et l'énergie solaire, et réalise vos réseaux et prestations informatiques.
+          <h1>Des idées aux solutions, nous donnons vie à vos projets.</h1>
+          <p class="accueil__sous-titre">
+            NICRESI conçoit des sites web, applications et logiciels sur mesure, déploie des infrastructures
+            numériques et énergétiques et accompagne les entreprises, organisations et particuliers dans leurs
+            projets technologiques.
           </p>
+          <p class="signature">Créer. Connecter. Construire.</p>
           <div class="actions">
-            <a class="bouton" href="https://wa.me/22798863059">Nous écrire sur WhatsApp</a>
-            <a class="bouton bouton--contour" href="#services">Voir nos services</a>
+            <a class="bouton" href="#solutions">Découvrir nos solutions</a>
+            <a class="bouton bouton--contour" href="#contact">Présenter mon projet</a>
+            <a class="lien-fleche" href="#realisations">Voir nos réalisations</a>
           </div>
         </div>
-        <img class="accueil__logo" src="img/logo-complet.jpg" alt="Logo NICRESI : une girafe dorée au-dessus du nom NICRESI" width="600" height="685">
+
+        <figure class="scene" aria-labelledby="scene-legende">
+          <!-- Animation signature : un quartier nigérien qui évolue grâce aux solutions NICRESI.
+               Sans JavaScript, la scène s'affiche complète et immobile. -->
+          <svg class="scene__svg" viewBox="0 0 800 460" role="img" aria-labelledby="scene-titre scene-desc">
+            <title id="scene-titre">Un quartier nigérien équipé par NICRESI</title>
+            <desc id="scene-desc">Une boutique, une école et un bureau expriment un besoin. NICRESI conçoit un logiciel, installe une antenne, des panneaux solaires et relie les bâtiments, puis forme et accompagne les utilisateurs.</desc>
+            <defs>
+              <linearGradient id="ciel" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#fde7cf"/>
+                <stop offset="1" stop-color="#fff7ee"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Décor -->
+            <rect width="800" height="460" fill="url(#ciel)"/>
+            <circle cx="690" cy="80" r="38" fill="#f6a24a" opacity=".55"/>
+            <path d="M0 360 Q200 340 400 352 T800 346 V460 H0Z" fill="#e9b97c"/>
+            <path d="M0 392 Q220 378 420 390 T800 384 V460 H0Z" fill="#dda362"/>
+            <!-- Acacia -->
+            <g class="decor-arbre">
+              <rect x="736" y="292" width="7" height="64" fill="#7a4b26"/>
+              <ellipse cx="740" cy="288" rx="46" ry="14" fill="#7d8f3c"/>
+              <ellipse cx="722" cy="280" rx="24" ry="9" fill="#8fa349"/>
+            </g>
+
+            <!-- Liaisons lumineuses (phase intégration) -->
+            <g class="el el--liaisons">
+              <path class="liaison" d="M372 128 Q260 150 158 250"/>
+              <path class="liaison" d="M372 128 Q420 170 452 238"/>
+              <path class="liaison" d="M372 128 Q520 140 640 236"/>
+            </g>
+
+            <!-- Boutique -->
+            <g class="batiment" id="bat-boutique" data-cible="#sol-numerique" tabindex="0" role="link" aria-label="La boutique : création et solutions numériques">
+              <rect x="80" y="250" width="160" height="110" rx="4" fill="#c98a52"/>
+              <rect x="74" y="242" width="172" height="14" rx="3" fill="#a96c3a"/>
+              <rect x="96" y="266" width="128" height="20" rx="3" fill="#111"/>
+              <text x="160" y="281" text-anchor="middle" class="enseigne">BOUTIQUE</text>
+              <rect x="102" y="300" width="50" height="60" fill="#7a4b26"/>
+              <rect x="166" y="300" width="56" height="34" rx="2" fill="#fff7ee" class="vitre"/>
+              <!-- Écran du logiciel de gestion (utilisation) -->
+              <g class="el el--ecran-boutique">
+                <rect x="172" y="305" width="44" height="24" rx="2" fill="#111"/>
+                <rect x="176" y="309" width="16" height="4" fill="#f26a1b"/>
+                <rect x="176" y="316" width="36" height="3" fill="#fff"/>
+                <rect x="176" y="322" width="28" height="3" fill="#fff"/>
+              </g>
+              <!-- Panneaux solaires (intégration) -->
+              <g class="el el--solaire">
+                <polygon points="98,242 150,242 158,226 106,226" fill="#1f3550"/>
+                <polygon points="160,242 212,242 220,226 168,226" fill="#1f3550"/>
+                <path d="M124 226 l-4 16 M150 226 l-4 16 M186 226 l-4 16 M212 226 l-4 16" stroke="#6f8fb3" stroke-width="1.5"/>
+              </g>
+            </g>
+
+            <!-- Antenne (réseau) -->
+            <g class="batiment" id="mat-antenne" data-cible="#sol-reseau" tabindex="0" role="link" aria-label="L'antenne : connectivité et infrastructures réseau">
+              <rect x="300" y="300" width="144" height="60" rx="4" fill="#d9a46b"/>
+              <rect x="330" y="318" width="22" height="42" fill="#7a4b26"/>
+              <rect x="372" y="316" width="44" height="22" rx="2" fill="#fff7ee"/>
+              <g class="el el--antenne">
+                <rect x="369" y="128" width="6" height="172" fill="#555"/>
+                <path d="M372 140 L350 300 M372 140 L394 300" stroke="#777" stroke-width="2"/>
+                <rect x="360" y="146" width="24" height="10" rx="2" fill="#f26a1b"/>
+                <circle cx="372" cy="128" r="6" fill="#f26a1b"/>
+                <g class="ondes">
+                  <path d="M352 110 a28 28 0 0 1 40 0" />
+                  <path d="M340 96 a46 46 0 0 1 64 0" />
+                </g>
+              </g>
+            </g>
+
+            <!-- École (formation) -->
+            <g class="batiment" id="bat-ecole" data-cible="#formation" tabindex="0" role="link" aria-label="L'école : formation, conseil et accompagnement">
+              <rect x="470" y="238" width="140" height="122" rx="4" fill="#eed2a8"/>
+              <polygon points="462,240 540,196 618,240" fill="#b5652a"/>
+              <text x="540" y="230" text-anchor="middle" class="enseigne enseigne--sombre">ÉCOLE</text>
+              <rect x="490" y="262" width="30" height="26" rx="2" fill="#fff7ee"/>
+              <rect x="560" y="262" width="30" height="26" rx="2" fill="#fff7ee"/>
+              <rect x="526" y="306" width="28" height="54" fill="#7a4b26"/>
+              <!-- Tableau de formation (accompagnement) -->
+              <g class="el el--formation">
+                <rect x="486" y="258" width="38" height="34" rx="2" fill="#2d3b2d"/>
+                <path d="M492 268 h22 M492 276 h16 M492 284 h24" stroke="#fff" stroke-width="2"/>
+              </g>
+            </g>
+
+            <!-- Bureau (logiciel / organisation) -->
+            <g class="batiment" id="bat-bureau" data-cible="#sol-equipements" tabindex="0" role="link" aria-label="Le bureau : équipements informatiques et solutions énergétiques">
+              <rect x="634" y="226" width="96" height="134" rx="4" fill="#cfa173"/>
+              <g fill="#fff7ee">
+                <rect x="648" y="242" width="24" height="20" rx="2"/><rect x="692" y="242" width="24" height="20" rx="2"/>
+                <rect x="648" y="276" width="24" height="20" rx="2"/><rect x="692" y="276" width="24" height="20" rx="2"/>
+              </g>
+              <rect x="670" y="314" width="24" height="46" fill="#7a4b26"/>
+              <g class="el el--ordinateurs">
+                <rect x="650" y="245" width="20" height="13" rx="1" fill="#111"/>
+                <rect x="694" y="279" width="20" height="13" rx="1" fill="#111"/>
+                <rect x="653" y="248" width="9" height="3" fill="#f26a1b"/>
+                <rect x="697" y="282" width="9" height="3" fill="#f26a1b"/>
+              </g>
+            </g>
+
+            <!-- Bulles de besoin (phase 1) -->
+            <g class="el el--besoins">
+              <g class="bulle"><rect x="102" y="176" width="116" height="42" rx="12" fill="#fff" stroke="#111"/><path d="M152 218 l8 12 l6 -12" fill="#fff" stroke="#111"/><text x="160" y="203" text-anchor="middle" class="bulle__texte">Un logiciel ?</text></g>
+              <g class="bulle"><rect x="484" y="144" width="112" height="42" rx="12" fill="#fff" stroke="#111"/><path d="M532 186 l8 12 l6 -12" fill="#fff" stroke="#111"/><text x="540" y="171" text-anchor="middle" class="bulle__texte">Internet ?</text></g>
+              <g class="bulle"><rect x="614" y="170" width="136" height="42" rx="12" fill="#fff" stroke="#111"/><path d="M676 212 l8 12 l6 -12" fill="#fff" stroke="#111"/><text x="682" y="197" text-anchor="middle" class="bulle__texte">De l'énergie ?</text></g>
+            </g>
+
+            <!-- Maquette de conception (phase 2) -->
+            <g class="el el--conception">
+              <rect x="40" y="40" width="200" height="128" rx="8" fill="#111"/>
+              <rect x="40" y="40" width="200" height="18" rx="8" fill="#2a2a2a"/>
+              <circle cx="54" cy="49" r="3" fill="#f26a1b"/><circle cx="64" cy="49" r="3" fill="#888"/><circle cx="74" cy="49" r="3" fill="#888"/>
+              <rect class="maquette" x="54" y="68" width="80" height="10" rx="2" fill="#f26a1b"/>
+              <rect class="maquette" x="54" y="86" width="172" height="6" rx="2" fill="#fff"/>
+              <rect class="maquette" x="54" y="98" width="140" height="6" rx="2" fill="#fff"/>
+              <rect class="maquette" x="54" y="114" width="52" height="40" rx="4" fill="#333"/>
+              <rect class="maquette" x="114" y="114" width="52" height="40" rx="4" fill="#333"/>
+              <rect class="maquette" x="174" y="114" width="52" height="40" rx="4" fill="#333"/>
+            </g>
+
+            <!-- Techniciens (phase 3) -->
+            <g class="el el--techniciens">
+              <g transform="translate(278 312)">
+                <circle cx="0" cy="-30" r="7" fill="#5b3a22"/>
+                <rect x="-8" y="-22" width="16" height="26" rx="4" fill="#f26a1b"/>
+                <rect x="-7" y="4" width="6" height="18" fill="#f26a1b"/><rect x="1" y="4" width="6" height="18" fill="#f26a1b"/>
+                <path d="M8 -16 l14 -10" stroke="#f26a1b" stroke-width="5" stroke-linecap="round"/>
+              </g>
+              <g transform="translate(258 318)">
+                <circle cx="0" cy="-30" r="7" fill="#4a2f1b"/>
+                <rect x="-8" y="-22" width="16" height="26" rx="4" fill="#f26a1b"/>
+                <rect x="-7" y="4" width="6" height="18" fill="#f26a1b"/><rect x="1" y="4" width="6" height="18" fill="#f26a1b"/>
+              </g>
+            </g>
+
+            <!-- Utilisateur au smartphone (phase 4) -->
+            <g class="el el--utilisateur">
+              <g transform="translate(286 346)">
+                <circle cx="0" cy="-34" r="7" fill="#5b3a22"/>
+                <rect x="-9" y="-26" width="18" height="30" rx="5" fill="#2f6f8f"/>
+                <rect x="-8" y="4" width="7" height="20" fill="#333"/><rect x="1" y="4" width="7" height="20" fill="#333"/>
+                <rect x="9" y="-24" width="10" height="16" rx="2" fill="#111"/>
+                <rect x="11" y="-21" width="6" height="3" fill="#f26a1b"/>
+              </g>
+              <g class="bulle"><rect x="250" y="262" width="96" height="26" rx="8" fill="#111"/><text x="298" y="279" text-anchor="middle" class="bulle__texte bulle__texte--clair">Réseau en ligne ✓</text></g>
+            </g>
+
+            <!-- Logo final (phase 5) -->
+            <g class="el el--logo">
+              <rect x="250" y="400" width="300" height="46" rx="23" fill="#111"/>
+              <text x="400" y="429" text-anchor="middle" class="scene__slogan">NICRESI · Créer. Connecter. Construire.</text>
+            </g>
+          </svg>
+
+          <figcaption id="scene-legende" class="scene__legende">
+            <span class="scene__etape" aria-live="polite">Cliquez sur la boutique, l'antenne, le bureau ou l'école pour découvrir nos activités.</span>
+          </figcaption>
+          <div class="scene__controles" hidden>
+            <div class="scene__phases" role="group" aria-label="Étapes de l'animation">
+              <button type="button" data-phase="1">1. Le besoin</button>
+              <button type="button" data-phase="2">2. La conception</button>
+              <button type="button" data-phase="3">3. L'intégration</button>
+              <button type="button" data-phase="4">4. L'utilisation</button>
+              <button type="button" data-phase="5">5. L'accompagnement</button>
+            </div>
+            <button type="button" class="scene__pause" aria-pressed="false">Pause</button>
+          </div>
+        </figure>
       </div>
     </section>
 
-    <section id="services" class="section section--claire">
+    <!-- 2. Nos solutions -->
+    <section id="solutions" class="section">
       <div class="conteneur">
-        <h2>Nos services</h2>
-        <p class="section__intro">Du premier point d'accès jusqu'au suivi quotidien des ventes, une seule équipe s'occupe de tout.</p>
-        <div class="cartes">
-          <article class="carte">
-            <div class="carte__icone" aria-hidden="true">📶</div>
-            <h3>Wi-Fi zones</h3>
-            <p>Mise en place de points d'accès Wi-Fi publics avec connexion par carte, pour les quartiers, commerces, écoles et lieux de passage.</p>
+        <p class="surtitre">Nos solutions</p>
+        <h2>Quatre familles de compétences, une seule équipe</h2>
+        <p class="section__intro">Nous partons de votre problème, pas d'un catalogue. Chaque famille répond à un type de besoin, et nous les combinons quand votre projet le demande.</p>
+        <div class="familles">
+          <article class="famille famille--vedette" id="sol-numerique">
+            <div class="famille__icone" aria-hidden="true">💻</div>
+            <h3>Création et solutions numériques</h3>
+            <p>Chaque projet présente des besoins particuliers. NICRESI imagine et développe des outils numériques adaptés à votre activité, de la simple présence en ligne à la conception de logiciels et plateformes métier.</p>
+            <ul>
+              <li>Sites web</li>
+              <li>Applications web et mobiles</li>
+              <li>Logiciels et systèmes de gestion sur mesure</li>
+              <li>Digitalisation des activités professionnelles</li>
+              <li>Automatisation et intégration d'outils numériques</li>
+              <li>Solutions conçues pour des besoins particuliers</li>
+            </ul>
           </article>
-          <article class="carte">
-            <div class="carte__icone" aria-hidden="true">🎟️</div>
-            <h3>Cartes d'accès</h3>
-            <p>Génération et impression de cartes Wi-Fi pour les propriétaires de Wi-Fi zones, et vente de cartes par nos revendeurs et vendeurs.</p>
+          <article class="famille" id="sol-reseau">
+            <div class="famille__icone" aria-hidden="true">📡</div>
+            <h3>Connectivité et infrastructures réseau</h3>
+            <p>Nous concevons, installons et assurons le suivi des infrastructures réseau adaptées aux particuliers, entreprises, collectivités et exploitants de services Internet.</p>
+            <ul>
+              <li>Installation et gestion de Wi-Fi zones</li>
+              <li>Installation et configuration Starlink</li>
+              <li>Réseaux locaux et interconnexions</li>
+              <li>Routeurs, antennes et points d'accès</li>
+              <li>Maintenance, optimisation et surveillance</li>
+              <li>Gestion des accès Internet avec <a href="#nicresi-control">NICRESI Control</a></li>
+            </ul>
           </article>
-          <article class="carte">
-            <div class="carte__icone" aria-hidden="true">🛰️</div>
-            <h3>Starlink</h3>
-            <p>Installation de kits Starlink et accompagnement pour le paiement de l'abonnement, là où les autres réseaux n'arrivent pas.</p>
+          <article class="famille" id="sol-equipements">
+            <div class="famille__icone" aria-hidden="true">☀️</div>
+            <h3>Équipements informatiques et solutions énergétiques</h3>
+            <p>Nous associons matériels, énergie et compétences techniques afin de mettre en place des installations pratiques, adaptées et évolutives.</p>
+            <ul>
+              <li>Fourniture, installation et configuration d'ordinateurs et de matériel</li>
+              <li>Maintenance informatique et assistance matérielle</li>
+              <li>Installations solaires</li>
+              <li>Batteries, panneaux et équipements d'alimentation</li>
+              <li>Étude et installation de systèmes techniques</li>
+            </ul>
           </article>
-          <article class="carte">
-            <div class="carte__icone" aria-hidden="true">☀️</div>
-            <h3>Énergie solaire</h3>
-            <p>Panneaux, batteries et convertisseurs pour alimenter vos équipements, même sans réseau électrique.</p>
-          </article>
-          <article class="carte">
-            <div class="carte__icone" aria-hidden="true">📡</div>
-            <h3>Réseaux et informatique</h3>
-            <p>Antennes, câblage, routeurs, liaisons et maintenance pour les entreprises, administrations et particuliers.</p>
-          </article>
-          <article class="carte">
-            <div class="carte__icone" aria-hidden="true">🧰</div>
-            <h3>Vente de matériel</h3>
-            <p>Routeurs, points d'accès, antennes et accessoires, choisis et configurés pour votre installation.</p>
+          <article class="famille" id="sol-formation">
+            <div class="famille__icone" aria-hidden="true">🎓</div>
+            <h3>Formation, conseil et accompagnement</h3>
+            <p>Au-delà de la réalisation technique, nous transmettons les compétences nécessaires pour permettre à nos clients de comprendre, utiliser et faire évoluer leurs outils.</p>
+            <ul>
+              <li>Formation aux outils informatiques et numériques</li>
+              <li>Conseil et orientation technologique</li>
+              <li>Accompagnement de vos projets</li>
+              <li>Assistance, suivi et transfert de compétences</li>
+            </ul>
+            <a class="lien-fleche" href="#formation">En savoir plus sur nos formations</a>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="terrain" class="section">
+    <!-- 3. Notre méthode -->
+    <section id="methode" class="section section--sombre">
       <div class="conteneur">
-        <h2>Sur le terrain</h2>
-        <p class="section__intro section__intro--sombre">Notre équipe installe, configure et dépanne directement chez vous.</p>
-        <div class="galerie">
-          <figure class="galerie__haute">
+        <p class="surtitre">Notre méthode</p>
+        <h2>Du besoin à l'autonomie, en quatre temps</h2>
+        <ol class="methode">
+          <li>
+            <span class="methode__num" aria-hidden="true">1</span>
+            <h3>Comprendre le besoin</h3>
+            <p>Nous écoutons, visitons le terrain si nécessaire et reformulons le problème à résoudre.</p>
+          </li>
+          <li>
+            <span class="methode__num" aria-hidden="true">2</span>
+            <h3>Concevoir</h3>
+            <p>Nous proposons la solution adaptée : outil numérique, réseau, énergie, ou une combinaison des trois.</p>
+          </li>
+          <li>
+            <span class="methode__num" aria-hidden="true">3</span>
+            <h3>Déployer</h3>
+            <p>Nous développons, installons et configurons, puis vérifions que tout fonctionne en conditions réelles.</p>
+          </li>
+          <li>
+            <span class="methode__num" aria-hidden="true">4</span>
+            <h3>Accompagner</h3>
+            <p>Nous formons les utilisateurs et restons disponibles pour le suivi, la maintenance et les évolutions.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 4. Nos réalisations
+         Pour ajouter une réalisation : copier un bloc <article class="realisation">, changer data-categorie
+         (numerique, reseau, energie, informatique, accompagnement), la photo et les textes.
+         Les lignes « Besoin », « Solution » et « Résultat » sont facultatives : supprimer celles qui ne sont pas connues.
+         N'ajouter que des travaux réellement livrés. -->
+    <section id="realisations" class="section">
+      <div class="conteneur">
+        <p class="surtitre">Nos réalisations</p>
+        <h2>Sur le terrain, au service de nos clients</h2>
+        <p class="section__intro">Des interventions réelles de l'équipe NICRESI. Les fiches détaillées s'enrichissent au fil des projets.</p>
+        <div class="filtres" role="group" aria-label="Filtrer les réalisations" hidden>
+          <button type="button" class="filtre actif" data-filtre="tout" aria-pressed="true">Tout</button>
+          <button type="button" class="filtre" data-filtre="numerique" aria-pressed="false">Numérique</button>
+          <button type="button" class="filtre" data-filtre="reseau" aria-pressed="false">Réseau</button>
+          <button type="button" class="filtre" data-filtre="energie" aria-pressed="false">Énergie</button>
+          <button type="button" class="filtre" data-filtre="informatique" aria-pressed="false">Informatique</button>
+          <button type="button" class="filtre" data-filtre="accompagnement" aria-pressed="false">Accompagnement</button>
+        </div>
+        <div class="realisations">
+          <article class="realisation" data-categorie="reseau">
             <img src="img/photos/installation.jpg" alt="Technicien NICRESI préparant un point d'accès Wi-Fi et un convertisseur sur un chantier" loading="lazy" width="693" height="1536">
-            <figcaption>Préparation d'un point d'accès</figcaption>
-          </figure>
-          <figure>
+            <div class="realisation__corps">
+              <p class="etiquette">Réseau</p>
+              <h3>Préparation d'un point d'accès Wi-Fi</h3>
+              <p>Configuration du point d'accès et de son alimentation directement sur le site d'installation.</p>
+            </div>
+          </article>
+          <article class="realisation" data-categorie="reseau">
             <img src="img/photos/antenne.jpg" alt="Deux techniciens fixant un mât d'antenne sur un toit" loading="lazy" width="720" height="955">
-            <figcaption>Pose d'un mât d'antenne</figcaption>
-          </figure>
-          <figure>
+            <div class="realisation__corps">
+              <p class="etiquette">Réseau</p>
+              <h3>Pose d'un mât d'antenne</h3>
+              <p>Installation en hauteur d'un mât pour porter la liaison réseau.</p>
+            </div>
+          </article>
+          <article class="realisation" data-categorie="energie">
             <img src="img/photos/solaire.jpg" alt="Technicien NICRESI raccordant un panneau solaire" loading="lazy" width="460" height="1020">
-            <figcaption>Raccordement solaire</figcaption>
-          </figure>
-          <figure>
-            <img style="object-position: center 8%" src="img/photos/boutique.jpg" alt="Technicien NICRESI en boutique devant un ordinateur et du matériel réseau" loading="lazy" width="692" height="1536">
-            <figcaption>Configuration et vente de matériel</figcaption>
-          </figure>
-          <figure>
-            <img src="img/photos/equipe.jpg" alt="Technicien NICRESI en tenue orange et gants de travail" loading="lazy" width="665" height="1420">
-            <figcaption>L'équipe NICRESI</figcaption>
-          </figure>
+            <div class="realisation__corps">
+              <p class="etiquette">Énergie</p>
+              <h3>Raccordement d'un panneau solaire</h3>
+              <p>Câblage d'un panneau pour alimenter des équipements sans réseau électrique.</p>
+            </div>
+          </article>
+          <article class="realisation" data-categorie="informatique">
+            <img src="img/photos/boutique.jpg" alt="Technicien NICRESI en boutique devant un ordinateur et du matériel réseau" loading="lazy" width="692" height="1536" style="object-position: center 8%">
+            <div class="realisation__corps">
+              <p class="etiquette">Informatique</p>
+              <h3>Configuration et fourniture de matériel</h3>
+              <p>Préparation et configuration d'équipements avant leur remise au client.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="wifi-zones" class="section section--claire">
+    <!-- 5. NICRESI Control -->
+    <section id="nicresi-control" class="section section--orange">
       <div class="conteneur deux-colonnes">
         <div>
-          <p class="surtitre surtitre--fonce">Propriétaires de Wi-Fi zone</p>
+          <p class="surtitre surtitre--blanc">NICRESI Control</p>
           <h2>Gérez votre Wi-Fi zone depuis votre téléphone</h2>
-          <p>
-            Avec NICRESI Control, vous suivez votre activité sans être technicien.
-            NICRESI garde l'administration technique ; vous gardez la main sur vos ventes.
-          </p>
-          <a class="bouton" href="/start">Créer mon compte</a>
+          <p>NICRESI Control est notre solution de gestion des accès Internet pour les propriétaires de Wi-Fi zones. Vous suivez votre activité sans être technicien ; NICRESI garde l'administration technique.</p>
+          <div class="actions">
+            <a class="bouton bouton--noir" href="/owner">Espace propriétaire</a>
+            <a class="bouton bouton--blanc" href="/start">Créer mon compte</a>
+          </div>
         </div>
         <ol class="etapes">
           <li><strong>Créez votre compte</strong> en quelques minutes.</li>
@@ -145,36 +425,122 @@
       </div>
     </section>
 
+    <!-- 6. Formation et accompagnement -->
+    <section id="formation" class="section">
+      <div class="conteneur deux-colonnes">
+        <div>
+          <p class="surtitre">Formation et accompagnement</p>
+          <h2>Comprendre, utiliser et faire évoluer vos outils</h2>
+          <p>Nous formons les personnes qui utiliseront les solutions au quotidien, en initiation comme en perfectionnement, et nous restons à vos côtés après la mise en service.</p>
+          <a class="bouton" href="#contact" data-service="Formation et accompagnement">Demander des renseignements</a>
+        </div>
+        <ul class="liste-coches">
+          <li>Outils informatiques et numériques, de l'initiation au perfectionnement</li>
+          <li>Parcours de formation avec évaluation et attestation</li>
+          <li>Conseil et orientation technologique</li>
+          <li>Accompagnement à la mise en œuvre de vos projets</li>
+          <li>Assistance, suivi et transfert de compétences</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7. À propos -->
+    <section id="a-propos" class="section section--sombre">
+      <div class="conteneur apropos">
+        <img class="apropos__logo" src="img/logo-complet.jpg" alt="Logo NICRESI : une girafe au-dessus du nom NICRESI et du slogan Créer. Connecter. Construire." width="600" height="685" loading="lazy">
+        <div>
+          <p class="surtitre">À propos</p>
+          <h2>Une entreprise nigérienne de technologie, proche de ses clients</h2>
+          <p>NICRESI, la Nigérienne des Créations et des Solutions Informatiques, est implantée à Téra, dans la région de Tillabéri. Nous identifions des besoins, concevons des solutions adaptées, intégrons les technologies et accompagnons leur utilisation.</p>
+          <p>Notre activité réseau reste l'un de nos domaines phares, mais notre métier est plus large : partir des réalités du terrain pour construire des outils utiles et durables.</p>
+          <ul class="valeurs">
+            <li><strong>Créer</strong> des solutions adaptées à chaque besoin.</li>
+            <li><strong>Connecter</strong> les personnes, les lieux et les services.</li>
+            <li><strong>Construire</strong> dans la durée, avec nos clients.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Contact -->
     <section id="contact" class="section">
       <div class="conteneur contact">
         <div>
-          <h2>Parlons de votre projet</h2>
-          <p class="section__intro--sombre">Un appel ou un message suffit. Dites-nous où vous êtes et ce dont vous avez besoin.</p>
+          <p class="surtitre">Contact</p>
+          <h2>Présentez-nous votre projet</h2>
+          <p class="section__intro">Décrivez votre besoin : nous vous répondons pour en discuter et vous proposer une solution.</p>
+          <ul class="coordonnees">
+            <li><span>Téléphone et support</span><a href="tel:+22793191920">+227 93 19 19 20</a></li>
+            <li><span>WhatsApp</span><a href="https://wa.me/22793191920">+227 93 19 19 20</a></li>
+            <li><span>E-mail</span><a href="mailto:servicenicresi@gmail.com">servicenicresi@gmail.com</a></li>
+            <li><span>Localisation</span>Téra, région de Tillabéri, Niger</li>
+          </ul>
         </div>
-        <div class="contact__moyens">
-          <a class="contact__lien" href="tel:+22798863059">
-            <span class="contact__libelle">Téléphone</span>
-            <span class="contact__valeur">+227 98 86 30 59</span>
-          </a>
-          <a class="contact__lien" href="https://wa.me/22798863059">
-            <span class="contact__libelle">WhatsApp</span>
-            <span class="contact__valeur">+227 98 86 30 59</span>
-          </a>
-          <div class="contact__lien">
-            <span class="contact__libelle">Adresse</span>
-            <span class="contact__valeur">Niamey, Niger</span>
+
+        <!-- Formulaire : avec data-endpoint vide, la demande est préparée dans WhatsApp (envoi confirmé par le visiteur).
+             Avec l'adresse d'un service de réception (ex. Formspree), elle est envoyée directement. Voir README. -->
+        <form class="formulaire" id="formulaire-contact" data-endpoint="" novalidate>
+          <div class="champ">
+            <label for="f-nom">Nom et prénom</label>
+            <input id="f-nom" name="nom" type="text" autocomplete="name" required>
           </div>
-        </div>
+          <div class="champ">
+            <label for="f-tel">Téléphone ou WhatsApp</label>
+            <input id="f-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" required>
+          </div>
+          <div class="champ">
+            <label for="f-service">Service demandé</label>
+            <select id="f-service" name="service" required>
+              <option value="">Choisir…</option>
+              <option>Création et solutions numériques</option>
+              <option>Connectivité et infrastructures réseau</option>
+              <option>Équipements informatiques et solutions énergétiques</option>
+              <option>Formation et accompagnement</option>
+              <option>NICRESI Control</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="champ">
+            <label for="f-besoin">Description du besoin</label>
+            <textarea id="f-besoin" name="besoin" rows="5" required></textarea>
+          </div>
+          <!-- Piège anti-spam : invisible pour les visiteurs, rempli par les robots. -->
+          <div class="champ-piege" aria-hidden="true">
+            <label for="f-site">Ne pas remplir</label>
+            <input id="f-site" name="site_web" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button class="bouton" type="submit">Envoyer ma demande</button>
+          <p class="formulaire__message" role="status" aria-live="polite"></p>
+          <noscript><p class="formulaire__message">Le formulaire nécessite JavaScript. Écrivez-nous sur WhatsApp au +227 93 19 19 20 ou à servicenicresi@gmail.com.</p></noscript>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="pied">
-    <div class="conteneur pied__ligne">
-      <span>© <span id="annee">2026</span> NICRESI · Créer. Connecter. Construire.</span>
-      <a href="#accueil">Haut de page</a>
+    <div class="conteneur pied__grille">
+      <div>
+        <a class="logo" href="#accueil"><img src="img/girafe.png" alt="" width="27" height="36"><span>NICRESI</span></a>
+        <p>La Nigérienne des Créations et des Solutions Informatiques<br>Créer. Connecter. Construire.</p>
+      </div>
+      <ul class="pied__liens">
+        <li><a href="tel:+22793191920">+227 93 19 19 20</a></li>
+        <li><a href="mailto:servicenicresi@gmail.com">servicenicresi@gmail.com</a></li>
+        <li>Téra, région de Tillabéri, Niger</li>
+      </ul>
+      <ul class="pied__liens">
+        <li><a href="#solutions">Nos solutions</a></li>
+        <li><a href="#realisations">Nos réalisations</a></li>
+        <li><a href="/owner">Espace propriétaire NICRESI Control</a></li>
+      </ul>
     </div>
+    <div class="conteneur pied__bas">© <span id="annee">2026</span> NICRESI</div>
   </footer>
+
+  <a class="whatsapp" href="https://wa.me/22793191920" aria-label="Écrire à NICRESI sur WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true" width="26" height="26"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.5 6.5 0 0 0 1.4 3.4 14.8 14.8 0 0 0 5.7 5c2.1.9 2.9 1 4 .8a3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.1-.3-.2-.6-.4z"/></svg>
+    <span>WhatsApp</span>
+  </a>
 
   <script src="js/site.js" defer></script>
 </body>
