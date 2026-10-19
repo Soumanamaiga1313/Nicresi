@@ -18,7 +18,7 @@ Puis ouvrir http://localhost:8000.
 - Couleurs (noir, or et orange du logo) : variables en tête de `public/css/style.css`.
 - Photos : `public/img/photos/`, au plus 720 px de large.
 
-Les liens « Espace propriétaire » et « Créer mon compte » pointent vers le NICRESI Control Center (https://185.217.127.103/owner et /start). Les mettre à jour si le NCC change d'adresse.
+Les liens « Espace propriétaire » et « Créer mon compte » pointent vers /owner et /start : sur le serveur, ces chemins sont relayés vers le NICRESI Control Center par `scripts/serveur/relier-ncc.sh`.
 
 ## Mise en ligne
 

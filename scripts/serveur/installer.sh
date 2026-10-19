@@ -161,7 +161,10 @@ elif [ -f "$SITE" ]; then
   cp -p "$SITE" "$COPIE_SITE"
   echo "Configuration actuelle sauvegardée : $COPIE_SITE"
 fi
-COMMUN="    DocumentRoot $RACINE/current/public
+# Garde le relais vers le NCC (/start, /owner) installé par relier-ncc.sh.
+INCLUDE_NCC=""
+[ -f /etc/apache2/nicresi-site-ncc.inc ] && INCLUDE_NCC=$'\n    Include /etc/apache2/nicresi-site-ncc.inc'
+COMMUN="    DocumentRoot $RACINE/current/public$INCLUDE_NCC
     <Directory $RACINE/current/public>
         AllowOverride None
         Require all granted

@@ -63,6 +63,17 @@ cd /home/nicresi/nicresi-site && git pull --ff-only origin main
 sudo bash scripts/serveur/installer.sh --source /home/nicresi/nicresi-site --commit "$(git rev-parse origin/main)" --domaine nicresi.com --appliquer
 ```
 
+## Pages du NCC sous nicresi.com
+
+`/start`, `/owner` et l'API `/api/v2` qu'elles utilisent sont relayées vers le NCC (127.0.0.1:8082), pour que les propriétaires restent sur nicresi.com au lieu de l'adresse IP. À lancer une fois, après le certificat :
+
+```sh
+sudo bash scripts/serveur/relier-ncc.sh              # plan
+sudo bash scripts/serveur/relier-ncc.sh --appliquer
+```
+
+Le script ajoute une ligne `Include /etc/apache2/nicresi-site-ncc.inc` dans les sites Apache du site officiel, vérifie /start, /owner et l'API (401 sans connexion), et remet les fichiers d'origine en cas d'échec. Les routes `/api/v2/internal` ne sont pas exposées sous nicresi.com. Le NCC et son accès par IP ne changent pas.
+
 ## Retour arrière
 
 ```sh
