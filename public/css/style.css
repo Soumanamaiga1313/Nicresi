@@ -1,7 +1,8 @@
-/* NICRESI — couleurs principales : orange, noir et blanc (cahier d'orientation, section 7). */
+/* NICRESI — couleurs principales : orange, noir et blanc (cahier d'orientation, section 7).
+   Contrastes (WCAG AA) : texte noir sur l'orange vif ; texte orange en --orange-fonce sur fond clair. */
 :root {
   --orange: #f26a1b;
-  --orange-fonce: #c9520f;
+  --orange-fonce: #b4460a;
   --orange-clair: #fff1e8;
   --noir: #111111;
   --noir-2: #1b1b1b;
@@ -78,13 +79,13 @@ p { margin: 0 0 1em; }
 /* Boutons et liens */
 .bouton {
   display: inline-block; padding: 12px 22px; border-radius: 999px; border: 2px solid var(--orange);
-  background: var(--orange); color: var(--blanc); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+  background: var(--orange); color: var(--noir); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
   transition: background .15s, border-color .15s, color .15s;
 }
-.bouton:hover { background: var(--orange-fonce); border-color: var(--orange-fonce); }
+.bouton:hover { background: var(--noir); border-color: var(--noir); color: var(--blanc); }
 .bouton--contour { background: transparent; color: var(--noir); border-color: var(--noir); }
 .bouton--contour:hover { background: var(--noir); color: var(--blanc); border-color: var(--noir); }
-.bouton--noir { background: var(--noir); border-color: var(--noir); }
+.bouton--noir { background: var(--noir); border-color: var(--noir); color: var(--blanc); }
 .bouton--noir:hover { background: #333; border-color: #333; }
 .bouton--blanc { background: var(--blanc); border-color: var(--blanc); color: var(--noir); }
 .bouton--blanc:hover { background: var(--orange-clair); border-color: var(--orange-clair); }
@@ -98,7 +99,7 @@ p { margin: 0 0 1em; }
   text-transform: uppercase; letter-spacing: .09em; font-size: .82rem; font-weight: 700;
   color: var(--orange-fonce); margin-bottom: .7em;
 }
-.surtitre--blanc { color: var(--blanc); opacity: .9; }
+.surtitre--blanc { color: var(--noir); }
 
 /* Accueil */
 .accueil { padding: clamp(36px, 6vw, 72px) 0 clamp(40px, 6vw, 80px); background: var(--creme); }
@@ -116,6 +117,8 @@ p { margin: 0 0 1em; }
 .enseigne--sombre { fill: var(--noir); }
 .bulle__texte { font: 600 16px system-ui, sans-serif; fill: var(--noir); }
 .bulle__texte--clair { fill: var(--blanc); font-size: 12px; }
+.maquette__titre { font: 600 10px system-ui, sans-serif; fill: #cfcfcf; }
+.maquette__titre--sombre { fill: var(--noir); font-size: 12px; }
 .scene__slogan { font: 700 15px system-ui, sans-serif; fill: var(--blanc); letter-spacing: .02em; }
 .liaison { fill: none; stroke: var(--orange); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 6 8; }
 .ondes path { fill: none; stroke: var(--orange); stroke-width: 3; stroke-linecap: round; }
@@ -174,8 +177,8 @@ p { margin: 0 0 1em; }
 .section--sombre { background: var(--noir); color: #dcdcdc; }
 .section--sombre h2, .section--sombre h3 { color: var(--blanc); }
 .section--sombre .surtitre { color: var(--orange); }
-.section--orange { background: var(--orange); color: var(--blanc); }
-.section--orange h2 { color: var(--blanc); }
+.section--orange { background: var(--orange); color: var(--noir); }
+.section--orange h2, .section--orange h3 { color: var(--noir); }
 .section__intro { color: var(--texte-doux); max-width: 42em; margin-bottom: 2em; }
 
 /* Solutions */
@@ -202,7 +205,7 @@ p { margin: 0 0 1em; }
 .methode p { margin: 0; color: #bdbdbd; }
 .methode__num {
   display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
-  background: var(--orange); color: var(--blanc); font-weight: 800; margin-bottom: 14px;
+  background: var(--orange); color: var(--noir); font-weight: 800; margin-bottom: 14px;
 }
 
 /* Réalisations */
@@ -218,6 +221,9 @@ p { margin: 0 0 1em; }
   overflow: hidden; display: flex; flex-direction: column;
 }
 .realisation[hidden] { display: none; }
+.realisations__vide {
+  margin: 0; padding: 28px; border: 1px dashed #cfc7bd; border-radius: var(--rayon); background: var(--creme); color: var(--texte-doux);
+}
 .realisation img { width: 100%; height: 240px; object-fit: cover; object-position: center 30%; }
 .realisation__corps { padding: 18px 20px 20px; }
 .realisation__corps p { color: var(--texte-doux); margin: 0; font-size: .97rem; }
@@ -231,6 +237,7 @@ p { margin: 0 0 1em; }
 
 /* NICRESI Control */
 .deux-colonnes { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.control__public { list-style: none; padding: 0; margin: 0 0 1em; display: grid; gap: 6px; }
 .etapes { list-style: none; counter-reset: etape; margin: 0; padding: 0; display: grid; gap: 12px; }
 .etapes li {
   counter-increment: etape; position: relative; padding: 16px 18px 16px 62px;
@@ -247,7 +254,7 @@ p { margin: 0 0 1em; }
 .liste-coches li { padding-left: 36px; position: relative; font-weight: 500; }
 .liste-coches li::before {
   content: "✓"; position: absolute; left: 0; top: 1px; width: 24px; height: 24px; border-radius: 50%;
-  display: grid; place-items: center; background: var(--orange); color: var(--blanc); font-size: .85rem; font-weight: 700;
+  display: grid; place-items: center; background: var(--orange); color: var(--noir); font-size: .85rem; font-weight: 700;
 }
 
 /* À propos */
@@ -282,6 +289,9 @@ p { margin: 0 0 1em; }
 .formulaire__message { margin: 0; font-weight: 600; }
 .formulaire__message.ok { color: #1e7a3c; }
 .formulaire__message.erreur { color: #b42318; }
+.formulaire__message.info { color: var(--texte); font-weight: 500; background: var(--orange-clair); padding: 10px 14px; border-radius: 10px; }
+.champ__erreur { margin: 0; color: #b42318; font-size: .9rem; font-weight: 600; }
+.formulaire__confidentialite { margin: 0; font-size: .85rem; color: var(--texte-doux); }
 .formulaire .bouton { justify-self: start; }
 .formulaire .bouton[disabled] { opacity: .6; cursor: wait; }
 
@@ -298,13 +308,14 @@ p { margin: 0 0 1em; }
 .whatsapp {
   position: fixed; right: 16px; bottom: 16px; z-index: 60;
   display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px 12px 14px; border-radius: 999px;
-  background: #1fa855; color: var(--blanc); font-weight: 700; text-decoration: none;
+  background: #137f42; color: var(--blanc); font-weight: 700; text-decoration: none;
   box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
 }
-.whatsapp:hover { background: #178a45; }
+.pied a.whatsapp, .pied a.whatsapp:hover { color: var(--blanc); }
+.whatsapp:hover { background: #0e6534; }
 
 /* Page d'erreur */
-.erreur { min-height: 80vh; display: grid; place-items: center; text-align: center; padding: 48px 0; }
+.page-erreur { min-height: 80vh; display: grid; place-items: center; text-align: center; padding: 48px 0; }
 
 /* Tablette */
 @media (max-width: 1020px) {
