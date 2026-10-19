@@ -51,8 +51,17 @@ Ce que fait le script :
 ## 4. Après l'installation
 
 - Sans domaine, si le pare-feu `ufw` est actif : `sudo ufw allow 8444/tcp`.
-- Avec domaine, pour le HTTPS : `sudo certbot --apache -d nicresi.xx -d www.nicresi.xx`.
+- Avec domaine, pour le HTTPS, une seule fois : `sudo certbot --apache -d nicresi.xx -d www.nicresi.xx`. Les mises à jour suivantes avec le même `--domaine` conservent la configuration de certbot et ne changent que la version servie.
 - Vérifier depuis un téléphone que la page s'affiche et que les boutons WhatsApp et téléphone fonctionnent.
+
+## Situation actuelle
+
+Depuis le 19 octobre 2026, le site est servi sur https://nicresi.com (certificat Let's Encrypt renouvelé automatiquement). Mise à jour :
+
+```sh
+cd /home/nicresi/nicresi-site && git pull --ff-only origin main
+sudo bash scripts/serveur/installer.sh --source /home/nicresi/nicresi-site --commit "$(git rev-parse origin/main)" --domaine nicresi.com --appliquer
+```
 
 ## Retour arrière
 

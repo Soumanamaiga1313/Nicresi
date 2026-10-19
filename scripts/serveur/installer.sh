@@ -86,7 +86,11 @@ echo "Type            : $([ $PREMIERE -eq 1 ] && echo 'première installation' |
 echo "Dossier         : $VERSION"
 echo "Adresse         : $ADRESSE"
 [ "$MODE" = "port" ] && echo "Certificat      : $CERT"
-echo "Site Apache     : $SITE ($([ -f "$SITE" ] && echo 'remplacé, ancienne copie sauvegardée' || echo 'créé'))"
+if [ "$MODE" = "domaine" ] && grep -qsE "^\s*ServerName\s+$DOMAINE\s*$" "$SITE"; then
+  echo "Site Apache     : $SITE (conservé)"
+else
+  echo "Site Apache     : $SITE ($([ -f "$SITE" ] && echo 'remplacé, ancienne copie sauvegardée' || echo 'créé'))"
+fi
 if [ $APPLIQUER -eq 0 ]; then
   echo; echo "Plan seulement : rien n'a été modifié. Relancer avec --appliquer pour installer."
   exit 0
@@ -99,8 +103,10 @@ recharger() {
 verifier() {
   local version code
   if [ "$MODE" = "domaine" ]; then
-    version="$(curl -s -H "Host: $DOMAINE" "http://127.0.0.1/version.txt")"
-    code="$(curl -s -o /dev/null -w '%{http_code}' -H "Host: $DOMAINE" "http://127.0.0.1/")"
+    # Suit la redirection HTTPS ajoutée par certbot, en restant sur ce serveur.
+    local local_="--resolve $DOMAINE:80:127.0.0.1 --resolve $DOMAINE:443:127.0.0.1"
+    version="$(curl -skL $local_ "http://$DOMAINE/version.txt")"
+    code="$(curl -skL $local_ -o /dev/null -w '%{http_code}' "http://$DOMAINE/")"
   else
     version="$(curl -sk "https://127.0.0.1:$PORT/version.txt")"
     code="$(curl -sk -o /dev/null -w '%{http_code}' "https://127.0.0.1:$PORT/")"
@@ -145,7 +151,12 @@ else
 fi
 
 etape "Site Apache ($MODE)"
-if [ -f "$SITE" ]; then
+GARDER_SITE=0
+# Même domaine déjà configuré : on garde le fichier, que certbot a pu compléter (redirection HTTPS).
+if [ "$MODE" = "domaine" ] && grep -qsE "^\s*ServerName\s+$DOMAINE\s*$" "$SITE"; then
+  GARDER_SITE=1
+  echo "Site Apache existant pour $DOMAINE conservé (y compris les réglages HTTPS de certbot)."
+elif [ -f "$SITE" ]; then
   COPIE_SITE="$SAUVEGARDES/nicresi-site.conf.$(date +%Y%m%d-%H%M%S)"
   cp -p "$SITE" "$COPIE_SITE"
   echo "Configuration actuelle sauvegardée : $COPIE_SITE"
@@ -167,7 +178,9 @@ COMMUN="    DocumentRoot $RACINE/current/public
     </IfModule>
     ErrorLog \${APACHE_LOG_DIR}/nicresi-site-erreurs.log
     CustomLog \${APACHE_LOG_DIR}/nicresi-site-acces.log combined"
-if [ "$MODE" = "domaine" ]; then
+if [ $GARDER_SITE -eq 1 ]; then
+  :
+elif [ "$MODE" = "domaine" ]; then
   cat > "$SITE" <<SITE
 # Site officiel NICRESI — séparé du NCC. Créé par scripts/serveur/installer.sh.
 <VirtualHost *:80>
@@ -189,7 +202,7 @@ $COMMUN
 SITE
 fi
 a2ensite nicresi-site >/dev/null
-if ! apache2ctl configtest >/dev/null 2>&1; then
+if [ $GARDER_SITE -eq 0 ] && ! apache2ctl configtest >/dev/null 2>&1; then
   if [ -n "$COPIE_SITE" ]; then cp -p "$COPIE_SITE" "$SITE"; else a2dissite nicresi-site >/dev/null; rm -f "$SITE"; fi
   arret "Apache refuse la nouvelle configuration ; l'ancienne a été remise, Apache n'a pas été rechargé."
 fi
@@ -216,6 +229,7 @@ if [ "$MODE" = "domaine" ]; then
   echo
   echo "Pour le HTTPS, une fois que le domaine pointe vers ce serveur :"
   echo "  sudo certbot --apache -d $DOMAINE -d www.$DOMAINE"
+  echo "(Inutile si certbot a déjà été lancé pour ce domaine : le certificat se renouvelle seul.)"
 elif command -v ufw >/dev/null && ufw status 2>/dev/null | grep -q '^Status: active'; then
   echo
   echo "Le pare-feu ufw est actif : autoriser le port avec « sudo ufw allow $PORT/tcp » pour y accéder depuis l'extérieur."
