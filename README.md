@@ -14,11 +14,27 @@ Puis ouvrir http://localhost:8000.
 
 ## Modifier le contenu
 
-- Textes, téléphone, liens : `public/index.html`.
-- Couleurs (noir, or et orange du logo) : variables en tête de `public/css/style.css`.
-- Photos : `public/img/photos/`, au plus 720 px de large.
+Tout le contenu est dans `public/index.html`, organisé en huit sections dans l'ordre du cahier d'orientation : accueil (avec l'animation), solutions, méthode, réalisations, NICRESI Control, formation, à propos, contact.
 
-Les liens « Espace propriétaire » et « Créer mon compte » pointent vers /owner et /start : sur le serveur, ces chemins sont relayés vers le NICRESI Control Center par `scripts/serveur/relier-ncc.sh`.
+- **Couleurs** (orange, noir, blanc) : variables en tête de `public/css/style.css`.
+- **Coordonnées** : elles apparaissent dans l'en-tête de la page (balises meta et bloc JSON-LD), la section contact, le pied de page, le bouton WhatsApp et `public/js/site.js` (constante `WHATSAPP`). Les changer partout à la fois.
+- **Ajouter une réalisation** : copier un bloc `<article class="realisation">` dans la section réalisations, choisir `data-categorie` parmi `numerique`, `reseau`, `energie`, `informatique`, `accompagnement`, et mettre la photo dans `public/img/photos/` (720 px de large au plus). Pour une fiche complète, ajouter sous le texte :
+  ```html
+  <dl><dt>Besoin</dt><dd>…</dd><dt>Solution</dt><dd>…</dd><dt>Résultat</dt><dd>…</dd></dl>
+  ```
+  Ne publier que des travaux réellement livrés.
+- **Animation** : scène SVG dans la section accueil ; chaque élément porte une classe `el--…` qui apparaît à sa phase (règles `.scene--animee.phase-N` dans le CSS, textes des phases dans `site.js`). Sans JavaScript, la scène reste fixe dans son état final ; avec « réduire les animations » activé sur l'appareil, elle s'ouvre sur la dernière phase sans défilement.
+
+## Formulaire de contact
+
+Le formulaire a un attribut `data-endpoint` :
+
+- **vide** (réglage actuel) : la demande est mise en forme et ouverte dans WhatsApp vers le +227 93 19 19 20 ; le visiteur confirme l'envoi dans WhatsApp. Rien n'est affiché comme « envoyé » à sa place.
+- **adresse d'un service de réception** (par exemple un formulaire Formspree relié à servicenicresi@gmail.com) : envoi direct en JSON ; la confirmation ne s'affiche que si le service répond correctement, sinon un message d'erreur renvoie vers WhatsApp et l'e-mail.
+
+Un champ invisible piège les robots : s'il est rempli, rien n'est envoyé.
+
+Les liens « Espace propriétaire » et « Créer mon compte » pointent vers /owner et /start : sur le serveur, ces chemins sont relayés vers le NICRESI Control Center par `scripts/serveur/relier-ncc.sh`. Ils ne fonctionnent pas sur l'aperçu Netlify.
 
 ## Mise en ligne
 
