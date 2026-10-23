@@ -105,6 +105,15 @@ p { margin: 0 0 1em; }
 .accueil { padding: clamp(36px, 6vw, 72px) 0 clamp(40px, 6vw, 80px); background: var(--creme); }
 .accueil__grille { display: grid; grid-template-columns: 1fr 1.15fr; gap: 40px; align-items: center; }
 .accueil__sous-titre { font-size: 1.15rem; color: var(--texte-doux); max-width: 34em; }
+.accueil h1 { font-size: clamp(1.8rem, 4.2vw, 2.7rem); }
+.besoins { margin: 4px 0 18px; }
+.besoins__titre { margin: 0 0 8px; font-weight: 700; }
+.besoins ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.besoins a {
+  display: inline-block; padding: 8px 14px; border-radius: 999px; background: var(--blanc);
+  border: 1px solid #e3d6c8; color: var(--noir); font-weight: 600; font-size: .95rem; text-decoration: none;
+}
+.besoins a:hover, .besoins a:focus-visible { border-color: var(--orange-fonce); color: var(--orange-fonce); }
 .signature { font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--orange-fonce); }
 
 /* Animation signature */
@@ -360,3 +369,29 @@ p { margin: 0 0 1em; }
   .whatsapp { padding: 14px; }
   .scene__phases button { font-size: .75rem; padding: 5px 10px; }
 }
+
+/* Page NICRESI Control */
+.section--creme { background: var(--creme); }
+.etapes--clair li { border: 1px solid var(--bord); }
+.page-entete { padding: clamp(40px, 6vw, 80px) 0; background: var(--orange); color: var(--noir); }
+.page-entete h1 { max-width: 18em; }
+.page-entete__intro { font-size: 1.15rem; max-width: 38em; }
+.fonctions { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.fonctions li { background: var(--blanc); border: 1px solid #eee3d6; border-radius: var(--rayon); padding: 20px; }
+.fonctions h3 { margin-bottom: .35em; font-size: 1.1rem; }
+.fonctions p { margin: 0; color: var(--texte-doux); }
+.fonctions .etiquette-statut { display: inline-block; margin-top: 8px; font-size: .85rem; font-weight: 700; color: var(--orange-fonce); }
+.roles { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.roles > div { background: #1c1c1c; border-radius: var(--rayon); padding: 24px; }
+.roles h3 { color: var(--blanc); }
+.roles ul { margin: 0; padding-left: 1.1em; }
+.roles li { margin: 6px 0; }
+.faq details { border-bottom: 1px solid #e5ddd3; padding: 14px 0; }
+.faq summary { font-weight: 700; cursor: pointer; }
+.faq details p { margin: 10px 0 0; color: var(--texte-doux); max-width: 46em; }
+.portes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.porte { background: var(--blanc); border-radius: var(--rayon); padding: 24px; display: grid; gap: 10px; align-content: start; }
+.porte h3 { margin: 0; }
+.porte p { margin: 0; color: var(--texte-doux); }
+.porte .bouton { justify-self: start; }
+@media (max-width: 900px) { .roles, .portes { grid-template-columns: 1fr; } }
