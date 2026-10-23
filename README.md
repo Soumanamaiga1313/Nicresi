@@ -29,10 +29,10 @@ Tout le contenu est dans `public/index.html`, organisé en huit sections dans l'
 
 Le formulaire a un attribut `data-endpoint` :
 
-- **vide** (réglage actuel) : la demande est mise en forme et ouverte dans WhatsApp vers le +227 93 19 19 20 ; le visiteur confirme l'envoi dans WhatsApp. Rien n'est affiché comme « envoyé » à sa place.
+- **vide** (réglage actuel) : la demande est mise en forme et ouverte dans WhatsApp vers le +227 93 19 19 20 ; le visiteur confirme l'envoi dans WhatsApp. Le bouton (« Préparer ma demande dans WhatsApp ») et la phrase au-dessus l'annoncent avant le clic. Rien n'est affiché comme « envoyé » à sa place. Après le clic, le visiteur peut aussi copier sa demande, l'envoyer par e-mail ou appeler.
 - **adresse d'un service de réception** (par exemple un formulaire Formspree relié à servicenicresi@gmail.com) : envoi direct en JSON ; la confirmation ne s'affiche que si le service répond correctement, sinon un message d'erreur renvoie vers WhatsApp et l'e-mail.
 
-Chaque champ est vérifié avant l'envoi (nom, numéro d'au moins 8 chiffres, service, besoin d'au moins 10 caractères) et l'erreur s'affiche sous le champ concerné. Un champ invisible piège les robots : s'il est rempli, rien n'est envoyé. Une mention sous le formulaire précise l'usage des données.
+Le visiteur indique s'il s'agit d'un nouveau projet ou d'une assistance ; ce choix figure dans le message et dans le sujet de l'e-mail. Les liens « Demander une étude » de chaque famille et « Demander une démonstration » de NICRESI Control préremplissent le service. Chaque champ est vérifié avant l'envoi (nom, numéro d'au moins 8 chiffres, service, besoin d'au moins 10 caractères) et l'erreur s'affiche sous le champ concerné. Un champ invisible piège les robots : s'il est rempli, rien n'est envoyé. Une mention sous le formulaire précise l'usage des données.
 
 Les liens « Espace propriétaire » et « Créer mon compte » pointent vers /owner et /start : sur le serveur, ces chemins sont relayés vers le NICRESI Control Center par `scripts/serveur/relier-ncc.sh`. Ils ne fonctionnent pas sur l'aperçu Netlify.
 

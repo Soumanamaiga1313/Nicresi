@@ -299,6 +299,7 @@
               <li>Automatisation et intégration d'outils numériques</li>
               <li>Solutions conçues pour des besoins particuliers</li>
             </ul>
+            <a class="lien-fleche" href="#contact" data-service="Création et solutions numériques">Demander une étude</a>
           </article>
           <article class="famille" id="sol-reseau">
             <div class="famille__icone" aria-hidden="true">📡</div>
@@ -312,6 +313,7 @@
               <li>Maintenance, optimisation et surveillance</li>
               <li>Gestion des accès Internet avec <a href="#nicresi-control">NICRESI Control</a></li>
             </ul>
+            <a class="lien-fleche" href="#contact" data-service="Connectivité et infrastructures réseau">Demander une étude</a>
           </article>
           <article class="famille" id="sol-equipements">
             <div class="famille__icone" aria-hidden="true">☀️</div>
@@ -324,6 +326,7 @@
               <li>Batteries, panneaux et équipements d'alimentation</li>
               <li>Étude et installation de systèmes techniques</li>
             </ul>
+            <a class="lien-fleche" href="#contact" data-service="Équipements informatiques et solutions énergétiques">Demander une étude</a>
           </article>
           <article class="famille" id="sol-formation">
             <div class="famille__icone" aria-hidden="true">🎓</div>
@@ -336,6 +339,7 @@
               <li>Assistance, suivi et transfert de compétences</li>
             </ul>
             <a class="lien-fleche" href="#formation">En savoir plus sur nos formations</a>
+            <a class="lien-fleche" href="#contact" data-service="Formation et accompagnement">Demander une étude</a>
           </article>
         </div>
       </div>
@@ -442,16 +446,20 @@
             <li><strong>Votre rôle :</strong> vendre les cartes et suivre votre activité depuis votre téléphone.</li>
           </ul>
           <div class="actions">
-            <a class="bouton bouton--noir" href="/owner">Espace propriétaire</a>
+            <a class="bouton bouton--noir" href="#contact" data-service="NICRESI Control">Demander une démonstration</a>
             <a class="bouton bouton--blanc" href="/start">Créer mon compte</a>
           </div>
+          <p class="control__compte">Déjà client ? <a href="/owner">Accéder à mon espace propriétaire</a></p>
         </div>
+        <div>
         <ol class="etapes">
           <li><strong>Créez votre compte</strong> en quelques minutes.</li>
-          <li><strong>Ajoutez votre routeur</strong> sous le nom de votre Wi-Fi zone.</li>
+          <li><strong>Ajoutez votre routeur</strong> : donnez-lui le nom de votre Wi-Fi zone, puis collez la commande fournie dans WinBox ou WebFig. NICRESI vérifie le raccordement et vous accompagne pour la première installation.</li>
           <li><strong>Générez vos cartes</strong> et téléchargez-les pour l'impression.</li>
           <li><strong>Suivez vos ventes</strong> et les personnes connectées.</li>
         </ol>
+        <p class="control__conditions"><strong>Équipement nécessaire :</strong> un routeur MikroTik sous RouterOS 7.20 ou plus récent, relié à Internet, avec un Hotspot déjà configuré. Vous n'êtes pas sûr de votre matériel ? Demandez une démonstration : nous vérifions avec vous.</p>
+        </div>
       </div>
     </section>
 
@@ -510,6 +518,11 @@
         <!-- Formulaire : avec data-endpoint vide, la demande est préparée dans WhatsApp (envoi confirmé par le visiteur).
              Avec l'adresse d'un service de réception (ex. Formspree), elle est envoyée directement. Voir README. -->
         <form class="formulaire" id="formulaire-contact" data-endpoint="" novalidate>
+          <fieldset class="champ champ--choix">
+            <legend>Votre demande concerne</legend>
+            <label><input type="radio" name="type" value="Nouveau projet ou devis" checked> Un nouveau projet ou un devis</label>
+            <label><input type="radio" name="type" value="Assistance sur une installation existante"> L'assistance sur une installation existante</label>
+          </fieldset>
           <div class="champ">
             <label for="f-nom">Nom et prénom</label>
             <input id="f-nom" name="nom" aria-describedby="e-nom" type="text" autocomplete="name" required>
@@ -544,8 +557,18 @@
             <input id="f-site" name="site_web" type="text" tabindex="-1" autocomplete="off">
           </div>
           <p class="formulaire__confidentialite">Vos informations servent uniquement à répondre à votre demande. Elles ne sont ni vendues ni transmises à des tiers. Pour les consulter ou les faire supprimer, écrivez à servicenicresi@gmail.com.</p>
-          <button class="bouton" type="submit">Envoyer ma demande</button>
+          <p class="formulaire__annonce" id="annonce-whatsapp">Votre demande s'ouvrira dans WhatsApp, déjà rédigée. Elle nous parvient quand vous appuyez sur « Envoyer » dans WhatsApp.</p>
+          <button class="bouton" type="submit" aria-describedby="annonce-whatsapp">Préparer ma demande dans WhatsApp</button>
           <p class="formulaire__message" role="status" aria-live="polite"></p>
+          <div class="formulaire__repli" hidden>
+            <p>WhatsApp ne s'est pas ouvert, ou vous préférez un autre moyen ?</p>
+            <div class="actions">
+              <button class="bouton bouton--contour bouton--petit" type="button" data-action="copier">Copier ma demande</button>
+              <a class="bouton bouton--contour bouton--petit" data-action="email" href="mailto:servicenicresi@gmail.com">L'envoyer par e-mail</a>
+              <a class="bouton bouton--contour bouton--petit" href="tel:+22793191920">Appeler le +227 93 19 19 20</a>
+            </div>
+            <textarea class="formulaire__copie" readonly rows="6" aria-label="Texte de votre demande" hidden></textarea>
+          </div>
           <noscript><p class="formulaire__message">Le formulaire nécessite JavaScript. Écrivez-nous sur WhatsApp au +227 93 19 19 20 ou à servicenicresi@gmail.com.</p></noscript>
         </form>
       </div>
