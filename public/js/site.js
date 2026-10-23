@@ -12,11 +12,15 @@
       var ouvert = menu.classList.toggle('ouvert');
       bouton.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
     });
+    function fermerMenu() {
+      menu.classList.remove('ouvert');
+      bouton.setAttribute('aria-expanded', 'false');
+    }
     menu.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') {
-        menu.classList.remove('ouvert');
-        bouton.setAttribute('aria-expanded', 'false');
-      }
+      if (e.target.tagName === 'A') fermerMenu();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.classList.contains('ouvert')) { fermerMenu(); bouton.focus(); }
     });
   }
 
@@ -34,8 +38,8 @@
     var textes = {
       1: '<strong>Le besoin.</strong> Une boutique, une école, un bureau : chacun cherche un logiciel, un accès à Internet ou de l\'énergie.',
       2: '<strong>La conception.</strong> Nous imaginons la solution et concevons le site, l\'application ou le logiciel sur mesure.',
-      3: '<strong>L\'intégration.</strong> Nos techniciens installent l\'antenne, les panneaux solaires et relient les bâtiments.',
-      4: '<strong>L\'utilisation.</strong> Le commerçant utilise son logiciel, le propriétaire suit son réseau depuis son téléphone.',
+      3: '<strong>L\'intégration.</strong> Nos techniciens installent le matériel, l\'antenne et les panneaux solaires, relient les bâtiments et mettent les outils en service.',
+      4: '<strong>L\'utilisation.</strong> Le commerçant gère ses ventes avec son logiciel, le bureau travaille sur ses ordinateurs, le propriétaire suit son activité depuis son téléphone.',
       5: '<strong>L\'accompagnement.</strong> Nous formons, conseillons et restons disponibles. Créer. Connecter. Construire.'
     };
     var phase = 1, minuteur = null, enPause = reduireMouvements;
@@ -97,10 +101,11 @@
     });
   }
 
-  // Filtres des réalisations
+  // Filtres des réalisations. Une catégorie sans réalisation publiée affiche un message, jamais une zone vide.
   var filtres = document.querySelector('.filtres');
   if (filtres) {
     var cartes = document.querySelectorAll('.realisation');
+    var vide = document.querySelector('.realisations__vide');
     filtres.hidden = false;
     filtres.addEventListener('click', function (e) {
       var b = e.target.closest('.filtre');
@@ -109,80 +114,159 @@
         f.classList.toggle('actif', f === b);
         f.setAttribute('aria-pressed', f === b ? 'true' : 'false');
       });
+      var visibles = 0;
       cartes.forEach(function (c) {
         c.hidden = b.dataset.filtre !== 'tout' && c.dataset.categorie !== b.dataset.filtre;
+        if (!c.hidden) visibles++;
       });
+      if (vide) vide.hidden = visibles > 0;
     });
   }
 
-  // Boutons qui préremplissent le service demandé
+  // Boutons qui préremplissent le service demandé (et repassent la demande en « nouveau projet »).
   document.querySelectorAll('[data-service]').forEach(function (lien) {
     lien.addEventListener('click', function () {
       var choix = document.getElementById('f-service');
       if (choix) choix.value = lien.dataset.service;
+      var projet = document.querySelector('#formulaire-contact input[name="type"]');
+      if (projet) projet.checked = true;
     });
   });
 
   // Formulaire de contact.
   // - data-endpoint vide : la demande est préparée dans WhatsApp ; le visiteur appuie sur « Envoyer » dans WhatsApp.
+  //   Le bouton et la phrase au-dessus l'annoncent avant le clic ; copie, e-mail et appel restent proposés ensuite.
   // - data-endpoint renseigné : envoi direct (JSON). La confirmation ne s'affiche que si le service répond « OK ».
   var form = document.getElementById('formulaire-contact');
   if (form) {
     var message = form.querySelector('.formulaire__message');
     var envoyer = form.querySelector('button[type="submit"]');
+    var annonce = document.getElementById('annonce-whatsapp');
+    var repli = form.querySelector('.formulaire__repli');
+    var copie = form.querySelector('.formulaire__copie');
+    var lienEmail = form.querySelector('[data-action="email"]');
     var WHATSAPP = '22793191920';
+    var EMAIL = 'servicenicresi@gmail.com';
+    var endpoint = form.dataset.endpoint;
+
+    if (endpoint) {
+      envoyer.textContent = 'Envoyer ma demande';
+      envoyer.removeAttribute('aria-describedby');
+      annonce.hidden = true;
+    }
 
     function afficherMessage(texte, type) {
       message.textContent = texte;
       message.className = 'formulaire__message ' + (type || '');
     }
 
+    // Autres moyens d'envoi : le texte de la demande est prêt à copier ou à envoyer par e-mail.
+    function proposerRepli(texte, sujet) {
+      copie.value = texte;
+      copie.hidden = true;
+      lienEmail.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(texte);
+      repli.hidden = false;
+    }
+    form.querySelector('[data-action="copier"]').addEventListener('click', function () {
+      var bouton = this;
+      function selectionner() {
+        copie.hidden = false;
+        copie.focus();
+        copie.select();
+        afficherMessage('Sélectionnez le texte ci-dessous, copiez-le, puis collez-le dans un message au +227 93 19 19 20 ou à ' + EMAIL + '.', 'info');
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(copie.value).then(function () {
+          bouton.textContent = 'Demande copiée';
+          afficherMessage('Votre demande est copiée : collez-la dans un SMS, un e-mail ou WhatsApp au +227 93 19 19 20.', 'info');
+        }, selectionner);
+      } else {
+        selectionner();
+      }
+    });
+
+    // Règles de chaque champ : un message précis s'affiche sous le champ concerné.
+    var regles = {
+      nom: function (v) { return v.length >= 2 ? '' : 'Indiquez votre nom.'; },
+      telephone: function (v) {
+        var chiffres = v.replace(/\D/g, '').length;
+        return /^[0-9+().\s-]+$/.test(v) && chiffres >= 8 && chiffres <= 15 ? '' :
+          'Indiquez un numéro de téléphone valide (8 chiffres au moins), par exemple +227 90 00 00 00.';
+      },
+      service: function (v) { return v ? '' : 'Choisissez le service qui vous intéresse.'; },
+      besoin: function (v) { return v.length >= 10 ? '' : 'Décrivez votre besoin en quelques mots (10 caractères au moins).'; }
+    };
+    function verifier(nom) {
+      var c = form.elements[nom];
+      var erreur = regles[nom](c.value.trim());
+      var zone = document.getElementById('e-' + nom);
+      c.setAttribute('aria-invalid', erreur ? 'true' : 'false');
+      if (zone) { zone.textContent = erreur; zone.hidden = !erreur; }
+      return erreur;
+    }
+    Object.keys(regles).forEach(function (nom) {
+      // Une fois signalé, le champ se corrige pendant la saisie.
+      form.elements[nom].addEventListener('input', function () {
+        if (this.getAttribute('aria-invalid') === 'true') verifier(nom);
+      });
+      form.elements[nom].addEventListener('change', function () {
+        if (this.getAttribute('aria-invalid') === 'true') verifier(nom);
+      });
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var champs = ['nom', 'telephone', 'service', 'besoin'];
-      var manquant = null;
-      champs.forEach(function (nom) {
-        var c = form.elements[nom];
-        var vide = !c.value.trim();
-        c.setAttribute('aria-invalid', vide ? 'true' : 'false');
-        if (vide && !manquant) manquant = c;
+      var premier = null;
+      Object.keys(regles).forEach(function (nom) {
+        if (verifier(nom) && !premier) premier = form.elements[nom];
       });
-      if (manquant) {
-        afficherMessage('Merci de remplir tous les champs.', 'erreur');
-        manquant.focus();
+      if (premier) {
+        afficherMessage('Vérifiez les champs signalés ci-dessus.', 'erreur');
+        premier.focus();
         return;
       }
       // Robot détecté : on n'envoie rien et on ne confirme rien.
       if (form.elements.site_web.value) return;
 
+      var type = form.querySelector('input[name="type"]:checked');
       var donnees = {
+        type: type ? type.value : 'Nouveau projet ou devis',
         nom: form.elements.nom.value.trim(),
         telephone: form.elements.telephone.value.trim(),
         service: form.elements.service.value,
         besoin: form.elements.besoin.value.trim()
       };
-      var endpoint = form.dataset.endpoint;
+      var sujet = (donnees.type === 'Assistance sur une installation existante' ? 'Assistance' : 'Demande') +
+        ' depuis nicresi.com : ' + donnees.service;
+      var texte = 'Bonjour NICRESI,\n\nType de demande : ' + donnees.type + '\nNom : ' + donnees.nom +
+        '\nTéléphone : ' + donnees.telephone + '\nService : ' + donnees.service + '\n\n' + donnees.besoin;
 
       if (!endpoint) {
-        var texte = 'Bonjour NICRESI,\n\nNom : ' + donnees.nom + '\nTéléphone : ' + donnees.telephone +
-          '\nService : ' + donnees.service + '\n\n' + donnees.besoin;
-        window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texte), '_blank', 'noopener');
-        afficherMessage('Votre demande est prête dans WhatsApp : appuyez sur « Envoyer » dans WhatsApp pour nous la transmettre.', 'ok');
+        proposerRepli(texte, sujet);
+        var lien = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texte);
+        // Si le navigateur bloque la nouvelle fenêtre, WhatsApp s'ouvre dans la page.
+        // (Pas d'option « noopener » : avec elle, window.open renvoie toujours null.)
+        var fenetre = window.open(lien, '_blank');
+        if (fenetre) fenetre.opener = null; else window.location.href = lien;
+        // Le site ne peut pas savoir si le message est parti : il ne confirme donc pas l'envoi.
+        afficherMessage('WhatsApp s\'ouvre avec votre demande. Elle ne nous parvient qu\'une fois que vous appuyez sur « Envoyer » dans WhatsApp.', 'info');
         return;
       }
 
       envoyer.disabled = true;
+      repli.hidden = true;
       afficherMessage('Envoi en cours…');
       fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(donnees)
+        body: JSON.stringify(Object.assign({ _subject: sujet }, donnees))
       }).then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         form.reset();
         afficherMessage('Merci, votre demande a bien été envoyée. Nous vous recontactons rapidement.', 'ok');
       }).catch(function () {
-        afficherMessage('L\'envoi a échoué. Écrivez-nous sur WhatsApp au +227 93 19 19 20 ou à servicenicresi@gmail.com.', 'erreur');
+        afficherMessage('L\'envoi a échoué : votre demande ne nous est pas parvenue. Utilisez un des moyens ci-dessous.', 'erreur');
+        proposerRepli(texte, sujet);
       }).then(function () { envoyer.disabled = false; });
     });
   }

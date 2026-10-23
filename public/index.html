@@ -13,7 +13,11 @@
   <meta property="og:url" content="https://nicresi.com/">
   <meta property="og:title" content="NICRESI — Des idées aux solutions, nous donnons vie à vos projets">
   <meta property="og:description" content="Sites web, applications, logiciels, réseaux, Starlink, énergie solaire, formation et accompagnement au Niger.">
-  <meta property="og:image" content="https://nicresi.com/img/logo-complet.jpg">
+  <meta property="og:image" content="https://nicresi.com/img/partage.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo NICRESI, girafe dorée sur fond noir, avec la devise Créer. Connecter. Construire.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="img/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="img/icone-192.png">
   <link rel="stylesheet" href="css/style.css">
@@ -87,7 +91,7 @@
         <figure class="scene" aria-labelledby="scene-legende">
           <!-- Animation signature : un quartier nigérien qui évolue grâce aux solutions NICRESI.
                Sans JavaScript, la scène s'affiche complète et immobile. -->
-          <svg class="scene__svg" viewBox="0 0 800 460" role="img" aria-labelledby="scene-titre scene-desc">
+          <svg class="scene__svg" viewBox="0 0 800 460" role="group" aria-labelledby="scene-titre" aria-describedby="scene-desc">
             <title id="scene-titre">Un quartier nigérien équipé par NICRESI</title>
             <desc id="scene-desc">Une boutique, une école et un bureau expriment un besoin. NICRESI conçoit un logiciel, installe une antenne, des panneaux solaires et relie les bâtiments, puis forme et accompagne les utilisateurs.</desc>
             <defs>
@@ -205,6 +209,24 @@
               <rect class="maquette" x="54" y="114" width="52" height="40" rx="4" fill="#333"/>
               <rect class="maquette" x="114" y="114" width="52" height="40" rx="4" fill="#333"/>
               <rect class="maquette" x="174" y="114" width="52" height="40" rx="4" fill="#333"/>
+              <text x="232" y="53" text-anchor="end" class="maquette__titre">Site web</text>
+              <!-- Application mobile -->
+              <rect x="262" y="40" width="62" height="112" rx="10" fill="#111"/>
+              <rect x="268" y="52" width="50" height="86" rx="3" fill="#2a2a2a"/>
+              <rect class="maquette" x="273" y="58" width="40" height="8" rx="2" fill="#f26a1b"/>
+              <rect class="maquette" x="273" y="72" width="40" height="18" rx="3" fill="#fff"/>
+              <rect class="maquette" x="273" y="95" width="40" height="18" rx="3" fill="#fff"/>
+              <rect class="maquette" x="273" y="118" width="40" height="14" rx="7" fill="#f26a1b"/>
+              <text x="293" y="168" text-anchor="middle" class="maquette__titre maquette__titre--sombre">Application</text>
+              <!-- Logiciel de gestion -->
+              <rect x="346" y="40" width="200" height="104" rx="8" fill="#111"/>
+              <rect x="346" y="40" width="200" height="18" rx="8" fill="#2a2a2a"/>
+              <text x="356" y="53" class="maquette__titre">Logiciel de gestion</text>
+              <rect class="maquette" x="358" y="68" width="44" height="64" rx="3" fill="#333"/>
+              <rect class="maquette" x="410" y="68" width="124" height="10" rx="2" fill="#fff"/>
+              <rect class="maquette" x="410" y="86" width="124" height="10" rx="2" fill="#555"/>
+              <rect class="maquette" x="410" y="104" width="124" height="10" rx="2" fill="#555"/>
+              <rect class="maquette" x="410" y="122" width="70" height="10" rx="2" fill="#f26a1b"/>
             </g>
 
             <!-- Techniciens (phase 3) -->
@@ -231,7 +253,7 @@
                 <rect x="9" y="-24" width="10" height="16" rx="2" fill="#111"/>
                 <rect x="11" y="-21" width="6" height="3" fill="#f26a1b"/>
               </g>
-              <g class="bulle"><rect x="250" y="262" width="96" height="26" rx="8" fill="#111"/><text x="298" y="279" text-anchor="middle" class="bulle__texte bulle__texte--clair">Réseau en ligne ✓</text></g>
+              <g class="bulle"><rect x="232" y="262" width="132" height="26" rx="8" fill="#111"/><text x="298" y="279" text-anchor="middle" class="bulle__texte bulle__texte--clair">Tout fonctionne ✓</text></g>
             </g>
 
             <!-- Logo final (phase 5) -->
@@ -277,6 +299,7 @@
               <li>Automatisation et intégration d'outils numériques</li>
               <li>Solutions conçues pour des besoins particuliers</li>
             </ul>
+            <a class="lien-fleche" href="#contact" data-service="Création et solutions numériques">Demander une étude</a>
           </article>
           <article class="famille" id="sol-reseau">
             <div class="famille__icone" aria-hidden="true">📡</div>
@@ -290,6 +313,7 @@
               <li>Maintenance, optimisation et surveillance</li>
               <li>Gestion des accès Internet avec <a href="#nicresi-control">NICRESI Control</a></li>
             </ul>
+            <a class="lien-fleche" href="#contact" data-service="Connectivité et infrastructures réseau">Demander une étude</a>
           </article>
           <article class="famille" id="sol-equipements">
             <div class="famille__icone" aria-hidden="true">☀️</div>
@@ -302,6 +326,7 @@
               <li>Batteries, panneaux et équipements d'alimentation</li>
               <li>Étude et installation de systèmes techniques</li>
             </ul>
+            <a class="lien-fleche" href="#contact" data-service="Équipements informatiques et solutions énergétiques">Demander une étude</a>
           </article>
           <article class="famille" id="sol-formation">
             <div class="famille__icone" aria-hidden="true">🎓</div>
@@ -314,6 +339,7 @@
               <li>Assistance, suivi et transfert de compétences</li>
             </ul>
             <a class="lien-fleche" href="#formation">En savoir plus sur nos formations</a>
+            <a class="lien-fleche" href="#contact" data-service="Formation et accompagnement">Demander une étude</a>
           </article>
         </div>
       </div>
@@ -352,7 +378,9 @@
     <!-- 4. Nos réalisations
          Pour ajouter une réalisation : copier un bloc <article class="realisation">, changer data-categorie
          (numerique, reseau, energie, informatique, accompagnement), la photo et les textes.
-         Les lignes « Besoin », « Solution » et « Résultat » sont facultatives : supprimer celles qui ne sont pas connues.
+         Fiche détaillée (facultative) sous le texte : <dl><dt>Besoin</dt><dd>…</dd><dt>Solution</dt><dd>…</dd>
+         <dt>Technologies</dt><dd>…</dd><dt>Résultat</dt><dd>…</dd></dl> ; supprimer les lignes qui ne sont pas connues.
+         Photos et captures : uniquement des images authentiques du projet.
          N'ajouter que des travaux réellement livrés. -->
     <section id="realisations" class="section">
       <div class="conteneur">
@@ -401,6 +429,7 @@
             </div>
           </article>
         </div>
+        <p class="realisations__vide" role="status" hidden>Aucune réalisation n'est encore publiée dans cette catégorie. Nous ajoutons les fiches au fur et à mesure des projets livrés. <a href="#contact">Parlez-nous du vôtre</a>.</p>
       </div>
     </section>
 
@@ -410,18 +439,27 @@
         <div>
           <p class="surtitre surtitre--blanc">NICRESI Control</p>
           <h2>Gérez votre Wi-Fi zone depuis votre téléphone</h2>
-          <p>NICRESI Control est notre solution de gestion des accès Internet pour les propriétaires de Wi-Fi zones. Vous suivez votre activité sans être technicien ; NICRESI garde l'administration technique.</p>
+          <p>NICRESI Control est la plateforme développée par NICRESI pour gérer les accès Internet d'une Wi-Fi zone à cartes. Son objectif : que le propriétaire suive son activité sans être technicien, pendant que NICRESI garde l'administration technique.</p>
+          <ul class="control__public">
+            <li><strong>Pour qui :</strong> les propriétaires et gérants de Wi-Fi zones.</li>
+            <li><strong>Le rôle de NICRESI :</strong> installation, configuration du routeur et administration technique.</li>
+            <li><strong>Votre rôle :</strong> vendre les cartes et suivre votre activité depuis votre téléphone.</li>
+          </ul>
           <div class="actions">
-            <a class="bouton bouton--noir" href="/owner">Espace propriétaire</a>
+            <a class="bouton bouton--noir" href="#contact" data-service="NICRESI Control">Demander une démonstration</a>
             <a class="bouton bouton--blanc" href="/start">Créer mon compte</a>
           </div>
+          <p class="control__compte">Déjà client ? <a href="/owner">Accéder à mon espace propriétaire</a></p>
         </div>
+        <div>
         <ol class="etapes">
           <li><strong>Créez votre compte</strong> en quelques minutes.</li>
-          <li><strong>Ajoutez votre routeur</strong> sous le nom de votre Wi-Fi zone.</li>
+          <li><strong>Ajoutez votre routeur</strong> : donnez-lui le nom de votre Wi-Fi zone, puis collez la commande fournie dans WinBox ou WebFig. NICRESI vérifie le raccordement et vous accompagne pour la première installation.</li>
           <li><strong>Générez vos cartes</strong> et téléchargez-les pour l'impression.</li>
           <li><strong>Suivez vos ventes</strong> et les personnes connectées.</li>
         </ol>
+        <p class="control__conditions"><strong>Équipement nécessaire :</strong> un routeur MikroTik sous RouterOS 7.20 ou plus récent, relié à Internet, avec un Hotspot déjà configuré. Vous n'êtes pas sûr de votre matériel ? Demandez une démonstration : nous vérifions avec vous.</p>
+        </div>
       </div>
     </section>
 
@@ -436,7 +474,7 @@
         </div>
         <ul class="liste-coches">
           <li>Outils informatiques et numériques, de l'initiation au perfectionnement</li>
-          <li>Parcours de formation avec évaluation et attestation</li>
+          <li>Parcours de formation avec évaluation et attestation de formation délivrée par NICRESI (il ne s'agit pas d'un diplôme ni d'une certification d'État)</li>
           <li>Conseil et orientation technologique</li>
           <li>Accompagnement à la mise en œuvre de vos projets</li>
           <li>Assistance, suivi et transfert de compétences</li>
@@ -480,17 +518,24 @@
         <!-- Formulaire : avec data-endpoint vide, la demande est préparée dans WhatsApp (envoi confirmé par le visiteur).
              Avec l'adresse d'un service de réception (ex. Formspree), elle est envoyée directement. Voir README. -->
         <form class="formulaire" id="formulaire-contact" data-endpoint="" novalidate>
+          <fieldset class="champ champ--choix">
+            <legend>Votre demande concerne</legend>
+            <label><input type="radio" name="type" value="Nouveau projet ou devis" checked> Un nouveau projet ou un devis</label>
+            <label><input type="radio" name="type" value="Assistance sur une installation existante"> L'assistance sur une installation existante</label>
+          </fieldset>
           <div class="champ">
             <label for="f-nom">Nom et prénom</label>
-            <input id="f-nom" name="nom" type="text" autocomplete="name" required>
+            <input id="f-nom" name="nom" aria-describedby="e-nom" type="text" autocomplete="name" required>
+            <p class="champ__erreur" id="e-nom" hidden></p>
           </div>
           <div class="champ">
             <label for="f-tel">Téléphone ou WhatsApp</label>
-            <input id="f-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" required>
+            <input id="f-tel" name="telephone" aria-describedby="e-telephone" type="tel" autocomplete="tel" inputmode="tel" required>
+            <p class="champ__erreur" id="e-telephone" hidden></p>
           </div>
           <div class="champ">
             <label for="f-service">Service demandé</label>
-            <select id="f-service" name="service" required>
+            <select id="f-service" name="service" aria-describedby="e-service" required>
               <option value="">Choisir…</option>
               <option>Création et solutions numériques</option>
               <option>Connectivité et infrastructures réseau</option>
@@ -499,18 +544,31 @@
               <option>NICRESI Control</option>
               <option>Autre</option>
             </select>
+            <p class="champ__erreur" id="e-service" hidden></p>
           </div>
           <div class="champ">
             <label for="f-besoin">Description du besoin</label>
-            <textarea id="f-besoin" name="besoin" rows="5" required></textarea>
+            <textarea id="f-besoin" name="besoin" aria-describedby="e-besoin" rows="5" required></textarea>
+            <p class="champ__erreur" id="e-besoin" hidden></p>
           </div>
           <!-- Piège anti-spam : invisible pour les visiteurs, rempli par les robots. -->
           <div class="champ-piege" aria-hidden="true">
             <label for="f-site">Ne pas remplir</label>
             <input id="f-site" name="site_web" type="text" tabindex="-1" autocomplete="off">
           </div>
-          <button class="bouton" type="submit">Envoyer ma demande</button>
+          <p class="formulaire__confidentialite">Vos informations servent uniquement à répondre à votre demande. Elles ne sont ni vendues ni transmises à des tiers. Pour les consulter ou les faire supprimer, écrivez à servicenicresi@gmail.com.</p>
+          <p class="formulaire__annonce" id="annonce-whatsapp">Votre demande s'ouvrira dans WhatsApp, déjà rédigée. Elle nous parvient quand vous appuyez sur « Envoyer » dans WhatsApp.</p>
+          <button class="bouton" type="submit" aria-describedby="annonce-whatsapp">Préparer ma demande dans WhatsApp</button>
           <p class="formulaire__message" role="status" aria-live="polite"></p>
+          <div class="formulaire__repli" hidden>
+            <p>WhatsApp ne s'est pas ouvert, ou vous préférez un autre moyen ?</p>
+            <div class="actions">
+              <button class="bouton bouton--contour bouton--petit" type="button" data-action="copier">Copier ma demande</button>
+              <a class="bouton bouton--contour bouton--petit" data-action="email" href="mailto:servicenicresi@gmail.com">L'envoyer par e-mail</a>
+              <a class="bouton bouton--contour bouton--petit" href="tel:+22793191920">Appeler le +227 93 19 19 20</a>
+            </div>
+            <textarea class="formulaire__copie" readonly rows="6" aria-label="Texte de votre demande" hidden></textarea>
+          </div>
           <noscript><p class="formulaire__message">Le formulaire nécessite JavaScript. Écrivez-nous sur WhatsApp au +227 93 19 19 20 ou à servicenicresi@gmail.com.</p></noscript>
         </form>
       </div>
@@ -525,6 +583,7 @@
       </div>
       <ul class="pied__liens">
         <li><a href="tel:+22793191920">+227 93 19 19 20</a></li>
+        <li><a href="https://wa.me/22793191920">WhatsApp : +227 93 19 19 20</a></li>
         <li><a href="mailto:servicenicresi@gmail.com">servicenicresi@gmail.com</a></li>
         <li>Téra, région de Tillabéri, Niger</li>
       </ul>
@@ -535,12 +594,11 @@
       </ul>
     </div>
     <div class="conteneur pied__bas">© <span id="annee">2026</span> NICRESI</div>
+    <a class="whatsapp" href="https://wa.me/22793191920" aria-label="Écrire à NICRESI sur WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true" width="26" height="26"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.5 6.5 0 0 0 1.4 3.4 14.8 14.8 0 0 0 5.7 5c2.1.9 2.9 1 4 .8a3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.1-.3-.2-.6-.4z"/></svg>
+      <span>WhatsApp</span>
+    </a>
   </footer>
-
-  <a class="whatsapp" href="https://wa.me/22793191920" aria-label="Écrire à NICRESI sur WhatsApp">
-    <svg viewBox="0 0 32 32" aria-hidden="true" width="26" height="26"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.5 6.5 0 0 0 1.4 3.4 14.8 14.8 0 0 0 5.7 5c2.1.9 2.9 1 4 .8a3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.1-.3-.2-.6-.4z"/></svg>
-    <span>WhatsApp</span>
-  </a>
 
   <script src="js/site.js" defer></script>
 </body>
