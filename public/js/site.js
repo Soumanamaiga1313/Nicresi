@@ -101,11 +101,29 @@
     });
   }
 
+  // Bouton WhatsApp flottant : discret quand les boutons de contact de l'accueil ou le formulaire sont visibles,
+  // pour ne jamais recouvrir un autre bouton ni un message.
+  var flottant = document.querySelector('.whatsapp');
+  var zonesContact = document.querySelectorAll('.actions--accueil, #contact');
+  if (flottant && zonesContact.length && 'IntersectionObserver' in window) {
+    var enVue = new Map();
+    var observateur = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { enVue.set(e.target, e.isIntersecting); });
+      flottant.classList.toggle('discret', Array.from(enVue.values()).some(Boolean));
+    });
+    zonesContact.forEach(function (z) { observateur.observe(z); });
+  }
+
   // Filtres des réalisations. Une catégorie sans réalisation publiée affiche un message, jamais une zone vide.
   var filtres = document.querySelector('.filtres');
   if (filtres) {
     var cartes = document.querySelectorAll('.realisation');
     var vide = document.querySelector('.realisations__vide');
+    // N'afficher que les filtres qui ont au moins une réalisation publiée.
+    filtres.querySelectorAll('.filtre').forEach(function (f) {
+      if (f.dataset.filtre === 'tout') return;
+      f.hidden = !document.querySelector('.realisation[data-categorie="' + f.dataset.filtre + '"]');
+    });
     filtres.hidden = false;
     filtres.addEventListener('click', function (e) {
       var b = e.target.closest('.filtre');
@@ -249,7 +267,7 @@
         var fenetre = window.open(lien, '_blank');
         if (fenetre) fenetre.opener = null; else window.location.href = lien;
         // Le site ne peut pas savoir si le message est parti : il ne confirme donc pas l'envoi.
-        afficherMessage('WhatsApp s\'ouvre avec votre demande. Elle ne nous parvient qu\'une fois que vous appuyez sur « Envoyer » dans WhatsApp.', 'info');
+        afficherMessage('Votre demande est prête dans WhatsApp : appuyez sur « Envoyer » pour nous la transmettre.', 'info');
         return;
       }
 
