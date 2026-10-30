@@ -24,6 +24,8 @@ Tout le contenu est dans `public/index.html`, organisé en huit sections : accue
   ```
   Ne publier que des travaux réellement livrés, avec des photos ou captures authentiques. Un filtre n'apparaît que si sa catégorie contient au moins une réalisation.
 - **Animations** : courtes, elles tournent en boucle tant qu'elles sont à l'écran et s'arrêtent dès qu'elles en sortent (IntersectionObserver dans `site.js`). La scène du quartier (section « Comment ça se passe », `#methode`) passe ses cinq phases en moins de 5 secondes, garde l'image finale 2 secondes, puis recommence ; un bouton « Mettre en pause » l'arrête (classes `el--…` et règles `.scene--animee.phase-N` dans le CSS, textes, `DUREE_PHASE` et `DUREE_FIN` dans `site.js`). Chaque service a une petite scène SVG (`.mini`) dont les éléments `a1` à `a5` apparaissent l'un après l'autre en 2,5 secondes, rejouée toutes les 4 secondes (`CYCLE_MINI`). Sans JavaScript ou avec « réduire les animations », les images finales s'affichent directement.
+- **Style visuel** : titres très gras (police système, rien à télécharger), mot clé surligné en or (`<mark class="surligneur">`), accent or `--or` (#ffc21a, toujours avec du texte noir), formes plates derrière la photo de l'accueil. Les mini-scènes des services sont en isométrie (flat design, line art) et se régénèrent avec `scripts/illustrations/mini-scenes-iso.py`.
+- **Petit jeu « Trouvez votre service »** (`#quiz`, dans la section services) : deux questions (lieu, priorité), une barre de progression, puis le service conseillé et une demande WhatsApp préremplie. Les réponses sont dans les `data-valeur` du HTML, les textes de résultat dans `textesQuiz` (`site.js`). Masqué sans JavaScript.
 
 ## Formulaire de contact
 

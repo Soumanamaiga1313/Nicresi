@@ -129,6 +129,48 @@
     });
   }
 
+  // Petit jeu « Trouvez votre service » : deux questions, puis le service conseillé et une demande WhatsApp préremplie.
+  var quiz = document.getElementById('quiz');
+  if (quiz) {
+    var textesQuiz = {
+      '#sol-reseau': 'Nous installons la connexion, l\'antenne et les points d\'accès, puis nous vous montrons comment vendre vos cartes et suivre vos ventes.',
+      '#sol-numerique': 'Nous concevons avec vous le site, l\'application ou le logiciel qui remplace les cahiers et les tableurs, puis nous l\'entretenons.',
+      '#sol-equipements': 'Nous choisissons et installons le matériel, et nous dimensionnons panneaux et batteries selon ce que vous devez alimenter.',
+      '#sol-formation': 'Nous formons les personnes qui utiliseront les outils et nous vous aidons à choisir avant d\'investir.'
+    };
+    var etapes = quiz.querySelectorAll('.quiz__etape');
+    var resultat = quiz.querySelector('.quiz__resultat');
+    var barre = quiz.querySelector('.quiz__progression span');
+    var lieu = '';
+    function montrer(bloc, avancement) {
+      etapes.forEach(function (e) { e.hidden = e !== bloc; });
+      resultat.hidden = bloc !== resultat;
+      barre.style.width = avancement;
+      var focus = bloc.querySelector('[tabindex="-1"]');
+      if (focus) focus.focus({ preventScroll: true });
+    }
+    etapes[0].querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { lieu = b.dataset.valeur; montrer(etapes[1], '50%'); });
+    });
+    etapes[1].querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cible = document.querySelector(b.dataset.cible);
+        quiz.querySelector('.quiz__nom').textContent = cible.querySelector('h3').textContent;
+        quiz.querySelector('.quiz__texte').textContent = textesQuiz[b.dataset.cible];
+        quiz.querySelector('.quiz__detail').href = b.dataset.cible;
+        quiz.querySelector('[data-action="quiz-whatsapp"]').href = 'https://wa.me/22793191920?text=' +
+          encodeURIComponent('Bonjour NICRESI, pour ' + lieu + ', je souhaite ' + b.dataset.valeur + '. Pouvez-vous me conseiller ?');
+        montrer(resultat, '100%');
+      });
+    });
+    quiz.querySelector('.quiz__detail').addEventListener('click', function () {
+      var cible = document.querySelector(this.getAttribute('href'));
+      cible.classList.remove('surligne'); void cible.offsetWidth; cible.classList.add('surligne');
+    });
+    quiz.querySelector('.quiz__recommencer').addEventListener('click', function () { montrer(etapes[0], '8%'); });
+    quiz.hidden = false;
+  }
+
   // Bouton WhatsApp flottant : discret quand les boutons de contact de l'accueil ou le formulaire sont visibles,
   // pour ne jamais recouvrir un autre bouton ni un message.
   var flottant = document.querySelector('.whatsapp');
