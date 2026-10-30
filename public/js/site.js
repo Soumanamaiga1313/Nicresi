@@ -27,63 +27,61 @@
   var annee = document.getElementById('annee');
   if (annee) annee.textContent = new Date().getFullYear();
 
-  // Animation signature : cinq phases, en boucle. Sans JavaScript, la scène reste complète et immobile.
+  // Animation signature, courte : les cinq phases défilent (moins de 5 secondes), l'image finale reste
+  // un instant, puis tout recommence. Elle tourne tant que la scène est à l'écran et s'arrête dès qu'elle en sort.
+  // Un bouton permet de la mettre en pause. Sans JavaScript ou avec « réduire les animations »,
+  // la scène s'affiche directement complète.
   var scene = document.querySelector('.scene');
   if (scene) {
     var svg = scene.querySelector('.scene__svg');
     var legende = scene.querySelector('.scene__etape');
     var controles = scene.querySelector('.scene__controles');
-    var boutonsPhase = scene.querySelectorAll('[data-phase]');
     var pause = scene.querySelector('.scene__pause');
     var textes = {
       1: '<strong>Le besoin.</strong> Une boutique, une école, un bureau : chacun cherche un logiciel, un accès à Internet ou de l\'énergie.',
       2: '<strong>La conception.</strong> Nous imaginons la solution et concevons le site, l\'application ou le logiciel sur mesure.',
-      3: '<strong>L\'intégration.</strong> Nos techniciens installent le matériel, l\'antenne et les panneaux solaires, relient les bâtiments et mettent les outils en service.',
-      4: '<strong>L\'utilisation.</strong> Le commerçant gère ses ventes avec son logiciel, le bureau travaille sur ses ordinateurs, le propriétaire suit son activité depuis son téléphone.',
+      3: '<strong>L\'installation.</strong> Nos techniciens posent l\'antenne et les panneaux solaires, relient les bâtiments et mettent les outils en service.',
+      4: '<strong>L\'utilisation.</strong> Le commerçant gère ses ventes, le bureau travaille, le propriétaire suit son activité depuis son téléphone.',
       5: '<strong>L\'accompagnement.</strong> Nous formons, conseillons et restons disponibles. Créer. Connecter. Construire.'
     };
-    var phase = 1, minuteur = null, enPause = reduireMouvements;
+    var DUREE_PHASE = 900, DUREE_FIN = 2000, minuteur = null, phase = 1, visible = false, enPause = false;
 
     function afficher(n) {
-      phase = n;
       for (var i = 1; i <= 5; i++) svg.classList.toggle('phase-' + i, i === n);
       svg.classList.add('scene--animee');
       legende.innerHTML = textes[n];
-      boutonsPhase.forEach(function (b) {
-        if (Number(b.dataset.phase) === n) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
-      });
     }
-    function suivante() { afficher(phase % 5 + 1); }
-    function demarrer() { arreter(); minuteur = setInterval(suivante, 4200); }
-    function arreter() { if (minuteur) clearInterval(minuteur); minuteur = null; }
-    function majPause() {
-      pause.setAttribute('aria-pressed', enPause ? 'true' : 'false');
-      pause.textContent = enPause ? 'Lecture' : 'Pause';
+    function arreter() { clearTimeout(minuteur); minuteur = null; }
+    function suivante() {
+      arreter();
+      minuteur = setTimeout(function () {
+        phase = phase >= 5 ? 1 : phase + 1;
+        afficher(phase);
+        suivante();
+      }, phase === 5 ? DUREE_FIN : DUREE_PHASE);
+    }
+    function mettreAJour() {
+      if (visible && !enPause) { if (!minuteur) suivante(); } else { arreter(); }
     }
 
-    controles.hidden = false;
-    boutonsPhase.forEach(function (b) {
-      b.addEventListener('click', function () {
-        enPause = true; arreter(); majPause(); afficher(Number(b.dataset.phase));
+    if (reduireMouvements || !('IntersectionObserver' in window)) {
+      afficher(5);
+    } else {
+      afficher(1);
+      controles.hidden = false;
+      pause.addEventListener('click', function () {
+        enPause = !enPause;
+        pause.setAttribute('aria-pressed', enPause ? 'true' : 'false');
+        pause.textContent = enPause ? 'Reprendre l\'animation' : 'Mettre en pause';
+        mettreAJour();
       });
-    });
-    pause.addEventListener('click', function () {
-      enPause = !enPause; majPause();
-      if (enPause) arreter(); else demarrer();
-    });
-
-    // Mouvements réduits : la scène s'ouvre sur la dernière phase, sans défilement automatique.
-    afficher(reduireMouvements ? 5 : 1);
-    majPause();
-    if (!enPause) demarrer();
-
-    // Pas d'animation hors de l'écran (économie de batterie et de données).
-    if ('IntersectionObserver' in window) {
+      // Tourne seulement pendant que la scène est à l'écran ; reprend au début quand on y revient.
       new IntersectionObserver(function (entrees) {
-        entrees.forEach(function (e) {
-          if (!e.isIntersecting) arreter(); else if (!enPause) demarrer();
-        });
-      }).observe(svg);
+        var etaitVisible = visible;
+        visible = entrees[0].isIntersecting;
+        if (visible && !etaitVisible && !enPause) { phase = 1; afficher(1); }
+        mettreAJour();
+      }, { threshold: 0.4 }).observe(svg);
     }
 
     // Éléments cliquables : chaque bâtiment mène à l'activité correspondante.
@@ -101,11 +99,129 @@
     });
   }
 
+  // Petites animations des services : chaque scène (2,5 secondes) se rejoue en boucle tant que la carte
+  // est à l'écran, et s'arrête dès qu'elle en sort.
+  if (!reduireMouvements && 'IntersectionObserver' in window) {
+    var CYCLE_MINI = 4000;
+    var boucles = new Map();
+    function rejouerMini(m) {
+      m.classList.remove('mini--joue');
+      void m.getBoundingClientRect();
+      m.classList.add('mini--joue');
+    }
+    var observateurMini = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) {
+        var m = e.target;
+        if (e.isIntersecting && !boucles.has(m)) {
+          m.classList.remove('mini--attente');
+          rejouerMini(m);
+          boucles.set(m, setInterval(function () { rejouerMini(m); }, CYCLE_MINI));
+        } else if (!e.isIntersecting && boucles.has(m)) {
+          clearInterval(boucles.get(m));
+          boucles.delete(m);
+          m.classList.replace('mini--joue', 'mini--attente');
+        }
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('.mini').forEach(function (m) {
+      m.classList.add('mini--attente');
+      observateurMini.observe(m);
+    });
+  }
+
+  // Petit jeu « Trouvez votre service » : deux questions, puis le service conseillé et une demande WhatsApp préremplie.
+  var quiz = document.getElementById('quiz');
+  if (quiz) {
+    var textesQuiz = {
+      '#sol-reseau': 'Nous installons la connexion, l\'antenne et les points d\'accès, puis nous vous montrons comment vendre vos cartes et suivre vos ventes.',
+      '#sol-numerique': 'Nous concevons avec vous le site, l\'application ou le logiciel qui remplace les cahiers et les tableurs, puis nous l\'entretenons.',
+      '#sol-equipements': 'Nous choisissons et installons le matériel, et nous dimensionnons panneaux et batteries selon ce que vous devez alimenter.',
+      '#sol-formation': 'Nous formons les personnes qui utiliseront les outils et nous vous aidons à choisir avant d\'investir.'
+    };
+    var etapes = quiz.querySelectorAll('.quiz__etape');
+    var resultat = quiz.querySelector('.quiz__resultat');
+    var barre = quiz.querySelector('.quiz__progression span');
+    var lieu = '';
+    function montrer(bloc, avancement) {
+      etapes.forEach(function (e) { e.hidden = e !== bloc; });
+      resultat.hidden = bloc !== resultat;
+      barre.style.width = avancement;
+      var focus = bloc.querySelector('[tabindex="-1"]');
+      if (focus) focus.focus({ preventScroll: true });
+    }
+    etapes[0].querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { lieu = b.dataset.valeur; montrer(etapes[1], '50%'); });
+    });
+    etapes[1].querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cible = document.querySelector(b.dataset.cible);
+        quiz.querySelector('.quiz__nom').textContent = cible.querySelector('h3').textContent;
+        quiz.querySelector('.quiz__texte').textContent = textesQuiz[b.dataset.cible];
+        quiz.querySelector('.quiz__detail').href = b.dataset.cible;
+        quiz.querySelector('[data-action="quiz-whatsapp"]').href = 'https://wa.me/22793191920?text=' +
+          encodeURIComponent('Bonjour NICRESI, pour ' + lieu + ', je souhaite ' + b.dataset.valeur + '. Pouvez-vous me conseiller ?');
+        montrer(resultat, '100%');
+      });
+    });
+    quiz.querySelector('.quiz__detail').addEventListener('click', function () {
+      var cible = document.querySelector(this.getAttribute('href'));
+      cible.classList.remove('surligne'); void cible.offsetWidth; cible.classList.add('surligne');
+    });
+    quiz.querySelector('.quiz__recommencer').addEventListener('click', function () { montrer(etapes[0], '8%'); });
+    quiz.hidden = false;
+  }
+
+  // 3D légère de l'accueil : la photo s'incline vers la souris, ou selon le défilement sur téléphone.
+  var relief = document.querySelector('.relief');
+  if (relief && !reduireMouvements) {
+    relief.classList.add('relief--actif');
+    var incliner = function (rx, ry) {
+      relief.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+      relief.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    };
+    if (window.matchMedia('(hover: hover)').matches) {
+      var zone = document.querySelector('.accueil');
+      zone.addEventListener('pointermove', function (e) {
+        var b = relief.getBoundingClientRect();
+        var x = (e.clientX - (b.left + b.width / 2)) / window.innerWidth;
+        var y = (e.clientY - (b.top + b.height / 2)) / window.innerHeight;
+        incliner(-y * 14, x * 18);
+      });
+      zone.addEventListener('pointerleave', function () { incliner(0, 0); });
+    } else {
+      var auDefilement = function () {
+        var b = relief.getBoundingClientRect();
+        var p = Math.max(-1, Math.min(1, (b.top + b.height / 2 - window.innerHeight / 2) / window.innerHeight));
+        incliner(p * 12, p * -6);
+      };
+      window.addEventListener('scroll', auDefilement, { passive: true });
+      auDefilement();
+    }
+  }
+
+  // Bouton WhatsApp flottant : discret quand les boutons de contact de l'accueil ou le formulaire sont visibles,
+  // pour ne jamais recouvrir un autre bouton ni un message.
+  var flottant = document.querySelector('.whatsapp');
+  var zonesContact = document.querySelectorAll('.actions--accueil, #contact');
+  if (flottant && zonesContact.length && 'IntersectionObserver' in window) {
+    var enVue = new Map();
+    var observateur = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { enVue.set(e.target, e.isIntersecting); });
+      flottant.classList.toggle('discret', Array.from(enVue.values()).some(Boolean));
+    });
+    zonesContact.forEach(function (z) { observateur.observe(z); });
+  }
+
   // Filtres des réalisations. Une catégorie sans réalisation publiée affiche un message, jamais une zone vide.
   var filtres = document.querySelector('.filtres');
   if (filtres) {
     var cartes = document.querySelectorAll('.realisation');
     var vide = document.querySelector('.realisations__vide');
+    // N'afficher que les filtres qui ont au moins une réalisation publiée.
+    filtres.querySelectorAll('.filtre').forEach(function (f) {
+      if (f.dataset.filtre === 'tout') return;
+      f.hidden = !document.querySelector('.realisation[data-categorie="' + f.dataset.filtre + '"]');
+    });
     filtres.hidden = false;
     filtres.addEventListener('click', function (e) {
       var b = e.target.closest('.filtre');
@@ -249,7 +365,7 @@
         var fenetre = window.open(lien, '_blank');
         if (fenetre) fenetre.opener = null; else window.location.href = lien;
         // Le site ne peut pas savoir si le message est parti : il ne confirme donc pas l'envoi.
-        afficherMessage('WhatsApp s\'ouvre avec votre demande. Elle ne nous parvient qu\'une fois que vous appuyez sur « Envoyer » dans WhatsApp.', 'info');
+        afficherMessage('Votre demande est prête dans WhatsApp : appuyez sur « Envoyer » pour nous la transmettre.', 'info');
         return;
       }
 
