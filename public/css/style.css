@@ -35,6 +35,10 @@ body {
 img { display: block; max-width: 100%; height: auto; }
 a { color: var(--orange-fonce); }
 h1, h2, h3 { line-height: 1.15; margin: 0 0 0.55em; color: var(--noir); }
+/* Aucun mot long ni grille ne doit déborder, même avec une grande taille de texte sur le téléphone. */
+h1, h2, h3, p, li, button, a { overflow-wrap: break-word; }
+h1, h2, h3 { hyphens: auto; }
+.deux-colonnes > *, .portes-accueil > *, .quiz > *, .methode-grille > *, .accueil__grille > * { min-width: 0; }
 /* Typographie audacieuse : titres très gras et serrés. Police système, aucun fichier à télécharger. */
 h1, h2 { font-weight: 900; }
 h1 { font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: -0.035em; line-height: 1.05; }
@@ -241,7 +245,7 @@ p { margin: 0 0 1em; }
 /* Petit jeu « Trouvez votre service » : deux questions, une barre de progression, une demande WhatsApp préremplie. */
 .quiz {
   margin-top: 24px; background: var(--noir); color: #e6e6e6; border-radius: var(--rayon); padding: 26px;
-  display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px 32px; align-items: start;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 10px 32px; align-items: start;
 }
 .quiz__entete { grid-row: span 3; }
 .quiz__titre { color: var(--blanc); font-size: 1.35rem; margin: 8px 0 14px; }
@@ -253,7 +257,7 @@ p { margin: 0 0 1em; }
 .quiz__progression { height: 8px; border-radius: 4px; background: #333; overflow: hidden; }
 .quiz__progression span { display: block; height: 100%; width: 8%; background: var(--or); border-radius: 4px; transition: width .4s ease; }
 .quiz__question { color: var(--blanc); font-weight: 800; font-size: 1.1rem; margin: 0 0 12px; outline: none; }
-.quiz__choix { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.quiz__choix { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 10px; }
 .quiz__choix button, .quiz__recommencer {
   font: inherit; font-weight: 700; text-align: left; padding: 12px 16px; border-radius: 12px; cursor: pointer;
   border: 2px solid #444; background: #1b1b1b; color: var(--blanc); transition: background .15s, border-color .15s, color .15s;
@@ -309,7 +313,7 @@ p { margin: 0 0 1em; }
   border: 1px solid var(--bord); background: var(--blanc); color: var(--texte);
 }
 .filtre.actif { background: var(--noir); border-color: var(--noir); color: var(--blanc); }
-.realisations { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.realisations { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
 .realisation {
   background: var(--blanc); border: 1px solid var(--bord); border-radius: var(--rayon);
   overflow: hidden; display: flex; flex-direction: column;
@@ -438,7 +442,7 @@ p { margin: 0 0 1em; }
   .portes-accueil { grid-template-columns: 1fr 1fr; }
   .porte-accueil--vedette { grid-template-columns: auto 1fr; }
   .porte-accueil--vedette ul { grid-column: 2; grid-row: auto; }
-  .realisations { grid-template-columns: repeat(2, 1fr); }
+  .realisations { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .apropos { grid-template-columns: 220px 1fr; gap: 32px; }
 }
 @media (max-width: 900px) {
@@ -456,7 +460,9 @@ p { margin: 0 0 1em; }
 @media (max-width: 640px) {
   .portes-accueil, .methode { grid-template-columns: 1fr; }
   .accueil h1 { font-size: 1.95rem; }
-  .quiz { grid-template-columns: 1fr; padding: 22px; }
+  .quiz { grid-template-columns: minmax(0, 1fr); padding: 20px; }
+  .liste-douce li { padding: 14px 14px 14px 52px; }
+  .liste-douce li::before { left: 12px; }
   .quiz__entete { grid-row: auto; }
   .accueil__photo::before { right: -14px; top: -14px; }
   .accueil__photo::after { display: none; }
@@ -468,7 +474,8 @@ p { margin: 0 0 1em; }
   .mini__svg { width: 120px; height: 72px; }
   .porte-accueil h3 { font-size: 1.12rem; }
   .porte-accueil--vedette h3 { font-size: 1.3rem; }
-  .realisations { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .realisations { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .etiquette { max-width: 100%; overflow-wrap: anywhere; letter-spacing: .02em; }
   .realisation--large { grid-column: 1 / -1; }
   .realisation img { height: 150px; }
   .realisation--large .realisation__captures img { height: 220px; }
