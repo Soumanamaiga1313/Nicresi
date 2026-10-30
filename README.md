@@ -23,7 +23,7 @@ Tout le contenu est dans `public/index.html`, organisé en huit sections : accue
   <dl><dt>Besoin</dt><dd>…</dd><dt>Solution</dt><dd>…</dd><dt>Technologies</dt><dd>…</dd><dt>Résultat</dt><dd>…</dd></dl>
   ```
   Ne publier que des travaux réellement livrés, avec des photos ou captures authentiques. Un filtre n'apparaît que si sa catégorie contient au moins une réalisation.
-- **Animations** : courtes et jouées une seule fois, quand elles arrivent à l'écran. La scène du quartier (section « Comment ça se passe », `#methode`) passe ses cinq phases en moins de 5 secondes puis reste sur la dernière ; un bouton « Revoir l'animation » la rejoue (classes `el--…` et règles `.scene--animee.phase-N` dans le CSS, textes et durée `DUREE_PHASE` dans `site.js`). Chaque service a une petite scène SVG (`.mini`) dont les éléments `a1` à `a5` apparaissent l'un après l'autre en 2,5 secondes. Sans JavaScript ou avec « réduire les animations », les images finales s'affichent directement.
+- **Animations** : courtes, elles tournent en boucle tant qu'elles sont à l'écran et s'arrêtent dès qu'elles en sortent (IntersectionObserver dans `site.js`). La scène du quartier (section « Comment ça se passe », `#methode`) passe ses cinq phases en moins de 5 secondes, garde l'image finale 2 secondes, puis recommence ; un bouton « Mettre en pause » l'arrête (classes `el--…` et règles `.scene--animee.phase-N` dans le CSS, textes, `DUREE_PHASE` et `DUREE_FIN` dans `site.js`). Chaque service a une petite scène SVG (`.mini`) dont les éléments `a1` à `a5` apparaissent l'un après l'autre en 2,5 secondes, rejouée toutes les 4 secondes (`CYCLE_MINI`). Sans JavaScript ou avec « réduire les animations », les images finales s'affichent directement.
 
 ## Formulaire de contact
 

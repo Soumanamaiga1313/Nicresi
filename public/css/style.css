@@ -134,7 +134,7 @@ p { margin: 0 0 1em; }
 .scene__legende { margin-top: 12px; font-size: .95rem; color: var(--texte-doux); min-height: 3em; }
 .scene__etape strong { color: var(--noir); }
 .scene__controles { margin-top: 6px; }
-.scene__revoir {
+.scene__pause {
   font: inherit; font-size: .85rem; font-weight: 700; padding: 8px 14px; border-radius: 999px; cursor: pointer;
   border: 1px solid var(--bord); background: var(--blanc); color: var(--texte);
 }

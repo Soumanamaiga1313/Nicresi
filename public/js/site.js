@@ -27,15 +27,16 @@
   var annee = document.getElementById('annee');
   if (annee) annee.textContent = new Date().getFullYear();
 
-  // Animation signature, courte : les cinq phases défilent une seule fois (moins de 5 secondes)
-  // quand la scène arrive à l'écran, puis l'image reste sur la dernière phase.
-  // Sans JavaScript ou avec « réduire les animations », la scène s'affiche directement complète.
+  // Animation signature, courte : les cinq phases défilent (moins de 5 secondes), l'image finale reste
+  // un instant, puis tout recommence. Elle tourne tant que la scène est à l'écran et s'arrête dès qu'elle en sort.
+  // Un bouton permet de la mettre en pause. Sans JavaScript ou avec « réduire les animations »,
+  // la scène s'affiche directement complète.
   var scene = document.querySelector('.scene');
   if (scene) {
     var svg = scene.querySelector('.scene__svg');
     var legende = scene.querySelector('.scene__etape');
     var controles = scene.querySelector('.scene__controles');
-    var revoir = scene.querySelector('.scene__revoir');
+    var pause = scene.querySelector('.scene__pause');
     var textes = {
       1: '<strong>Le besoin.</strong> Une boutique, une école, un bureau : chacun cherche un logiciel, un accès à Internet ou de l\'énergie.',
       2: '<strong>La conception.</strong> Nous imaginons la solution et concevons le site, l\'application ou le logiciel sur mesure.',
@@ -43,34 +44,44 @@
       4: '<strong>L\'utilisation.</strong> Le commerçant gère ses ventes, le bureau travaille, le propriétaire suit son activité depuis son téléphone.',
       5: '<strong>L\'accompagnement.</strong> Nous formons, conseillons et restons disponibles. Créer. Connecter. Construire.'
     };
-    var DUREE_PHASE = 900, minuteur = null;
+    var DUREE_PHASE = 900, DUREE_FIN = 2000, minuteur = null, phase = 1, visible = false, enPause = false;
 
     function afficher(n) {
       for (var i = 1; i <= 5; i++) svg.classList.toggle('phase-' + i, i === n);
       svg.classList.add('scene--animee');
       legende.innerHTML = textes[n];
     }
-    function jouer() {
-      clearTimeout(minuteur);
-      var phase = 1;
-      afficher(phase);
-      (function suivante() {
-        if (phase >= 5) return;
-        minuteur = setTimeout(function () { phase++; afficher(phase); suivante(); }, DUREE_PHASE);
-      })();
+    function arreter() { clearTimeout(minuteur); minuteur = null; }
+    function suivante() {
+      arreter();
+      minuteur = setTimeout(function () {
+        phase = phase >= 5 ? 1 : phase + 1;
+        afficher(phase);
+        suivante();
+      }, phase === 5 ? DUREE_FIN : DUREE_PHASE);
+    }
+    function mettreAJour() {
+      if (visible && !enPause) { if (!minuteur) suivante(); } else { arreter(); }
     }
 
-    controles.hidden = false;
-    revoir.addEventListener('click', jouer);
     if (reduireMouvements || !('IntersectionObserver' in window)) {
       afficher(5);
     } else {
       afficher(1);
-      // Jouée une fois, quand la scène devient visible.
-      var observateurScene = new IntersectionObserver(function (entrees) {
-        if (entrees[0].isIntersecting) { observateurScene.disconnect(); jouer(); }
-      }, { threshold: 0.4 });
-      observateurScene.observe(svg);
+      controles.hidden = false;
+      pause.addEventListener('click', function () {
+        enPause = !enPause;
+        pause.setAttribute('aria-pressed', enPause ? 'true' : 'false');
+        pause.textContent = enPause ? 'Reprendre l\'animation' : 'Mettre en pause';
+        mettreAJour();
+      });
+      // Tourne seulement pendant que la scène est à l'écran ; reprend au début quand on y revient.
+      new IntersectionObserver(function (entrees) {
+        var etaitVisible = visible;
+        visible = entrees[0].isIntersecting;
+        if (visible && !etaitVisible && !enPause) { phase = 1; afficher(1); }
+        mettreAJour();
+      }, { threshold: 0.4 }).observe(svg);
     }
 
     // Éléments cliquables : chaque bâtiment mène à l'activité correspondante.
@@ -88,13 +99,28 @@
     });
   }
 
-  // Petites animations des services : jouées une fois, quand la carte arrive à l'écran.
+  // Petites animations des services : chaque scène (2,5 secondes) se rejoue en boucle tant que la carte
+  // est à l'écran, et s'arrête dès qu'elle en sort.
   if (!reduireMouvements && 'IntersectionObserver' in window) {
+    var CYCLE_MINI = 4000;
+    var boucles = new Map();
+    function rejouerMini(m) {
+      m.classList.remove('mini--joue');
+      void m.getBoundingClientRect();
+      m.classList.add('mini--joue');
+    }
     var observateurMini = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        e.target.classList.replace('mini--attente', 'mini--joue');
-        observateurMini.unobserve(e.target);
+        var m = e.target;
+        if (e.isIntersecting && !boucles.has(m)) {
+          m.classList.remove('mini--attente');
+          rejouerMini(m);
+          boucles.set(m, setInterval(function () { rejouerMini(m); }, CYCLE_MINI));
+        } else if (!e.isIntersecting && boucles.has(m)) {
+          clearInterval(boucles.get(m));
+          boucles.delete(m);
+          m.classList.replace('mini--joue', 'mini--attente');
+        }
       });
     }, { threshold: 0.6 });
     document.querySelectorAll('.mini').forEach(function (m) {
