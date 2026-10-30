@@ -133,14 +133,11 @@ p { margin: 0 0 1em; }
 .batiment:hover > rect:first-child, .batiment:focus-visible > rect:first-child { stroke: var(--orange); stroke-width: 4; }
 .scene__legende { margin-top: 12px; font-size: .95rem; color: var(--texte-doux); min-height: 3em; }
 .scene__etape strong { color: var(--noir); }
-.scene__controles { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-top: 6px; }
-.scene__phases { display: flex; flex-wrap: wrap; gap: 6px; }
-.scene__controles button {
-  font: inherit; font-size: .82rem; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+.scene__controles { margin-top: 6px; }
+.scene__revoir {
+  font: inherit; font-size: .85rem; font-weight: 700; padding: 8px 14px; border-radius: 999px; cursor: pointer;
   border: 1px solid var(--bord); background: var(--blanc); color: var(--texte);
 }
-.scene__phases button[aria-current="step"] { background: var(--noir); color: var(--blanc); border-color: var(--noir); }
-.scene__pause { font-weight: 700; }
 
 /* Sans JavaScript : version statique, état final de la scène. */
 .scene__svg:not(.scene--animee) .el--besoins,
@@ -199,7 +196,7 @@ p { margin: 0 0 1em; }
   grid-column: 1 / -1; background: var(--creme); border-top: 5px solid var(--orange);
   display: grid; grid-template-columns: auto 1fr 1fr; column-gap: 28px; align-items: start;
 }
-.porte-accueil--vedette .famille__icone { grid-row: span 3; }
+.porte-accueil--vedette .mini { grid-row: span 3; }
 .porte-accueil--vedette h3 { font-size: 1.45rem; }
 .porte-accueil--vedette ul { grid-column: 3; grid-row: 1 / span 3; }
 .porte-accueil--vedette .actions { margin-top: 0; }
@@ -207,18 +204,30 @@ p { margin: 0 0 1em; }
 .porte-accueil ul { margin: 0 0 12px; padding-left: 1.1em; }
 .porte-accueil li { margin: 4px 0; }
 .porte-accueil li::marker { color: var(--orange); }
-.famille__icone {
-  width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center;
-  background: var(--orange-clair); font-size: 1.6rem; margin-bottom: 16px;
-}
 .porte-accueil.surligne, .section.surligne { animation: surligne 1.6s ease; }
 @keyframes surligne { 0%, 60% { box-shadow: 0 0 0 4px var(--orange); } 100% { box-shadow: var(--ombre); } }
+
+/* Petites animations des services : courtes (2,5 s), jouées une fois quand la carte arrive à l'écran.
+   Sans JavaScript ou avec « réduire les animations », l'image finale s'affiche directement. */
+.mini { margin-bottom: 14px; }
+.mini__svg { display: block; width: 160px; height: 96px; border-radius: 12px; }
+.mini__texte { font: 700 9px system-ui, sans-serif; fill: var(--noir); }
+.mini--attente .a1, .mini--attente .a2, .mini--attente .a3, .mini--attente .a4, .mini--attente .a5 { opacity: 0; }
+.mini--joue .a1, .mini--joue .a2, .mini--joue .a3, .mini--joue .a4, .mini--joue .a5 { animation: miniApparait .45s ease both; }
+.mini--joue .trait { stroke-dasharray: 120; animation-name: miniTrace; animation-duration: .6s; }
+.mini--joue .remplit { transform-box: fill-box; transform-origin: bottom; animation-name: miniRemplit; animation-duration: .7s; }
+.mini--joue .a2 { animation-delay: .4s; }
+.mini--joue .a3 { animation-delay: .8s; }
+.mini--joue .a4 { animation-delay: 1.3s; }
+.mini--joue .a5 { animation-delay: 1.9s; }
+@keyframes miniApparait { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes miniTrace { from { opacity: 1; stroke-dashoffset: 120; } to { opacity: 1; stroke-dashoffset: 0; } }
+@keyframes miniRemplit { from { opacity: 1; transform: scaleY(0); } to { opacity: 1; transform: scaleY(1); } }
 
 /* Méthode, avec la scène animée à côté */
 .methode-grille { display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: start; margin-top: 32px; }
 .methode-grille .scene__legende { color: #cfcfcf; }
 .methode-grille .scene__etape strong { color: var(--blanc); }
-.methode-grille .scene__phases button[aria-current="step"] { background: var(--orange); color: var(--noir); border-color: var(--orange); }
 .methode { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .methode li { background: var(--noir-2); border: 1px solid #2c2c2c; border-radius: var(--rayon); padding: 24px; }
 .methode p { margin: 0; color: #bdbdbd; }
@@ -385,7 +394,7 @@ p { margin: 0 0 1em; }
   .accueil__photo { max-width: none; width: 100%; }
   .accueil__photo img { aspect-ratio: 16 / 10; object-position: center 22%; }
   /* Page plus courte sur téléphone : icônes masquées, réalisations sur deux colonnes, logo déjà dans l'en-tête. */
-  .porte-accueil .famille__icone { display: none; }
+  .mini__svg { width: 120px; height: 72px; }
   .porte-accueil h3 { font-size: 1.12rem; }
   .porte-accueil--vedette h3 { font-size: 1.3rem; }
   .realisations { grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -407,7 +416,6 @@ p { margin: 0 0 1em; }
   .porte-accueil, .formulaire { padding: 22px; }
   .whatsapp span { display: none; }
   .whatsapp { padding: 14px; }
-  .scene__phases button { font-size: .75rem; padding: 5px 10px; }
 }
 
 /* Page NICRESI Control */

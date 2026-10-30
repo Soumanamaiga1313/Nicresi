@@ -27,63 +27,50 @@
   var annee = document.getElementById('annee');
   if (annee) annee.textContent = new Date().getFullYear();
 
-  // Animation signature : cinq phases, en boucle. Sans JavaScript, la scène reste complète et immobile.
+  // Animation signature, courte : les cinq phases défilent une seule fois (moins de 5 secondes)
+  // quand la scène arrive à l'écran, puis l'image reste sur la dernière phase.
+  // Sans JavaScript ou avec « réduire les animations », la scène s'affiche directement complète.
   var scene = document.querySelector('.scene');
   if (scene) {
     var svg = scene.querySelector('.scene__svg');
     var legende = scene.querySelector('.scene__etape');
     var controles = scene.querySelector('.scene__controles');
-    var boutonsPhase = scene.querySelectorAll('[data-phase]');
-    var pause = scene.querySelector('.scene__pause');
+    var revoir = scene.querySelector('.scene__revoir');
     var textes = {
       1: '<strong>Le besoin.</strong> Une boutique, une école, un bureau : chacun cherche un logiciel, un accès à Internet ou de l\'énergie.',
       2: '<strong>La conception.</strong> Nous imaginons la solution et concevons le site, l\'application ou le logiciel sur mesure.',
-      3: '<strong>L\'intégration.</strong> Nos techniciens installent le matériel, l\'antenne et les panneaux solaires, relient les bâtiments et mettent les outils en service.',
-      4: '<strong>L\'utilisation.</strong> Le commerçant gère ses ventes avec son logiciel, le bureau travaille sur ses ordinateurs, le propriétaire suit son activité depuis son téléphone.',
+      3: '<strong>L\'installation.</strong> Nos techniciens posent l\'antenne et les panneaux solaires, relient les bâtiments et mettent les outils en service.',
+      4: '<strong>L\'utilisation.</strong> Le commerçant gère ses ventes, le bureau travaille, le propriétaire suit son activité depuis son téléphone.',
       5: '<strong>L\'accompagnement.</strong> Nous formons, conseillons et restons disponibles. Créer. Connecter. Construire.'
     };
-    var phase = 1, minuteur = null, enPause = reduireMouvements;
+    var DUREE_PHASE = 900, minuteur = null;
 
     function afficher(n) {
-      phase = n;
       for (var i = 1; i <= 5; i++) svg.classList.toggle('phase-' + i, i === n);
       svg.classList.add('scene--animee');
       legende.innerHTML = textes[n];
-      boutonsPhase.forEach(function (b) {
-        if (Number(b.dataset.phase) === n) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
-      });
     }
-    function suivante() { afficher(phase % 5 + 1); }
-    function demarrer() { arreter(); minuteur = setInterval(suivante, 4200); }
-    function arreter() { if (minuteur) clearInterval(minuteur); minuteur = null; }
-    function majPause() {
-      pause.setAttribute('aria-pressed', enPause ? 'true' : 'false');
-      pause.textContent = enPause ? 'Lecture' : 'Pause';
+    function jouer() {
+      clearTimeout(minuteur);
+      var phase = 1;
+      afficher(phase);
+      (function suivante() {
+        if (phase >= 5) return;
+        minuteur = setTimeout(function () { phase++; afficher(phase); suivante(); }, DUREE_PHASE);
+      })();
     }
 
     controles.hidden = false;
-    boutonsPhase.forEach(function (b) {
-      b.addEventListener('click', function () {
-        enPause = true; arreter(); majPause(); afficher(Number(b.dataset.phase));
-      });
-    });
-    pause.addEventListener('click', function () {
-      enPause = !enPause; majPause();
-      if (enPause) arreter(); else demarrer();
-    });
-
-    // Mouvements réduits : la scène s'ouvre sur la dernière phase, sans défilement automatique.
-    afficher(reduireMouvements ? 5 : 1);
-    majPause();
-    if (!enPause) demarrer();
-
-    // Pas d'animation hors de l'écran (économie de batterie et de données).
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entrees) {
-        entrees.forEach(function (e) {
-          if (!e.isIntersecting) arreter(); else if (!enPause) demarrer();
-        });
-      }).observe(svg);
+    revoir.addEventListener('click', jouer);
+    if (reduireMouvements || !('IntersectionObserver' in window)) {
+      afficher(5);
+    } else {
+      afficher(1);
+      // Jouée une fois, quand la scène devient visible.
+      var observateurScene = new IntersectionObserver(function (entrees) {
+        if (entrees[0].isIntersecting) { observateurScene.disconnect(); jouer(); }
+      }, { threshold: 0.4 });
+      observateurScene.observe(svg);
     }
 
     // Éléments cliquables : chaque bâtiment mène à l'activité correspondante.
@@ -98,6 +85,21 @@
       el.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); aller(); }
       });
+    });
+  }
+
+  // Petites animations des services : jouées une fois, quand la carte arrive à l'écran.
+  if (!reduireMouvements && 'IntersectionObserver' in window) {
+    var observateurMini = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.replace('mini--attente', 'mini--joue');
+        observateurMini.unobserve(e.target);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('.mini').forEach(function (m) {
+      m.classList.add('mini--attente');
+      observateurMini.observe(m);
     });
   }
 

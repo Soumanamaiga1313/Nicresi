@@ -23,7 +23,7 @@ Tout le contenu est dans `public/index.html`, organisé en huit sections : accue
   <dl><dt>Besoin</dt><dd>…</dd><dt>Solution</dt><dd>…</dd><dt>Technologies</dt><dd>…</dd><dt>Résultat</dt><dd>…</dd></dl>
   ```
   Ne publier que des travaux réellement livrés, avec des photos ou captures authentiques. Un filtre n'apparaît que si sa catégorie contient au moins une réalisation.
-- **Animation** : scène SVG dans la section « Comment ça se passe » (`#methode`) ; chaque élément porte une classe `el--…` qui apparaît à sa phase (règles `.scene--animee.phase-N` dans le CSS, textes des phases dans `site.js`). Sans JavaScript, la scène reste fixe dans son état final ; avec « réduire les animations » activé sur l'appareil, elle s'ouvre sur la dernière phase sans défilement.
+- **Animations** : courtes et jouées une seule fois, quand elles arrivent à l'écran. La scène du quartier (section « Comment ça se passe », `#methode`) passe ses cinq phases en moins de 5 secondes puis reste sur la dernière ; un bouton « Revoir l'animation » la rejoue (classes `el--…` et règles `.scene--animee.phase-N` dans le CSS, textes et durée `DUREE_PHASE` dans `site.js`). Chaque service a une petite scène SVG (`.mini`) dont les éléments `a1` à `a5` apparaissent l'un après l'autre en 2,5 secondes. Sans JavaScript ou avec « réduire les animations », les images finales s'affichent directement.
 
 ## Formulaire de contact
 
