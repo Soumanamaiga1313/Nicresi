@@ -95,4 +95,36 @@ def formation():
     return svg(s)
 
 import json,sys
-print(json.dumps({'sol-reseau':wifi(),'sol-numerique':numerique(),'sol-equipements':solaire(),'sol-formation':formation()}))
+
+def classe():
+    # Grande illustration de la section Formation (viewBox 200 x 120), mêmes classes a1 à a5 que les mini-scènes.
+    o=(100,29)
+    s=boite(0,0,-5,84,84,5,o,'#ffd88a','#e9a94f','#d98f33')
+    s+=boite(0,0,0,84,3,24,o,'#fff','#fbd9b0','#fbd9b0')+boite(0,3,0,3,81,24,o,'#fff','#f7cd9b','#f7cd9b')
+    tb=plan_x(14,3,21,o)
+    s+=f'<rect x="0" y="0" width="44" height="17" transform="{tb}" fill="#2d3b2d"/>'
+    for i,(w,cl) in enumerate([(30,'a1'),(22,'a1'),(34,'a1')]):
+        s+=f'<path class="{cl} trait" d="M5 {5+i*5} H{5+w}" transform="{tb}" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>'
+    prof=boite(62,10,0,8,8,16,o,'#f26a1b','#f26a1b','#d95c12'); h=P(66,14,21,o)
+    prof+=f'<circle cx="{h[0]}" cy="{h[1]}" r="4.5" fill="#4a2f1b"/>'
+    s+=f'<g class="a4">{prof}</g>'
+    ecrans=''; eleves=''
+    for (x,y,col) in [(14,30,'#2f6f8f'),(44,30,'#333'),(14,56,'#1e7a3c'),(44,56,'#7a4b26')]:
+        s+=boite(x,y,0,22,10,9,o,'#c98a52','#a8703f','#8f5d33')
+        ecrans+=boite(x+5,y+1,9,12,1,8,o,'#111','#111','#111')
+        e=plan_x(x+5,y+2,17,o); ecrans+=f'<rect x="1" y="1" width="10" height="6" transform="{e}" fill="#ffd34d" stroke="none"/>'
+        eleves+=boite(x+8,y+13,0,7,6,10,o,col,col,col); t=P(x+11.5,y+16,15,o)
+        eleves+=f'<circle cx="{t[0]}" cy="{t[1]}" r="4" fill="#5b3a22"/>'
+    s+=f'<g class="a2">{ecrans}</g><g class="a3">{eleves}</g>'
+    s+='<g class="a5"><rect x="136" y="8" width="58" height="18" rx="9" fill="#ffd34d"/><text x="165" y="20.5" text-anchor="middle" class="mini__texte" stroke="none">Attestation</text></g>'
+    corps=re.sub(r'<(rect|path) class="([^"]+)" ([^>]*?)transform="([^"]+)"([^>]*)/>', r'<g transform="\4"><\1 class="\2" \3\5/></g>', s)
+    return ('<svg class="illus__svg" viewBox="0 0 200 120" width="400" height="240" focusable="false">'
+            '<rect width="200" height="120" rx="14" fill="#fff1e2"/><circle cx="24" cy="22" r="30" fill="#ffe0b8"/>'
+            '<g stroke="#111" stroke-width="1.1" stroke-linejoin="round">' + corps + '</g></svg>')
+
+# python3 mini-scenes-iso.py            -> les quatre mini-scènes (JSON, par id de carte)
+# python3 mini-scenes-iso.py formation  -> l'illustration de la section Formation
+if len(sys.argv) > 1 and sys.argv[1] == 'formation':
+    print(classe())
+else:
+    print(json.dumps({'sol-reseau':wifi(),'sol-numerique':numerique(),'sol-equipements':solaire(),'sol-formation':formation()}))

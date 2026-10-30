@@ -171,6 +171,34 @@
     quiz.hidden = false;
   }
 
+  // 3D légère de l'accueil : la photo s'incline vers la souris, ou selon le défilement sur téléphone.
+  var relief = document.querySelector('.relief');
+  if (relief && !reduireMouvements) {
+    relief.classList.add('relief--actif');
+    var incliner = function (rx, ry) {
+      relief.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+      relief.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    };
+    if (window.matchMedia('(hover: hover)').matches) {
+      var zone = document.querySelector('.accueil');
+      zone.addEventListener('pointermove', function (e) {
+        var b = relief.getBoundingClientRect();
+        var x = (e.clientX - (b.left + b.width / 2)) / window.innerWidth;
+        var y = (e.clientY - (b.top + b.height / 2)) / window.innerHeight;
+        incliner(-y * 14, x * 18);
+      });
+      zone.addEventListener('pointerleave', function () { incliner(0, 0); });
+    } else {
+      var auDefilement = function () {
+        var b = relief.getBoundingClientRect();
+        var p = Math.max(-1, Math.min(1, (b.top + b.height / 2 - window.innerHeight / 2) / window.innerHeight));
+        incliner(p * 12, p * -6);
+      };
+      window.addEventListener('scroll', auDefilement, { passive: true });
+      auDefilement();
+    }
+  }
+
   // Bouton WhatsApp flottant : discret quand les boutons de contact de l'accueil ou le formulaire sont visibles,
   // pour ne jamais recouvrir un autre bouton ni un message.
   var flottant = document.querySelector('.whatsapp');

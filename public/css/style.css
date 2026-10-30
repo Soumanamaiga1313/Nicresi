@@ -265,6 +265,31 @@ p { margin: 0 0 1em; }
 .quiz__recommencer { margin-top: 12px; padding: 8px 14px; font-size: .9rem; border-radius: 999px; }
 @media (prefers-reduced-motion: reduce) { .quiz__progression span { transition: none; } }
 
+/* 3D légère : la photo de l'accueil et ses formes sont posées à des profondeurs différentes
+   et s'inclinent selon la souris (ordinateur) ou le défilement (téléphone). Aucune image ni bibliothèque en plus. */
+.relief { perspective: 900px; }
+.relief.relief--actif { transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .25s ease-out; }
+.relief.relief--actif img { transform: translateZ(30px); }
+.relief.relief--actif::before { transform: translateZ(-12px); }
+.relief.relief--actif::after { transform: translateZ(-8px); }
+.relief.relief--actif figcaption { transform: translateZ(20px); }
+
+/* Néomorphisme, section Formation : surfaces douces en relief, avec un bord fin pour rester lisibles. */
+.section--douce { background: #f1ebe4; }
+.liste-douce { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.liste-douce li {
+  position: relative; padding: 16px 18px 16px 58px; border-radius: 18px; background: #f1ebe4; color: var(--texte);
+  border: 1px solid #ddd3c8; box-shadow: 7px 7px 16px #d6cdc3, -7px -7px 16px #ffffff;
+}
+.liste-douce li::before {
+  content: "✓"; position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 900; color: var(--orange-fonce);
+  background: #f1ebe4; box-shadow: inset 3px 3px 6px #d6cdc3, inset -3px -3px 6px #ffffff;
+}
+.section--douce .bouton { box-shadow: 6px 6px 14px #d6cdc3, -6px -6px 14px #ffffff; }
+.illus { margin-top: 26px; }
+.illus__svg { display: block; width: 100%; max-width: 440px; height: auto; border-radius: 16px; box-shadow: 7px 7px 16px #d6cdc3, -7px -7px 16px #ffffff; }
+
 /* Méthode, avec la scène animée à côté */
 .methode-grille { display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: start; margin-top: 32px; }
 .methode-grille .scene__legende { color: #cfcfcf; }
