@@ -387,53 +387,91 @@ p { margin: 0 0 1em; }
 /* Étapes : glisser au doigt sur téléphone */
 .methode__glisser { display: none; }
 
-/* Appareils réalistes : téléphone (cadre graphite, île, boutons, reflet) et ordinateur portable (écran, caméra, base alu). */
+/* Appareils réalistes : téléphone (bord métal, verre noir, île avec caméra, boutons en relief, barre d'accueil)
+   et ordinateur portable (couvercle alu, encoche caméra, clavier en perspective : img/appareils/clavier.svg). */
 .tel {
-  position: relative; width: 100%; max-width: 280px; aspect-ratio: 9 / 19.5; border-radius: 44px; padding: 10px;
-  background: linear-gradient(145deg, #4a4a4d 0%, #18181a 22%, #0c0c0d 55%, #2c2c2f 80%, #121213 100%);
-  box-shadow: inset 0 0 0 1.5px #5d5d61, inset 0 0 0 4px #09090a, 0 28px 50px -22px rgba(0, 0, 0, .6), 0 10px 22px -12px rgba(0, 0, 0, .45);
+  /* Téléphone Android récent, vu de face : bezel noir très fin, bord métal mince, appareil photo « poinçon »,
+     boutons volume et marche/arrêt à droite, épaisseur visible sur la tranche. Tout est à l'échelle (cqw). */
+  container-type: inline-size;
+  position: relative; width: 100%; max-width: 280px; aspect-ratio: 9 / 19.5; border-radius: 13% / 6%;
+  border: 1.5px solid #6a6c71; background: #000;
+  box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .25),
+    1px 1px 0 #2c2d30, 2px 2px 0 #222326, 3px 3px 0 #1a1b1d,
+    0 30px 40px -24px rgba(0, 0, 0, .65), 8px 14px 26px -14px rgba(0, 0, 0, .45);
 }
-.tel::before, .tel::after { content: ""; position: absolute; width: 3px; border-radius: 2px; background: linear-gradient(90deg, #3b3b3e, #1b1b1d); }
-.tel::before { right: -2px; top: 24%; height: 15%; }
-.tel::after { left: -2px; top: 17%; height: 6%; box-shadow: 0 calc(8% + 30px) 0 #2a2a2d, 0 calc(16% + 60px) 0 #2a2a2d; }
-.tel__ecran { position: relative; height: 100%; border-radius: 35px; overflow: hidden; background: #fff; isolation: isolate; }
-.tel__ecran::before { content: ""; position: absolute; z-index: 3; top: 9px; left: 50%; transform: translateX(-50%); width: 32%; height: 22px; border-radius: 14px; background: #000; }
+.tel::before, .tel::after {
+  content: ""; position: absolute; right: -4px; width: 3px; border-radius: 0 2px 2px 0;
+  background: linear-gradient(90deg, #1c1d20, #66686d 60%, #2b2c2f);
+}
+.tel::before { top: 19%; height: 11%; }
+.tel::after { top: 34%; height: 6%; }
+.tel__ecran {
+  position: relative; height: 100%; box-sizing: border-box; overflow: hidden; isolation: isolate; background: #fff;
+  border: 2.6cqw solid #000; border-radius: 12.4cqw;
+}
+/* Appareil photo avant : petit trou rond dans l'écran */
+.tel__ecran::before {
+  content: ""; position: absolute; z-index: 5; top: 2.4cqw; left: 50%; width: 3.6cqw; height: 3.6cqw; transform: translateX(-50%); border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, #4a6a8c 0 12%, #18202a 22% 45%, #000 55%);
+  box-shadow: 0 0 0 .5px #222;
+}
+/* Reflet discret du verre + barre de gestes Android en bas */
 .tel__ecran::after {
-  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
-  background: linear-gradient(115deg, rgba(255, 255, 255, .22) 0%, rgba(255, 255, 255, .06) 28%, rgba(255, 255, 255, 0) 42%);
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background:
+    linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)) center bottom 1.8cqw / 30% 1.1cqw no-repeat,
+    linear-gradient(118deg, rgba(255, 255, 255, .14) 0%, rgba(255, 255, 255, .04) 30%, rgba(255, 255, 255, 0) 44%);
 }
 .tel__ecran--sombre { background: #111; }
+.tel__ecran--sombre::after {
+  background:
+    linear-gradient(rgba(255, 255, 255, .75), rgba(255, 255, 255, .75)) center bottom 1.8cqw / 30% 1.1cqw no-repeat,
+    linear-gradient(118deg, rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, 0) 40%);
+}
 .tel__barre {
-  position: relative; z-index: 2; height: 38px; display: flex; align-items: center; justify-content: space-between;
-  padding: 4px 22px 0 26px; font: 700 12px system-ui, sans-serif; color: #111; background: inherit;
+  position: relative; z-index: 2; height: 8.4cqw; display: flex; align-items: center; justify-content: space-between;
+  padding: .4cqw 5.5cqw 0 6cqw; font: 600 3.9cqw/1 Roboto, "Segoe UI", system-ui, sans-serif; color: #111; background: inherit;
 }
 .tel__barre--clair { color: #fff; }
-.tel__icones { display: inline-flex; align-items: center; gap: 5px; }
-.tel__reseau { width: 15px; height: 9px; background: linear-gradient(90deg, currentColor 0 18%, transparent 18% 27%, currentColor 27% 45%, transparent 45% 54%, currentColor 54% 72%, transparent 72% 81%, currentColor 81%);
-  clip-path: polygon(0 100%, 100% 0, 100% 100%); }
-.tel__batterie { width: 21px; height: 10px; border: 1.5px solid currentColor; border-radius: 3px; position: relative; opacity: .9; }
-.tel__batterie::before { content: ""; position: absolute; inset: 1.5px; right: 30%; background: currentColor; border-radius: 1px; }
-.tel__batterie::after { content: ""; position: absolute; right: -4px; top: 2.5px; width: 2px; height: 3px; background: currentColor; border-radius: 0 1px 1px 0; }
-.tel__ecran > img { width: 100%; height: calc(100% - 38px); object-fit: cover; object-position: top; display: block; }
-.tel__vue { height: calc(100% - 38px); overflow: hidden; }
+.tel__icones { display: inline-flex; align-items: center; gap: .3em; }
+.tel__reseau, .tel__wifi { background: currentColor; -webkit-mask: var(--icone) center / contain no-repeat; mask: var(--icone) center / contain no-repeat; }
+.tel__reseau { --icone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 11'%3E%3Crect x='0' y='7' width='3' height='4' rx='.8'/%3E%3Crect x='4.6' y='5' width='3' height='6' rx='.8'/%3E%3Crect x='9.2' y='2.6' width='3' height='8.4' rx='.8'/%3E%3Crect x='13.8' y='0' width='3' height='11' rx='.8'/%3E%3C/svg%3E"); width: 1.15em; height: .78em; }
+.tel__wifi { --icone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 12'%3E%3Cpath d='M8 11.6 5.6 9.1a3.4 3.4 0 0 1 4.8 0zM3.4 6.9a6.5 6.5 0 0 1 9.2 0l-1.6 1.6a4.2 4.2 0 0 0-6 0zM1.1 4.6a9.8 9.8 0 0 1 13.8 0l-1.6 1.6a7.5 7.5 0 0 0-10.6 0z'/%3E%3C/svg%3E"); width: 1.1em; height: .82em; }
+.tel__batterie { width: .72em; height: 1.15em; border-radius: .14em; position: relative;
+  background: linear-gradient(currentColor, currentColor) bottom / 100% 72% no-repeat; box-shadow: inset 0 0 0 .09em currentColor; opacity: .95; }
+.tel__batterie::before { content: ""; position: absolute; top: -.14em; left: 30%; width: 40%; height: .16em; background: currentColor; border-radius: .05em .05em 0 0; }
+.tel__ecran > img { width: 100%; height: calc(100% - 8.4cqw); object-fit: cover; object-position: top; display: block; }
+.tel__vue { height: calc(100% - 8.4cqw); overflow: hidden; }
 .tel__vue img { width: 100%; height: auto; display: block; }
-.tel--libre { aspect-ratio: auto; }
+.tel--libre { aspect-ratio: auto; border-radius: 40px; }
 .tel--libre .tel__ecran { height: auto; }
+.tel--libre .tel__ecran > :last-child { padding-bottom: 7cqw; }
 
 .pc { position: relative; width: 100%; }
+/* Couvercle : bord alu fin, verre noir, encoche avec caméra */
 .pc__ecran {
-  position: relative; background: #0b0b0c; border-radius: 12px 12px 3px 3px; padding: 4.2% 3.4% 3.4%;
-  box-shadow: inset 0 0 0 1.5px #3a3a3d, 0 18px 36px -20px rgba(0, 0, 0, .55);
+  position: relative; border-radius: 14px 14px 4px 4px; padding: 3.2% 2.4% 2.6%;
+  border: 2px solid transparent;
+  background: linear-gradient(#050506, #050506) padding-box,
+    linear-gradient(180deg, #d9dade, #9c9ea4 40%, #6f7177) border-box;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
 }
-.pc__ecran::before { content: ""; position: absolute; top: 1.6%; left: 50%; width: 5px; height: 5px; border-radius: 50%; transform: translateX(-50%); background: #1f2a33; box-shadow: 0 0 0 1.5px #232325; }
-.pc__vue { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; border-radius: 1px; }
-.pc__vue::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(120deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, 0) 40%); }
+.pc__ecran::before {
+  content: ""; position: absolute; z-index: 2; top: 0; left: 50%; transform: translateX(-50%); width: 13%; height: 3.4%; min-height: 8px;
+  border-radius: 0 0 7px 7px; background: radial-gradient(circle at 50% 45%, #2f4b66 0 1.6px, #11161c 2px 3px, #050506 3.4px);
+}
+.pc__vue { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; border-radius: 2px; }
+.pc__vue::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(118deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, .05) 30%, rgba(255, 255, 255, 0) 46%); }
 .pc__vue img { width: 100%; height: auto; display: block; }
+/* Base : clavier et pavé tactile en perspective, ombre posée sur la table */
 .pc__base {
-  position: relative; height: 11px; margin: 0 -8%; border-radius: 2px 2px 12px 12px / 2px 2px 9px 9px;
-  background: linear-gradient(180deg, #f1f1f3 0%, #c9c9cd 45%, #9a9aa0 100%); box-shadow: 0 12px 20px -10px rgba(0, 0, 0, .45);
+  position: relative; margin: -1px -8% 0; aspect-ratio: 1160 / 200;
+  background: url("../img/appareils/clavier.svg") center top / 100% 100% no-repeat;
+  filter: drop-shadow(0 14px 14px rgba(0, 0, 0, .28));
 }
-.pc__base::before { content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 15%; height: 4px; border-radius: 0 0 6px 6px; background: #a8a8ae; }
+.pc__base::before { content: ""; position: absolute; left: 6%; right: 6%; bottom: -6px; height: 10px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, .35), rgba(0, 0, 0, 0)); z-index: -1; }
 
 /* Écrans qui défilent comme une vraie navigation, seulement à l'écran (classe posée par site.js). */
 .defile { animation: defileVue 14s ease-in-out infinite alternate; animation-play-state: paused; }
@@ -446,19 +484,9 @@ p { margin: 0 0 1em; }
 /* Compositions */
 .appareils { position: relative; margin: 0 0 18px; width: 100%; max-width: 330px; padding: 0 0 6px; }
 .appareils .pc { width: 86%; }
-.tel--appareils { position: absolute; right: 0; bottom: 26px; width: 27%; border-radius: 20px; padding: 4px; }
-.tel--appareils .tel__ecran { border-radius: 16px; }
-.tel--appareils .tel__ecran::before { top: 4px; height: 8px; }
-.tel--appareils .tel__barre { height: 16px; font-size: 6px; padding: 2px 8px 0 10px; }
-.tel--appareils .tel__barre .tel__icones { display: none; }
-.tel--appareils .tel__vue { height: calc(100% - 16px); }
-.appareils figcaption { margin-top: 10px; padding-right: 30%; font-size: .85rem; color: var(--texte-doux); }
-.tel--petit { border-radius: 26px; padding: 5px; }
-.tel--petit .tel__ecran { border-radius: 21px; }
-.tel--petit .tel__ecran::before { top: 6px; height: 11px; width: 30%; }
-.tel--petit .tel__barre { height: 24px; font-size: 8px; padding: 3px 12px 0 14px; }
-.tel--petit .tel__icones { display: none; }
-.tel--petit .tel__ecran > img, .realisation .tel--petit .tel__ecran > img { height: calc(100% - 24px); }
+.appareils figcaption { padding-top: 7%; }
+.tel--appareils { position: absolute; right: 0; top: 0; margin-top: 21%; width: 27%; border-width: 1px; }
+.tel--appareils::before, .tel--appareils::after { right: -2.5px; width: 2px; }
 .tel--accueil { position: absolute; left: -34px; bottom: 70px; width: 30%; max-width: 130px; z-index: 2; }
 .realisation__captures .tel { max-width: 190px; justify-self: center; }
 .tel--simulateur { max-width: 300px; justify-self: center; }
@@ -652,7 +680,6 @@ p { margin: 0 0 1em; }
   .quiz__entete { grid-row: auto; }
   .accueil__photo::before { right: -14px; top: -14px; }
   .tel--accueil { left: 10px; bottom: 60px; width: 20%; max-width: 86px; }
-  .tel--accueil .tel__barre > span:first-child { visibility: hidden; }
   .porte-accueil--vedette { display: flex; }
   .realisation--large { grid-column: auto; }
   .accueil__photo { max-width: none; width: 100%; }
