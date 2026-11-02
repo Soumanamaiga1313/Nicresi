@@ -199,6 +199,45 @@
     }
   }
 
+  // Apparition au défilement : titres, textes, cartes et photos glissent à leur place quand ils arrivent à l'écran,
+  // en descendant comme en remontant, et repartent quand ils en sortent. Rien n'est caché sans JavaScript
+  // ni avec « réduire les animations ».
+  if (!reduireMouvements && 'IntersectionObserver' in window) {
+    var cibles = [
+      ['#solutions .surtitre, #solutions h2, #realisations .surtitre, #realisations h2, #realisations .section__intro, .filtres', 'bas'],
+      ['.porte-accueil, .quiz, .realisation, .methode li, .liste-douce li', 'bas'],
+      ['#nicresi-control .conteneur > *', 'bas'],
+      ['#methode .surtitre, #methode h2, #methode .section__intro, .scene', 'bas'],
+      ['#formation .deux-colonnes > div > *', 'gauche'],
+      ['.apropos__logo, .illus', 'gauche'],
+      ['#a-propos .apropos > div > *, #contact .conteneur > * > *', 'bas']
+    ];
+    var vus = [];
+    cibles.forEach(function (c) {
+      document.querySelectorAll(c[0]).forEach(function (el) {
+        if (vus.indexOf(el) !== -1 || el.closest('.accueil')) return;
+        vus.push(el);
+        el.classList.add('apparait', 'apparait--' + c[1]);
+        // Léger décalage entre éléments voisins (cartes d'une même rangée, étapes d'une liste).
+        var rang = Array.prototype.indexOf.call(el.parentElement.children, el) % 4;
+        el.style.setProperty('--delai', (rang * 90) + 'ms');
+      });
+    });
+    var observateurApparition = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) {
+        var el = e.target;
+        if (e.isIntersecting) {
+          el.classList.add('apparait--visible');
+        } else {
+          el.classList.remove('apparait--visible');
+          // Sorti par le haut : il reviendra depuis le haut quand on remonte.
+          el.classList.toggle('apparait--au-dessus', e.boundingClientRect.top < 0);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    vus.forEach(function (el) { observateurApparition.observe(el); });
+  }
+
   // Bouton WhatsApp flottant : discret quand les boutons de contact de l'accueil ou le formulaire sont visibles,
   // pour ne jamais recouvrir un autre bouton ni un message.
   var flottant = document.querySelector('.whatsapp');

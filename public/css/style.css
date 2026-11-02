@@ -294,6 +294,15 @@ p { margin: 0 0 1em; }
 .illus { margin-top: 26px; }
 .illus__svg { display: block; width: 100%; max-width: 440px; height: auto; border-radius: 16px; box-shadow: 7px 7px 16px #d6cdc3, -7px -7px 16px #ffffff; }
 
+/* Apparition au défilement (classes posées par site.js uniquement si les animations sont permises). */
+.apparait {
+  opacity: 0; transform: translate3d(0, 36px, 0);
+  transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: var(--delai, 0ms);
+}
+.apparait--gauche { transform: translate3d(-48px, 0, 0); }
+.apparait--au-dessus { transform: translate3d(0, -36px, 0); }
+.apparait.apparait--visible { opacity: 1; transform: none; }
+
 /* Méthode, avec la scène animée à côté */
 .methode-grille { display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: start; margin-top: 32px; }
 .methode-grille .scene__legende { color: #cfcfcf; }
