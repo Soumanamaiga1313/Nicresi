@@ -199,6 +199,136 @@
     }
   }
 
+  // Simulateur de recettes : clients par jour × prix moyen × jours d'ouverture, avec un montant qui défile.
+  var sim = document.getElementById('simulateur');
+  if (sim) {
+    var champClients = sim.querySelector('#sim-clients'), champPrix = sim.querySelector('#sim-prix'), champJours = sim.querySelector('#sim-jours');
+    var montant = sim.querySelector('.simulateur__montant'), lienSim = sim.querySelector('[data-action="sim-whatsapp"]');
+    var affiche = 0, animation = null;
+    var format = function (n) { return Math.round(n).toLocaleString('fr-FR').replace(/\u202f|\u00a0/g, ' ') + ' F CFA'; };
+    var calculer = function () {
+      var clients = +champClients.value, prix = +champPrix.value, jours = +champJours.value, total = clients * prix * jours;
+      sim.querySelector('[data-valeur="clients"]').textContent = clients;
+      sim.querySelector('[data-valeur="jours"]').textContent = jours;
+      lienSim.href = 'https://wa.me/22793191920?text=' + encodeURIComponent('Bonjour NICRESI, je pense ouvrir une Wi-Fi zone : environ ' + clients +
+        ' clients par jour, cartes à ' + prix + ' F, ' + jours + ' jours par mois (estimation ' + format(total) + ' par mois). Pouvez-vous étudier mon projet ?');
+      cancelAnimationFrame(animation);
+      if (reduireMouvements) { affiche = total; montant.textContent = format(total); return; }
+      var depart = affiche, t0 = null;
+      (function pas(t) {
+        if (!t0) t0 = t;
+        var p = Math.min(1, (t - t0) / 400);
+        affiche = depart + (total - depart) * (1 - Math.pow(1 - p, 3));
+        montant.textContent = format(affiche);
+        if (p < 1) animation = requestAnimationFrame(pas);
+      })(performance.now());
+    };
+    [champClients, champPrix, champJours].forEach(function (c) { c.addEventListener('input', calculer); });
+    sim.hidden = false;
+    calculer();
+  }
+
+  // Démo cliquable de NICRESI Control : choisir un forfait et un nombre de pages, puis « créer » des cartes d'exemple.
+  var demo = document.getElementById('demo-ncc');
+  if (demo) {
+    var CARTES_PAR_PAGE = 40, pages = 1;
+    var forfaits = demo.querySelectorAll('.demo-ncc__forfaits button');
+    var sortieQuantite = demo.querySelector('.demo-ncc__quantite output');
+    var etapesDemo = demo.querySelectorAll('.demo-ncc__etape');
+    var choisi = function () { return demo.querySelector('.demo-ncc__forfaits [aria-pressed="true"]'); };
+    var majQuantite = function () { sortieQuantite.textContent = pages + (pages > 1 ? ' pages · ' : ' page · ') + (pages * CARTES_PAR_PAGE) + ' cartes'; };
+    forfaits.forEach(function (b) {
+      b.addEventListener('click', function () { forfaits.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); });
+    });
+    demo.querySelectorAll('[data-pas]').forEach(function (b) {
+      b.addEventListener('click', function () { pages = Math.min(10, Math.max(1, pages + (+b.dataset.pas))); majQuantite(); });
+    });
+    demo.querySelector('.demo-ncc__creer').addEventListener('click', function () {
+      var f = choisi(), nombre = pages * CARTES_PAR_PAGE, prix = +f.dataset.prix;
+      demo.querySelector('.demo-ncc__resume').textContent = nombre + ' cartes de ' + f.dataset.duree + ' à ' + prix + ' F, soit ' +
+        (nombre * prix).toLocaleString('fr-FR').replace(/\u202f|\u00a0/g, ' ') + ' F de ventes possibles.';
+      var liste = demo.querySelector('.demo-ncc__cartes'); liste.innerHTML = '';
+      for (var i = 0; i < 6; i++) {
+        var li = document.createElement('li'), code = String(Math.floor(100000 + Math.random() * 900000));
+        li.style.setProperty('--delai', (i * 80) + 'ms');
+        li.innerHTML = '<strong>' + code + '</strong>' + f.dataset.duree;
+        liste.appendChild(li);
+      }
+      demo.querySelector('.demo-ncc__note').textContent = '';
+      etapesDemo[0].hidden = true; etapesDemo[1].hidden = false;
+      etapesDemo[1].querySelector('[tabindex="-1"]').focus({ preventScroll: true });
+    });
+    demo.querySelector('.demo-ncc__imprimer').addEventListener('click', function () {
+      demo.querySelector('.demo-ncc__note').textContent = 'Dans NICRESI Control, un fichier prêt à imprimer se télécharge ici. Ensuite, il suffit de découper les cartes.';
+    });
+    demo.querySelector('.demo-ncc__recommencer').addEventListener('click', function () {
+      etapesDemo[1].hidden = true; etapesDemo[0].hidden = false; forfaits[2].focus();
+    });
+    majQuantite();
+    demo.hidden = false;
+  }
+
+  // Barre de lecture et bouton « retour en haut ».
+  var barreLecture = document.querySelector('.lecture span'), boutonHaut = document.querySelector('.haut');
+  if (barreLecture || boutonHaut) {
+    var enAttente = false;
+    var majDefilement = function () {
+      enAttente = false;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      if (barreLecture) barreLecture.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+      if (boutonHaut) boutonHaut.hidden = window.scrollY < window.innerHeight;
+    };
+    window.addEventListener('scroll', function () { if (!enAttente) { enAttente = true; requestAnimationFrame(majDefilement); } }, { passive: true });
+    majDefilement();
+  }
+
+  // Écrans d'appareils qui défilent seulement quand ils sont visibles.
+  if ('IntersectionObserver' in window) {
+    var observateurAppareils = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { e.target.classList.toggle('en-vue', e.isIntersecting); });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.pc__vue, .tel__vue').forEach(function (v) { observateurAppareils.observe(v); });
+  }
+
+  // Apparition au défilement : titres, textes, cartes et photos glissent à leur place quand ils arrivent à l'écran,
+  // en descendant comme en remontant, et repartent quand ils en sortent. Rien n'est caché sans JavaScript
+  // ni avec « réduire les animations ».
+  if (!reduireMouvements && 'IntersectionObserver' in window) {
+    var cibles = [
+      ['#solutions .surtitre, #solutions h2, #realisations .surtitre, #realisations h2, #realisations .section__intro, .filtres', 'bas'],
+      ['.porte-accueil, .quiz, .simulateur, .realisation, .methode, .liste-douce li, .faq details, #questions .surtitre, #questions h2', 'bas'],
+      ['.control__grille > div:first-child > *, .demo-ncc', 'bas'],
+      ['#methode .surtitre, #methode h2, #methode .section__intro, .scene', 'bas'],
+      ['#formation .deux-colonnes > div > *', 'gauche'],
+      ['.apropos__logo, .illus', 'gauche'],
+      ['#a-propos .apropos > div > *, #contact .conteneur > * > *', 'bas']
+    ];
+    var vus = [];
+    cibles.forEach(function (c) {
+      document.querySelectorAll(c[0]).forEach(function (el) {
+        if (vus.indexOf(el) !== -1 || el.closest('.accueil')) return;
+        vus.push(el);
+        el.classList.add('apparait', 'apparait--' + c[1]);
+        // Léger décalage entre éléments voisins (cartes d'une même rangée, étapes d'une liste).
+        var rang = Array.prototype.indexOf.call(el.parentElement.children, el) % 4;
+        el.style.setProperty('--delai', (rang * 90) + 'ms');
+      });
+    });
+    var observateurApparition = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) {
+        var el = e.target;
+        if (e.isIntersecting) {
+          el.classList.add('apparait--visible');
+        } else {
+          el.classList.remove('apparait--visible');
+          // Sorti par le haut : il reviendra depuis le haut quand on remonte.
+          el.classList.toggle('apparait--au-dessus', e.boundingClientRect.top < 0);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    vus.forEach(function (el) { observateurApparition.observe(el); });
+  }
+
   // Bouton WhatsApp flottant : discret quand les boutons de contact de l'accueil ou le formulaire sont visibles,
   // pour ne jamais recouvrir un autre bouton ni un message.
   var flottant = document.querySelector('.whatsapp');
