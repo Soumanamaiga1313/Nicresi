@@ -390,67 +390,62 @@ p { margin: 0 0 1em; }
 /* Appareils réalistes : téléphone (bord métal, verre noir, île avec caméra, boutons en relief, barre d'accueil)
    et ordinateur portable (couvercle alu, encoche caméra, clavier en perspective : img/appareils/clavier.svg). */
 .tel {
-  --metal: linear-gradient(135deg, #e6e7ea 0%, #8d8f95 12%, #4b4c51 30%, #2b2c30 50%, #55565b 72%, #b7b9be 90%, #6d6f74 100%);
-  position: relative; width: 100%; max-width: 280px; aspect-ratio: 9 / 19.5; border-radius: 46px; padding: 8px;
-  border: 3px solid transparent;
-  background: linear-gradient(#050506, #050506) padding-box, var(--metal) border-box;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), 0 1px 0 1px rgba(0, 0, 0, .35),
-    0 34px 46px -26px rgba(0, 0, 0, .7), 0 14px 24px -14px rgba(0, 0, 0, .5);
+  /* Téléphone Android récent, vu de face : bezel noir très fin, bord métal mince, appareil photo « poinçon »,
+     boutons volume et marche/arrêt à droite, épaisseur visible sur la tranche. Tout est à l'échelle (cqw). */
+  container-type: inline-size;
+  position: relative; width: 100%; max-width: 280px; aspect-ratio: 9 / 19.5; border-radius: 13% / 6%;
+  border: 1.5px solid #6a6c71; background: #000;
+  box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .25),
+    1px 1px 0 #2c2d30, 2px 2px 0 #222326, 3px 3px 0 #1a1b1d,
+    0 30px 40px -24px rgba(0, 0, 0, .65), 8px 14px 26px -14px rgba(0, 0, 0, .45);
 }
-/* Boutons latéraux en relief métallique (volume à gauche, marche/arrêt à droite) */
 .tel::before, .tel::after {
-  content: ""; position: absolute; width: 4px; border-radius: 3px;
-  background: linear-gradient(90deg, #2c2d31 0%, #9fa1a6 45%, #e1e2e5 55%, #5a5b60 100%);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .35);
+  content: ""; position: absolute; right: -4px; width: 3px; border-radius: 0 2px 2px 0;
+  background: linear-gradient(90deg, #1c1d20, #66686d 60%, #2b2c2f);
 }
-.tel::before { right: -6px; top: 26%; height: 13%; border-radius: 0 3px 3px 0; }
-.tel::after { left: -6px; top: 18%; height: 5%; border-radius: 3px 0 0 3px;
-  box-shadow: 0 calc(7% + 26px) 0 #6b6c71, 0 calc(14% + 56px) 0 #6b6c71; }
-.tel__ecran { position: relative; height: 100%; border-radius: 37px; overflow: hidden; background: #fff; isolation: isolate;
-  box-shadow: 0 0 0 1px #000; }
-/* Île : pilule noire avec l'objectif de la caméra frontale */
+.tel::before { top: 19%; height: 11%; }
+.tel::after { top: 34%; height: 6%; }
+.tel__ecran {
+  position: relative; height: 100%; box-sizing: border-box; overflow: hidden; isolation: isolate; background: #fff;
+  border: 2.6cqw solid #000; border-radius: 12.4cqw;
+}
+/* Appareil photo avant : petit trou rond dans l'écran */
 .tel__ecran::before {
-  content: ""; position: absolute; z-index: 5; top: 10px; left: 50%; transform: translateX(-50%); width: 33%; height: 24px; border-radius: 14px;
-  background: radial-gradient(circle at 78% 50%, #3d5a7a 0 2px, #1b2633 2.5px 4px, #000 4.5px) , #000;
+  content: ""; position: absolute; z-index: 5; top: 2.4cqw; left: 50%; width: 3.6cqw; height: 3.6cqw; transform: translateX(-50%); border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, #4a6a8c 0 12%, #18202a 22% 45%, #000 55%);
+  box-shadow: 0 0 0 .5px #222;
 }
-/* Reflet du verre + barre d'accueil en bas de l'écran */
+/* Reflet discret du verre + barre de gestes Android en bas */
 .tel__ecran::after {
-  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
   background:
-    linear-gradient(rgba(0, 0, 0, .78), rgba(0, 0, 0, .78)) center bottom 7px / 36% 5px no-repeat,
-    linear-gradient(112deg, rgba(255, 255, 255, .26) 0%, rgba(255, 255, 255, .08) 26%, rgba(255, 255, 255, 0) 40%);
-}
-.tel__ecran--sombre::after {
-  background:
-    linear-gradient(rgba(255, 255, 255, .85), rgba(255, 255, 255, .85)) center bottom 7px / 36% 5px no-repeat,
-    linear-gradient(112deg, rgba(255, 255, 255, .16) 0%, rgba(255, 255, 255, .04) 26%, rgba(255, 255, 255, 0) 40%);
+    linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)) center bottom 1.8cqw / 30% 1.1cqw no-repeat,
+    linear-gradient(118deg, rgba(255, 255, 255, .14) 0%, rgba(255, 255, 255, .04) 30%, rgba(255, 255, 255, 0) 44%);
 }
 .tel__ecran--sombre { background: #111; }
+.tel__ecran--sombre::after {
+  background:
+    linear-gradient(rgba(255, 255, 255, .75), rgba(255, 255, 255, .75)) center bottom 1.8cqw / 30% 1.1cqw no-repeat,
+    linear-gradient(118deg, rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, 0) 40%);
+}
 .tel__barre {
-  position: relative; z-index: 2; height: 42px; display: flex; align-items: center; justify-content: space-between;
-  padding: 6px 24px 0 30px; font: 600 13px -apple-system, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif; letter-spacing: -.01em;
-  color: #111; background: inherit;
+  position: relative; z-index: 2; height: 8.4cqw; display: flex; align-items: center; justify-content: space-between;
+  padding: .4cqw 5.5cqw 0 6cqw; font: 600 3.9cqw/1 Roboto, "Segoe UI", system-ui, sans-serif; color: #111; background: inherit;
 }
 .tel__barre--clair { color: #fff; }
-.tel__icones { display: inline-flex; align-items: center; gap: 5px; }
-/* Réseau : quatre barres montantes */
-.tel__reseau { width: 16px; height: 10px;
-  background: linear-gradient(currentColor, currentColor) 0 100% / 3px 35% no-repeat, linear-gradient(currentColor, currentColor) 4.3px 100% / 3px 55% no-repeat,
-    linear-gradient(currentColor, currentColor) 8.6px 100% / 3px 78% no-repeat, linear-gradient(currentColor, currentColor) 12.9px 100% / 3px 100% no-repeat; }
-/* Wi-Fi : trois arcs */
-.tel__wifi { width: 14px; height: 10px; position: relative; overflow: hidden; }
-.tel__wifi::before { content: ""; position: absolute; left: 50%; bottom: -9px; width: 22px; height: 22px; transform: translateX(-50%); border-radius: 50%;
-  background: radial-gradient(circle, currentColor 0 3.2px, transparent 3.6px 5.4px, currentColor 5.8px 7.8px, transparent 8.2px 9.6px, currentColor 10px 11px, transparent 11.4px);
-  clip-path: polygon(50% 50%, 0 0, 100% 0); -webkit-clip-path: polygon(50% 50%, 0 0, 100% 0); }
-.tel__batterie { width: 23px; height: 11px; border: 1.2px solid currentColor; border-radius: 3.5px; position: relative; opacity: .95; }
-.tel__batterie::before { content: ""; position: absolute; inset: 1.5px; right: 28%; background: currentColor; border-radius: 1.5px; }
-.tel__batterie::after { content: ""; position: absolute; right: -3.5px; top: 3px; width: 1.8px; height: 3.5px; background: currentColor; opacity: .5; border-radius: 0 1px 1px 0; }
-.tel__ecran > img { width: 100%; height: calc(100% - 42px); object-fit: cover; object-position: top; display: block; }
-.tel__vue { height: calc(100% - 42px); overflow: hidden; }
+.tel__icones { display: inline-flex; align-items: center; gap: .3em; }
+.tel__reseau, .tel__wifi { background: currentColor; -webkit-mask: var(--icone) center / contain no-repeat; mask: var(--icone) center / contain no-repeat; }
+.tel__reseau { --icone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 11'%3E%3Crect x='0' y='7' width='3' height='4' rx='.8'/%3E%3Crect x='4.6' y='5' width='3' height='6' rx='.8'/%3E%3Crect x='9.2' y='2.6' width='3' height='8.4' rx='.8'/%3E%3Crect x='13.8' y='0' width='3' height='11' rx='.8'/%3E%3C/svg%3E"); width: 1.15em; height: .78em; }
+.tel__wifi { --icone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 12'%3E%3Cpath d='M8 11.6 5.6 9.1a3.4 3.4 0 0 1 4.8 0zM3.4 6.9a6.5 6.5 0 0 1 9.2 0l-1.6 1.6a4.2 4.2 0 0 0-6 0zM1.1 4.6a9.8 9.8 0 0 1 13.8 0l-1.6 1.6a7.5 7.5 0 0 0-10.6 0z'/%3E%3C/svg%3E"); width: 1.1em; height: .82em; }
+.tel__batterie { width: .72em; height: 1.15em; border-radius: .14em; position: relative;
+  background: linear-gradient(currentColor, currentColor) bottom / 100% 72% no-repeat; box-shadow: inset 0 0 0 .09em currentColor; opacity: .95; }
+.tel__batterie::before { content: ""; position: absolute; top: -.14em; left: 30%; width: 40%; height: .16em; background: currentColor; border-radius: .05em .05em 0 0; }
+.tel__ecran > img { width: 100%; height: calc(100% - 8.4cqw); object-fit: cover; object-position: top; display: block; }
+.tel__vue { height: calc(100% - 8.4cqw); overflow: hidden; }
 .tel__vue img { width: 100%; height: auto; display: block; }
-.tel--libre { aspect-ratio: auto; }
+.tel--libre { aspect-ratio: auto; border-radius: 40px; }
 .tel--libre .tel__ecran { height: auto; }
-.tel--libre .tel__ecran > :last-child { padding-bottom: 22px; }
+.tel--libre .tel__ecran > :last-child { padding-bottom: 7cqw; }
 
 .pc { position: relative; width: 100%; }
 /* Couvercle : bord alu fin, verre noir, encoche avec caméra */
@@ -490,28 +485,8 @@ p { margin: 0 0 1em; }
 .appareils { position: relative; margin: 0 0 18px; width: 100%; max-width: 330px; padding: 0 0 6px; }
 .appareils .pc { width: 86%; }
 .appareils figcaption { padding-top: 7%; }
-.tel--appareils { position: absolute; right: 0; top: 0; margin-top: 21%; width: 27%; border-radius: 22px; padding: 3px; border-width: 2px; }
-.tel--appareils::before, .tel--appareils::after { width: 2.5px; }
-.tel--appareils::before { right: -4px; }
-.tel--appareils::after { left: -4px; box-shadow: 0 calc(7% + 12px) 0 #6b6c71, 0 calc(14% + 26px) 0 #6b6c71; }
-.tel--appareils .tel__ecran { border-radius: 18px; }
-.tel--appareils .tel__ecran::before { top: 4px; height: 8px; width: 28%; background: #000; }
-.tel--appareils .tel__ecran::after { background-size: 36% 2px, auto; background-position: center bottom 3px, 0 0; }
-.tel--appareils .tel__barre { height: 16px; font-size: 5.5px; padding: 2px 6px 0 9%; }
-.tel--appareils .tel__barre .tel__icones { display: none; }
-.tel--appareils .tel__vue { height: calc(100% - 16px); }
-
-.tel--petit { border-radius: 30px; padding: 5px; border-width: 2px; }
-.tel--petit::before, .tel--petit::after { width: 3px; }
-.tel--petit::before { right: -5px; }
-.tel--petit::after { left: -5px; box-shadow: 0 calc(7% + 18px) 0 #6b6c71, 0 calc(14% + 38px) 0 #6b6c71; }
-.tel--petit .tel__ecran { border-radius: 24px; }
-.tel--petit .tel__ecran::before { top: 6px; height: 13px; width: 31%;
-  background: radial-gradient(circle at 78% 50%, #3d5a7a 0 1.2px, #1b2633 1.6px 2.6px, #000 3px), #000; }
-.tel--petit .tel__ecran::after { background-size: 36% 3px, auto; background-position: center bottom 4px, 0 0; }
-.tel--petit .tel__barre { height: 26px; font-size: 8px; padding: 4px 12px 0 16px; }
-.tel--petit .tel__icones { display: none; }
-.tel--petit .tel__ecran > img, .realisation .tel--petit .tel__ecran > img { height: calc(100% - 26px); }
+.tel--appareils { position: absolute; right: 0; top: 0; margin-top: 21%; width: 27%; border-width: 1px; }
+.tel--appareils::before, .tel--appareils::after { right: -2.5px; width: 2px; }
 .tel--accueil { position: absolute; left: -34px; bottom: 70px; width: 30%; max-width: 130px; z-index: 2; }
 .realisation__captures .tel { max-width: 190px; justify-self: center; }
 .tel--simulateur { max-width: 300px; justify-self: center; }
@@ -705,13 +680,6 @@ p { margin: 0 0 1em; }
   .quiz__entete { grid-row: auto; }
   .accueil__photo::before { right: -14px; top: -14px; }
   .tel--accueil { left: 10px; bottom: 60px; width: 20%; max-width: 86px; }
-  .tel--accueil .tel__barre > span:first-child { visibility: hidden; }
-  .tel--accueil { border-radius: 17px; padding: 3px; }
-  .tel--accueil .tel__ecran { border-radius: 13px; }
-  .tel--accueil .tel__ecran::before { top: 4px; height: 7px; background: #000; }
-  .tel--accueil .tel__ecran::after { background-size: 36% 2px, auto; background-position: center bottom 3px, 0 0; }
-  .tel--accueil .tel__barre { height: 14px; }
-  .tel--accueil .tel__ecran > img { height: calc(100% - 14px); }
   .porte-accueil--vedette { display: flex; }
   .realisation--large { grid-column: auto; }
   .accueil__photo { max-width: none; width: 100%; }
