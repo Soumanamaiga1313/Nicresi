@@ -144,6 +144,9 @@ if [ -d "$VERSION" ]; then
 else
   tmp="$(mktemp -d "$RACINE/releases/.tmp-XXXXXX")"
   git -C "$SOURCE" archive "$COMMIT" public | tar -x -C "$tmp"
+  # Les navigateurs gardent style.css et site.js 7 jours : chaque version les appelle avec ?v=<commit>
+  # pour que la nouvelle page ne s'affiche jamais avec l'ancienne mise en forme.
+  find "$tmp/public" -name '*.html' -exec sed -i -E "s#(css/style\.css|js/site\.js)\"#\1?v=$COURT\"#g" {} +
   echo "$COMMIT" > "$tmp/public/version.txt"
   chmod -R a+rX "$tmp"
   mv "$tmp" "$VERSION"
