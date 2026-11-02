@@ -65,6 +65,7 @@
         <a class="bouton bouton--petit" href="#contact">Contact</a>
       </nav>
     </div>
+    <div class="lecture" aria-hidden="true"><span></span></div>
   </header>
 
   <main id="contenu">
@@ -304,15 +305,50 @@
     <!-- 4. NICRESI Control : présentation courte, le détail est sur /nicresi-control/. -->
     <section id="nicresi-control" class="section section--orange">
       <div class="conteneur">
-        <p class="surtitre surtitre--blanc">NICRESI Control</p>
-        <h2>Gérez votre Wi-Fi zone depuis votre téléphone</h2>
-        <p class="control__resume">Créez vos cartes, enregistrez vos ventes et voyez qui est connecté. NICRESI installe le routeur, vérifie le raccordement et garde la partie technique. Nous vérifions votre matériel avec vous avant de commencer.</p>
-        <div class="actions">
-          <a class="bouton bouton--noir" href="/nicresi-control/">Découvrir NICRESI Control</a>
-          <a class="bouton bouton--blanc" href="#contact" data-service="NICRESI Control">Demander une démonstration</a>
+        <div class="control__grille">
+          <div>
+            <p class="surtitre surtitre--blanc">NICRESI Control</p>
+            <h2>Gérez votre Wi-Fi zone depuis votre téléphone</h2>
+            <p class="control__resume">Créez vos cartes, enregistrez vos ventes et voyez qui est connecté. NICRESI installe le routeur, vérifie le raccordement et garde la partie technique. Nous vérifions votre matériel avec vous avant de commencer.</p>
+            <div class="actions">
+              <a class="bouton bouton--noir" href="/nicresi-control/">Découvrir NICRESI Control</a>
+              <a class="bouton bouton--blanc" href="#contact" data-service="NICRESI Control">Demander une démonstration</a>
+            </div>
+            <p class="control__compte">Déjà client ? <a href="/owner">Accéder à mon espace propriétaire</a></p>
+            <p class="control__compte">Votre matériel est prêt ? <a href="/start">Créer mon compte</a></p>
+          </div>
+          <!-- Démo cliquable : reproduit les écrans « Créer des cartes » et « Vos cartes sont prêtes ».
+               Aucune carte réelle n'est créée. Masquée sans JavaScript. -->
+          <div class="demo-ncc" id="demo-ncc" hidden>
+            <p class="demo-ncc__badge">Démonstration : aucune vraie carte n'est créée</p>
+            <div class="demo-ncc__ecran">
+              <div class="demo-ncc__etape" data-etape="1">
+                <p class="demo-ncc__titre">1. Choisissez le forfait</p>
+                <div class="demo-ncc__forfaits" role="group" aria-label="Forfait">
+                  <button type="button" aria-pressed="false" data-duree="30 min" data-prix="50">30 min<span>50 F</span></button>
+                  <button type="button" aria-pressed="false" data-duree="1 h" data-prix="100">1 h<span>100 F</span></button>
+                  <button type="button" aria-pressed="true" data-duree="3 h" data-prix="200">3 h<span>200 F</span></button>
+                  <button type="button" aria-pressed="false" data-duree="1 jour" data-prix="300">1 jour<span>300 F</span></button>
+                </div>
+                <p class="demo-ncc__titre">2. Combien de pages ?</p>
+                <div class="demo-ncc__quantite">
+                  <button type="button" data-pas="-1" aria-label="Une page de moins">−</button>
+                  <output aria-live="polite">1 page · 40 cartes</output>
+                  <button type="button" data-pas="1" aria-label="Une page de plus">+</button>
+                </div>
+                <button type="button" class="bouton demo-ncc__creer">Créer les cartes</button>
+              </div>
+              <div class="demo-ncc__etape" data-etape="2" hidden>
+                <p class="demo-ncc__titre demo-ncc__titre--grand" tabindex="-1">Vos cartes sont prêtes</p>
+                <p class="demo-ncc__resume"></p>
+                <ul class="demo-ncc__cartes" aria-label="Exemples de cartes"></ul>
+                <button type="button" class="bouton demo-ncc__imprimer">Télécharger pour imprimer</button>
+                <p class="demo-ncc__note" role="status"></p>
+                <button type="button" class="demo-ncc__recommencer">Recommencer</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <p class="control__compte">Déjà client ? <a href="/owner">Accéder à mon espace propriétaire</a></p>
-        <p class="control__compte">Votre matériel est prêt ? <a href="/start">Créer mon compte</a></p>
       </div>
     </section>
 
@@ -322,7 +358,8 @@
         <p class="surtitre">Comment ça se passe</p>
         <h2>Du besoin à l'autonomie, en quatre temps</h2>
         <div class="methode-grille">
-          <ol class="methode">
+          <p class="methode__glisser" aria-hidden="true">Faites glisser pour voir les étapes →</p>
+          <ol class="methode" tabindex="0" aria-label="Les quatre étapes">
             <li>
               <span class="methode__num" aria-hidden="true">1</span>
               <h3>Comprendre le besoin</h3>
@@ -572,6 +609,45 @@
     </section>
 
     <!-- 8. Contact -->
+    <!-- Questions fréquentes : accordéon natif (<details>), utilisable sans JavaScript.
+         Réponses à faire valider par NICRESI ; ne jamais y annoncer de prix, de délai ou de garantie non confirmés. -->
+    <section id="questions" class="section section--douce">
+      <div class="conteneur conteneur--etroit">
+        <p class="surtitre">Questions fréquentes</p>
+        <h2>Vos questions, nos réponses</h2>
+        <div class="faq">
+          <details>
+            <summary>Combien coûte une Wi-Fi zone ?</summary>
+            <p>Le prix dépend du lieu, de la connexion choisie (Starlink ou autre), du nombre de points d'accès et du matériel que vous avez déjà. Nous en parlons sur WhatsApp ou sur place, puis nous vous envoyons un devis détaillé.</p>
+          </details>
+          <details>
+            <summary>Combien de temps faut-il pour l'installation ?</summary>
+            <p>Cela dépend du matériel à commander et de la taille du lieu. La date d'installation est indiquée avec le devis.</p>
+          </details>
+          <details>
+            <summary>Où intervenez-vous ?</summary>
+            <p>Au Niger. Notre adresse est à Téra, dans la région de Tillabéri. Pour un autre lieu, écrivez-nous : nous vous disons si nous pouvons venir, et à quelles conditions.</p>
+          </details>
+          <details>
+            <summary>Comment vendre les cartes de ma Wi-Fi zone ?</summary>
+            <p>Avec <a href="/nicresi-control/">NICRESI Control</a>, vous créez vos cartes par forfait, vous les imprimez, puis vous suivez vos ventes et les personnes connectées depuis votre téléphone.</p>
+          </details>
+          <details>
+            <summary>Que faire en cas de panne ?</summary>
+            <p>Écrivez-nous sur WhatsApp ou appelez le +227 93 19 19 20. Nous cherchons la cause avec vous, puis nous intervenons sur place si c'est nécessaire.</p>
+          </details>
+          <details>
+            <summary>Créez-vous des sites et des logiciels pour toutes les activités ?</summary>
+            <p>Oui : site de présentation ou de vente, application web ou mobile, logiciel de gestion pour remplacer les cahiers et les tableurs. Nous le concevons avec vous, puis nous l'entretenons.</p>
+          </details>
+          <details>
+            <summary>Les formations donnent-elles un diplôme ?</summary>
+            <p>Non. À la fin d'un parcours avec évaluation, NICRESI délivre une attestation de formation. Ce n'est ni un diplôme ni une certification d'État.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <section id="contact" class="section">
       <div class="conteneur contact">
         <div>
@@ -665,6 +741,7 @@
       </ul>
     </div>
     <div class="conteneur pied__bas">© <span id="annee">2026</span> NICRESI</div>
+    <a class="haut" href="#accueil" aria-label="Revenir en haut de la page" hidden>↑</a>
     <a class="whatsapp" href="https://wa.me/22793191920" aria-label="Écrire à NICRESI sur WhatsApp">
       <svg viewBox="0 0 32 32" aria-hidden="true" width="26" height="26"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.5 6.5 0 0 0 1.4 3.4 14.8 14.8 0 0 0 5.7 5c2.1.9 2.9 1 4 .8a3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.1-.3-.2-.6-.4z"/></svg>
       <span>WhatsApp</span>
