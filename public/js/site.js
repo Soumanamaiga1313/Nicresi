@@ -199,13 +199,42 @@
     }
   }
 
+  // Simulateur de recettes : clients par jour × prix moyen × jours d'ouverture, avec un montant qui défile.
+  var sim = document.getElementById('simulateur');
+  if (sim) {
+    var champClients = sim.querySelector('#sim-clients'), champPrix = sim.querySelector('#sim-prix'), champJours = sim.querySelector('#sim-jours');
+    var montant = sim.querySelector('.simulateur__montant'), lienSim = sim.querySelector('[data-action="sim-whatsapp"]');
+    var affiche = 0, animation = null;
+    var format = function (n) { return Math.round(n).toLocaleString('fr-FR').replace(/\u202f|\u00a0/g, ' ') + ' F CFA'; };
+    var calculer = function () {
+      var clients = +champClients.value, prix = +champPrix.value, jours = +champJours.value, total = clients * prix * jours;
+      sim.querySelector('[data-valeur="clients"]').textContent = clients;
+      sim.querySelector('[data-valeur="jours"]').textContent = jours;
+      lienSim.href = 'https://wa.me/22793191920?text=' + encodeURIComponent('Bonjour NICRESI, je pense ouvrir une Wi-Fi zone : environ ' + clients +
+        ' clients par jour, cartes à ' + prix + ' F, ' + jours + ' jours par mois (estimation ' + format(total) + ' par mois). Pouvez-vous étudier mon projet ?');
+      cancelAnimationFrame(animation);
+      if (reduireMouvements) { affiche = total; montant.textContent = format(total); return; }
+      var depart = affiche, t0 = null;
+      (function pas(t) {
+        if (!t0) t0 = t;
+        var p = Math.min(1, (t - t0) / 400);
+        affiche = depart + (total - depart) * (1 - Math.pow(1 - p, 3));
+        montant.textContent = format(affiche);
+        if (p < 1) animation = requestAnimationFrame(pas);
+      })(performance.now());
+    };
+    [champClients, champPrix, champJours].forEach(function (c) { c.addEventListener('input', calculer); });
+    sim.hidden = false;
+    calculer();
+  }
+
   // Apparition au défilement : titres, textes, cartes et photos glissent à leur place quand ils arrivent à l'écran,
   // en descendant comme en remontant, et repartent quand ils en sortent. Rien n'est caché sans JavaScript
   // ni avec « réduire les animations ».
   if (!reduireMouvements && 'IntersectionObserver' in window) {
     var cibles = [
       ['#solutions .surtitre, #solutions h2, #realisations .surtitre, #realisations h2, #realisations .section__intro, .filtres', 'bas'],
-      ['.porte-accueil, .quiz, .realisation, .methode li, .liste-douce li', 'bas'],
+      ['.porte-accueil, .quiz, .simulateur, .realisation, .methode li, .liste-douce li', 'bas'],
       ['#nicresi-control .conteneur > *', 'bas'],
       ['#methode .surtitre, #methode h2, #methode .section__intro, .scene', 'bas'],
       ['#formation .deux-colonnes > div > *', 'gauche'],

@@ -294,6 +294,25 @@ p { margin: 0 0 1em; }
 .illus { margin-top: 26px; }
 .illus__svg { display: block; width: 100%; max-width: 440px; height: auto; border-radius: 16px; box-shadow: 7px 7px 16px #d6cdc3, -7px -7px 16px #ffffff; }
 
+/* Simulateur de recettes Wi-Fi zone */
+.simulateur {
+  margin-top: 24px; border-radius: var(--rayon); padding: 26px; background: var(--creme); border: 1px solid var(--bord);
+  border-top: 5px solid var(--or); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 18px 32px; align-items: start;
+}
+.simulateur h3 { font-size: 1.35rem; margin: 8px 0 8px; }
+.simulateur__texte p:last-child { color: var(--texte-doux); margin: 0; }
+.simulateur__reglages { display: grid; gap: 8px; }
+.simulateur__reglages label { font-weight: 700; }
+.simulateur__reglages strong { color: var(--orange-fonce); }
+.simulateur input[type=range] { width: 100%; accent-color: var(--orange); height: 32px; margin: 0 0 6px; }
+.simulateur select { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid #b9ada0; background: var(--blanc); margin-bottom: 6px; }
+.simulateur__resultat { background: var(--noir); color: #e6e6e6; border-radius: 14px; padding: 20px; }
+.simulateur__libelle { margin: 0; font-size: .9rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; color: var(--or); }
+.simulateur__montant { display: block; font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 900; color: var(--blanc); letter-spacing: -0.02em; margin: 4px 0 8px; }
+.simulateur__note { font-size: .85rem; color: #cfcfcf; }
+@media (max-width: 1020px) { .simulateur { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .simulateur__texte { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .simulateur { grid-template-columns: minmax(0, 1fr); padding: 20px; } }
+
 /* Apparition au défilement (classes posées par site.js uniquement si les animations sont permises). */
 .apparait {
   opacity: 0; transform: translate3d(0, 36px, 0);

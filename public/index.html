@@ -195,6 +195,35 @@
             <button type="button" class="quiz__recommencer">Recommencer</button>
           </div>
         </div>
+
+        <!-- Simulateur de recettes d'une Wi-Fi zone : estimation à partir des chiffres saisis par le visiteur,
+             sans promesse de résultat. Prix proposés = exemples de forfaits de NICRESI Control. Masqué sans JavaScript. -->
+        <form class="simulateur" id="simulateur" hidden onsubmit="return false">
+          <div class="simulateur__texte">
+            <p class="quiz__badge">Simulateur</p>
+            <h3>Combien peut rapporter votre Wi-Fi zone ?</h3>
+            <p>Réglez vos propres chiffres pour obtenir une estimation des ventes de cartes sur un mois.</p>
+          </div>
+          <div class="simulateur__reglages">
+            <label for="sim-clients">Clients par jour : <strong data-valeur="clients">30</strong></label>
+            <input type="range" id="sim-clients" min="5" max="300" step="5" value="30">
+            <label for="sim-prix">Prix moyen d'une carte</label>
+            <select id="sim-prix">
+              <option value="50">50 F (30 minutes)</option>
+              <option value="100" selected>100 F (1 heure)</option>
+              <option value="200">200 F (3 heures)</option>
+              <option value="300">300 F (1 jour)</option>
+            </select>
+            <label for="sim-jours">Jours d'ouverture par mois : <strong data-valeur="jours">30</strong></label>
+            <input type="range" id="sim-jours" min="10" max="31" step="1" value="30">
+          </div>
+          <div class="simulateur__resultat">
+            <p class="simulateur__libelle">Ventes estimées par mois</p>
+            <output class="simulateur__montant" for="sim-clients sim-prix sim-jours" aria-live="polite">90 000 F CFA</output>
+            <p class="simulateur__note">Estimation à partir de vos chiffres, avant les frais d'Internet, d'électricité et de matériel. Ce n'est pas une promesse de résultat : nous étudions avec vous le lieu et la demande réelle.</p>
+            <a class="bouton" data-action="sim-whatsapp" href="https://wa.me/22793191920">Étudier mon projet sur WhatsApp</a>
+          </div>
+        </form>
       </div>
     </section>
 
