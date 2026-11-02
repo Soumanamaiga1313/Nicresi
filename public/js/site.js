@@ -282,6 +282,14 @@
     majDefilement();
   }
 
+  // Écrans d'appareils qui défilent seulement quand ils sont visibles.
+  if ('IntersectionObserver' in window) {
+    var observateurAppareils = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { e.target.classList.toggle('en-vue', e.isIntersecting); });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.pc__vue, .tel__vue').forEach(function (v) { observateurAppareils.observe(v); });
+  }
+
   // Apparition au défilement : titres, textes, cartes et photos glissent à leur place quand ils arrivent à l'écran,
   // en descendant comme en remontant, et repartent quand ils en sortent. Rien n'est caché sans JavaScript
   // ni avec « réduire les animations ».

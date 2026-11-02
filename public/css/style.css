@@ -129,8 +129,8 @@ p { margin: 0 0 1em; }
 /* Formes plates derrière la photo : cercle or et carré orange. */
 .accueil__photo::before, .accueil__photo::after { content: ""; position: absolute; z-index: -1; }
 .accueil__photo::before { width: 62%; aspect-ratio: 1; border-radius: 50%; background: var(--or); top: -22px; right: -26px; }
-.accueil__photo::after { width: 34%; aspect-ratio: 1; border-radius: 24px; background: var(--orange); bottom: 54px; left: -22px; }
-.accueil__photo img { border-radius: var(--rayon); box-shadow: var(--ombre); aspect-ratio: 4 / 5; object-fit: cover; }
+.accueil__photo::after { display: none; }
+.accueil__photo > img { border-radius: var(--rayon); box-shadow: var(--ombre); aspect-ratio: 4 / 5; object-fit: cover; }
 .accueil__photo figcaption { margin-top: 10px; font-size: .9rem; color: var(--texte-doux); }
 .signature { font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--orange-fonce); }
 
@@ -230,8 +230,9 @@ p { margin: 0 0 1em; }
 /* Petites animations des services (scènes isométriques, flat design et line art) : 2,5 s, rejouées en boucle
    tant que la carte est à l'écran.
    Sans JavaScript ou avec « réduire les animations », l'image finale s'affiche directement. */
-.mini { margin-bottom: 14px; }
-.mini__svg { display: block; width: 160px; height: 96px; border-radius: 12px; }
+.mini { margin-bottom: 14px; width: 100%; max-width: 300px; }
+.mini__svg { display: block; width: 100%; max-width: 300px; height: auto; aspect-ratio: 5 / 3; border-radius: 12px; box-shadow: 0 6px 18px -10px rgba(0, 0, 0, .35); }
+.porte-accueil--vedette .mini { width: 260px; }
 .mini__texte { font: 700 9px system-ui, sans-serif; fill: var(--noir); }
 .mini--attente .a1, .mini--attente .a2, .mini--attente .a3, .mini--attente .a4, .mini--attente .a5 { opacity: 0; }
 .mini--joue .a1, .mini--joue .a2, .mini--joue .a3, .mini--joue .a4, .mini--joue .a5 { animation: miniApparait .45s ease both; }
@@ -276,10 +277,11 @@ p { margin: 0 0 1em; }
    et s'inclinent selon la souris (ordinateur) ou le défilement (téléphone). Aucune image ni bibliothèque en plus. */
 .relief { perspective: 900px; }
 .relief.relief--actif { transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .25s ease-out; }
-.relief.relief--actif img { transform: translateZ(30px); }
+.relief.relief--actif > img { transform: translateZ(30px); }
 .relief.relief--actif::before { transform: translateZ(-12px); }
 .relief.relief--actif::after { transform: translateZ(-8px); }
 .relief.relief--actif figcaption { transform: translateZ(20px); }
+.relief.relief--actif .tel--accueil { transform: translateZ(80px); }
 
 /* Néomorphisme, section Formation : surfaces douces en relief, avec un bord fin pour rester lisibles. */
 .section--douce { background: var(--douce); }
@@ -328,11 +330,11 @@ p { margin: 0 0 1em; }
 
 /* Démo cliquable de NICRESI Control, dans la section orange */
 .control__grille { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
-.demo-ncc { max-width: 400px; justify-self: center; width: 100%; }
+.demo-ncc { max-width: 330px; justify-self: center; width: 100%; }
+.demo-ncc .tel { max-width: none; }
 .demo-ncc__badge { margin: 0 0 10px; font-size: .85rem; font-weight: 800; color: var(--noir); text-align: center; }
 .demo-ncc__ecran {
-  background: #fffaf5; color: #1d1d1d; border: 10px solid var(--noir); border-radius: 30px; padding: 20px 18px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, .3); min-height: 380px;
+  background: #fffaf5; color: #1d1d1d; padding: 6px 16px 24px; min-height: 420px;
 }
 .demo-ncc__titre { margin: 0 0 10px; font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #55504a; outline: none; }
 .demo-ncc__titre--grand { font-size: 1.3rem; text-transform: none; letter-spacing: -0.01em; color: #111; }
@@ -385,6 +387,83 @@ p { margin: 0 0 1em; }
 /* Étapes : glisser au doigt sur téléphone */
 .methode__glisser { display: none; }
 
+/* Appareils réalistes : téléphone (cadre graphite, île, boutons, reflet) et ordinateur portable (écran, caméra, base alu). */
+.tel {
+  position: relative; width: 100%; max-width: 280px; aspect-ratio: 9 / 19.5; border-radius: 44px; padding: 10px;
+  background: linear-gradient(145deg, #4a4a4d 0%, #18181a 22%, #0c0c0d 55%, #2c2c2f 80%, #121213 100%);
+  box-shadow: inset 0 0 0 1.5px #5d5d61, inset 0 0 0 4px #09090a, 0 28px 50px -22px rgba(0, 0, 0, .6), 0 10px 22px -12px rgba(0, 0, 0, .45);
+}
+.tel::before, .tel::after { content: ""; position: absolute; width: 3px; border-radius: 2px; background: linear-gradient(90deg, #3b3b3e, #1b1b1d); }
+.tel::before { right: -2px; top: 24%; height: 15%; }
+.tel::after { left: -2px; top: 17%; height: 6%; box-shadow: 0 calc(8% + 30px) 0 #2a2a2d, 0 calc(16% + 60px) 0 #2a2a2d; }
+.tel__ecran { position: relative; height: 100%; border-radius: 35px; overflow: hidden; background: #fff; isolation: isolate; }
+.tel__ecran::before { content: ""; position: absolute; z-index: 3; top: 9px; left: 50%; transform: translateX(-50%); width: 32%; height: 22px; border-radius: 14px; background: #000; }
+.tel__ecran::after {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(115deg, rgba(255, 255, 255, .22) 0%, rgba(255, 255, 255, .06) 28%, rgba(255, 255, 255, 0) 42%);
+}
+.tel__ecran--sombre { background: #111; }
+.tel__barre {
+  position: relative; z-index: 2; height: 38px; display: flex; align-items: center; justify-content: space-between;
+  padding: 4px 22px 0 26px; font: 700 12px system-ui, sans-serif; color: #111; background: inherit;
+}
+.tel__barre--clair { color: #fff; }
+.tel__icones { display: inline-flex; align-items: center; gap: 5px; }
+.tel__reseau { width: 15px; height: 9px; background: linear-gradient(90deg, currentColor 0 18%, transparent 18% 27%, currentColor 27% 45%, transparent 45% 54%, currentColor 54% 72%, transparent 72% 81%, currentColor 81%);
+  clip-path: polygon(0 100%, 100% 0, 100% 100%); }
+.tel__batterie { width: 21px; height: 10px; border: 1.5px solid currentColor; border-radius: 3px; position: relative; opacity: .9; }
+.tel__batterie::before { content: ""; position: absolute; inset: 1.5px; right: 30%; background: currentColor; border-radius: 1px; }
+.tel__batterie::after { content: ""; position: absolute; right: -4px; top: 2.5px; width: 2px; height: 3px; background: currentColor; border-radius: 0 1px 1px 0; }
+.tel__ecran > img { width: 100%; height: calc(100% - 38px); object-fit: cover; object-position: top; display: block; }
+.tel__vue { height: calc(100% - 38px); overflow: hidden; }
+.tel__vue img { width: 100%; height: auto; display: block; }
+.tel--libre { aspect-ratio: auto; }
+.tel--libre .tel__ecran { height: auto; }
+
+.pc { position: relative; width: 100%; }
+.pc__ecran {
+  position: relative; background: #0b0b0c; border-radius: 12px 12px 3px 3px; padding: 4.2% 3.4% 3.4%;
+  box-shadow: inset 0 0 0 1.5px #3a3a3d, 0 18px 36px -20px rgba(0, 0, 0, .55);
+}
+.pc__ecran::before { content: ""; position: absolute; top: 1.6%; left: 50%; width: 5px; height: 5px; border-radius: 50%; transform: translateX(-50%); background: #1f2a33; box-shadow: 0 0 0 1.5px #232325; }
+.pc__vue { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; border-radius: 1px; }
+.pc__vue::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(120deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, 0) 40%); }
+.pc__vue img { width: 100%; height: auto; display: block; }
+.pc__base {
+  position: relative; height: 11px; margin: 0 -8%; border-radius: 2px 2px 12px 12px / 2px 2px 9px 9px;
+  background: linear-gradient(180deg, #f1f1f3 0%, #c9c9cd 45%, #9a9aa0 100%); box-shadow: 0 12px 20px -10px rgba(0, 0, 0, .45);
+}
+.pc__base::before { content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 15%; height: 4px; border-radius: 0 0 6px 6px; background: #a8a8ae; }
+
+/* Écrans qui défilent comme une vraie navigation, seulement à l'écran (classe posée par site.js). */
+.defile { animation: defileVue 14s ease-in-out infinite alternate; animation-play-state: paused; }
+.pc__vue .defile { --fin: -76%; }
+.tel__vue .defile { --fin: -62%; }
+.en-vue .defile { animation-play-state: running; }
+@keyframes defileVue { 0%, 12% { transform: translateY(0); } 88%, 100% { transform: translateY(var(--fin)); } }
+@media (prefers-reduced-motion: reduce) { .defile { animation: none; } }
+
+/* Compositions */
+.appareils { position: relative; margin: 0 0 18px; width: 100%; max-width: 330px; padding: 0 0 6px; }
+.appareils .pc { width: 86%; }
+.tel--appareils { position: absolute; right: 0; bottom: 26px; width: 27%; border-radius: 20px; padding: 4px; }
+.tel--appareils .tel__ecran { border-radius: 16px; }
+.tel--appareils .tel__ecran::before { top: 4px; height: 8px; }
+.tel--appareils .tel__barre { height: 16px; font-size: 6px; padding: 2px 8px 0 10px; }
+.tel--appareils .tel__barre .tel__icones { display: none; }
+.tel--appareils .tel__vue { height: calc(100% - 16px); }
+.appareils figcaption { margin-top: 10px; padding-right: 30%; font-size: .85rem; color: var(--texte-doux); }
+.tel--petit { border-radius: 26px; padding: 5px; }
+.tel--petit .tel__ecran { border-radius: 21px; }
+.tel--petit .tel__ecran::before { top: 6px; height: 11px; width: 30%; }
+.tel--petit .tel__barre { height: 24px; font-size: 8px; padding: 3px 12px 0 14px; }
+.tel--petit .tel__icones { display: none; }
+.tel--petit .tel__ecran > img, .realisation .tel--petit .tel__ecran > img { height: calc(100% - 24px); }
+.tel--accueil { position: absolute; left: -34px; bottom: 70px; width: 30%; max-width: 130px; z-index: 2; }
+.realisation__captures .tel { max-width: 190px; justify-self: center; }
+.tel--simulateur { max-width: 300px; justify-self: center; }
+.tel--simulateur .simulateur__resultat { border-radius: 0; padding: 14px 20px 26px; }
+
 /* Apparition au défilement (classes posées par site.js uniquement si les animations sont permises). */
 .apparait {
   opacity: 0; transform: translate3d(0, 36px, 0);
@@ -422,10 +501,9 @@ p { margin: 0 0 1em; }
 .realisations__vide {
   margin: 0; padding: 28px; border: 1px dashed #cfc7bd; border-radius: var(--rayon); background: var(--fond-doux); color: var(--texte-doux);
 }
-.realisation img { width: 100%; height: 240px; object-fit: cover; object-position: center 30%; }
+.realisation > img { width: 100%; height: 240px; object-fit: cover; object-position: center 30%; }
 .realisation--large { grid-column: span 2; }
-.realisation__captures { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--bord); }
-.realisation__captures img { object-position: top; }
+.realisation__captures { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 22px 18px; background: linear-gradient(160deg, var(--orange-clair), #ffe0b8); }
 .realisation__corps { padding: 18px 20px 20px; }
 .realisation__corps p { color: var(--texte-doux); margin: 0; font-size: .97rem; }
 .realisation dl { margin: 10px 0 0; font-size: .95rem; }
@@ -573,20 +651,21 @@ p { margin: 0 0 1em; }
   .liste-douce li::before { left: 12px; }
   .quiz__entete { grid-row: auto; }
   .accueil__photo::before { right: -14px; top: -14px; }
-  .accueil__photo::after { display: none; }
+  .tel--accueil { left: 10px; bottom: 60px; width: 20%; max-width: 86px; }
+  .tel--accueil .tel__barre > span:first-child { visibility: hidden; }
   .porte-accueil--vedette { display: flex; }
   .realisation--large { grid-column: auto; }
   .accueil__photo { max-width: none; width: 100%; }
-  .accueil__photo img { aspect-ratio: 16 / 10; object-position: center 22%; }
+  .accueil__photo > img { aspect-ratio: 16 / 10; object-position: center 22%; }
   /* Page plus courte sur téléphone : icônes masquées, réalisations sur deux colonnes, logo déjà dans l'en-tête. */
-  .mini__svg { width: 120px; height: 72px; }
+  .mini__svg { max-width: 280px; }
+  .porte-accueil--vedette .mini { width: 100%; }
   .porte-accueil h3 { font-size: 1.12rem; }
   .porte-accueil--vedette h3 { font-size: 1.3rem; }
   .realisations { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .etiquette { max-width: 100%; overflow-wrap: anywhere; letter-spacing: .02em; }
   .realisation--large { grid-column: 1 / -1; }
-  .realisation img { height: 150px; }
-  .realisation--large .realisation__captures img { height: 220px; }
+  .realisation > img { height: 150px; }
   .realisation__corps { padding: 12px 14px 14px; }
   .realisation:not(.realisation--large) .realisation__corps p:not(.etiquette) { display: none; }
   .realisation:not(.realisation--large) h3 { font-size: 1rem; margin: 0; }
