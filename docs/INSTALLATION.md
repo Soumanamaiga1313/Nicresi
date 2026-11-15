@@ -74,6 +74,25 @@ sudo bash scripts/serveur/relier-ncc.sh --appliquer
 
 Le script ajoute une ligne `Include /etc/apache2/nicresi-site-ncc.inc` dans les sites Apache du site officiel, vérifie /start, /owner et l'API (401 sans connexion), et remet les fichiers d'origine en cas d'échec. Les routes `/api/v2/internal` ne sont pas exposées sous nicresi.com. Le NCC et son accès par IP ne changent pas.
 
+## Sécurité et vitesse (HTTPS obligatoire, en-têtes, compression)
+
+À lancer une fois, après le certificat et le relais du NCC :
+
+```sh
+sudo bash scripts/serveur/renforcer-securite.sh --domaine nicresi.com              # plan, ne modifie rien
+sudo bash scripts/serveur/renforcer-securite.sh --domaine nicresi.com --appliquer
+```
+
+Le script écrit `/etc/apache2/nicresi-site-securite.inc` et l'inclut dans les sites Apache du site officiel :
+
+- **HTTPS forcé** : redirection HTTP → HTTPS vérifiée (ajoutée si certbot ne l'a pas mise) et en-tête HSTS (6 mois) ;
+- **politique de contenu** (CSP) et Permissions-Policy, limitées aux fichiers du site : les pages du NCC relayées (`/start`, `/owner`, `/api/v2`) ne sont pas concernées ;
+- pages HTML toujours revalidées, images, CSS et JS 7 jours en cache, textes compressés (gzip).
+
+Il vérifie ensuite l'accueil (200), les en-têtes, la redirection HTTP, la page 404 et `/owner`, et remet les fichiers d'origine en cas d'échec. Retour arrière : `--retirer --appliquer`. Les mises à jour avec `installer.sh` gardent ce réglage.
+
+Si un outil de mesure d'audience autre que Cloudflare Web Analytics est choisi, son adresse doit être ajoutée à la ligne `Content-Security-Policy` du fichier `.inc`.
+
 ## Retour arrière
 
 ```sh

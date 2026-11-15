@@ -18,8 +18,9 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Logo NICRESI, girafe dorée sur fond noir, avec la devise Créer. Connecter. Construire.">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="img/favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="img/icone-192.png">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="stylesheet" href="css/style.css">
   <script type="application/ld+json">
   {
@@ -88,8 +89,8 @@
           <p class="signature">Créer. Connecter. Construire.</p>
         </div>
         <figure class="accueil__photo relief">
-          <img src="img/photos/technicien-terrain.jpg" alt="Un technicien NICRESI en tenue orange, assis sur un banc, prépare un point d'accès Wi-Fi sur un chantier" width="560" height="700" fetchpriority="high">
-          <div class="tel tel--petit tel--accueil" aria-hidden="true"><div class="tel__ecran"><div class="tel__barre" aria-hidden="true"><span>08:30</span><span class="tel__icones"><i class="tel__reseau"></i><i class="tel__wifi"></i><i class="tel__batterie"></i></span></div><img src="img/photos/ncc-cartes-pretes.jpg" alt="" width="390" height="844"></div></div>
+          <img src="img/photos/technicien-terrain.webp" alt="Un technicien NICRESI en tenue orange, assis sur un banc, prépare un point d'accès Wi-Fi sur un chantier" width="560" height="700" fetchpriority="high">
+          <div class="tel tel--petit tel--accueil" aria-hidden="true"><div class="tel__ecran"><div class="tel__barre" aria-hidden="true"><span>08:30</span><span class="tel__icones"><i class="tel__reseau"></i><i class="tel__wifi"></i><i class="tel__batterie"></i></span></div><img src="img/photos/ncc-cartes-pretes.webp" alt="" width="390" height="844"></div></div>
           <figcaption>Préparation d'un point d'accès Wi-Fi, directement sur le chantier.</figcaption>
         </figure>
       </div>
@@ -121,7 +122,7 @@
           </article>
           <article class="porte-accueil" id="sol-numerique">
             <figure class="appareils" aria-label="Le site nicresi.com affiché sur un ordinateur portable et sur un téléphone">
-              <div class="pc" aria-hidden="true"><div class="pc__ecran"><div class="pc__vue"><img class="defile" src="img/photos/site-ordinateur.jpg" alt="" width="560" height="1575" loading="lazy"></div></div><div class="pc__base"></div></div>
+              <div class="pc" aria-hidden="true"><div class="pc__ecran"><div class="pc__vue"><img class="defile" src="img/photos/site-ordinateur.webp" alt="" width="560" height="1575" loading="lazy"></div></div><div class="pc__base"></div></div>
               <div class="tel tel--appareils" aria-hidden="true"><div class="tel__ecran"><div class="tel__barre" aria-hidden="true"><span>08:30</span><span class="tel__icones"><i class="tel__reseau"></i><i class="tel__wifi"></i><i class="tel__batterie"></i></span></div><div class="tel__vue"><img class="defile" src="img/photos/site-telephone.jpg" alt="" width="240" height="1600" loading="lazy"></div></div></div>
               <figcaption>Exemple réel : le site nicresi.com, sur ordinateur et sur téléphone.</figcaption>
             </figure>
@@ -202,7 +203,7 @@
 
         <!-- Simulateur de recettes d'une Wi-Fi zone : estimation à partir des chiffres saisis par le visiteur,
              sans promesse de résultat. Prix proposés = exemples de forfaits de NICRESI Control. Masqué sans JavaScript. -->
-        <form class="simulateur" id="simulateur" hidden onsubmit="return false">
+        <form class="simulateur" id="simulateur" hidden>
           <div class="simulateur__texte">
             <p class="quiz__badge">Simulateur</p>
             <h3>Combien peut rapporter votre Wi-Fi zone ?</h3>
@@ -227,6 +228,70 @@
             <p class="simulateur__note">Estimation à partir de vos chiffres, avant les frais d'Internet, d'électricité et de matériel. Ce n'est pas une promesse de résultat : nous étudions avec vous le lieu et la demande réelle.</p>
             <a class="bouton" data-action="sim-whatsapp" href="https://wa.me/22793191920">Étudier mon projet sur WhatsApp</a>
           </div></div></div>
+        </form>
+
+        <!-- Calculateur solaire : estimation des panneaux, de la batterie et de l'onduleur à partir des appareils saisis.
+             Hypothèses (site.js, CALCUL_SOLAIRE) : 5,5 h d'ensoleillement utile par jour au Niger, 75 % de rendement global,
+             panneaux de 400 W, batterie lithium pour une journée d'autonomie, onduleur avec 25 % de marge
+             (data-demarrage : pic au démarrage d'un moteur, ×3 pour le réfrigérateur). Masqué sans JavaScript. -->
+        <form class="solaire" id="calcul-solaire" hidden>
+          <div class="simulateur__texte">
+            <p class="quiz__badge">Calculateur solaire</p>
+            <h3>De quelle installation solaire avez-vous besoin ?</h3>
+            <p>Indiquez vos appareils et combien d'heures ils fonctionnent chaque jour : nous estimons les panneaux, la batterie et l'onduleur.</p>
+          </div>
+          <fieldset class="solaire__appareils">
+            <legend class="visuellement-cache">Vos appareils</legend>
+            <ul>
+              <li data-puissance="10">
+                <span class="solaire__nom" id="sol-ampoule">Ampoules LED <small>10 W</small></span>
+                <label><span class="visuellement-cache">Ampoules LED : </span>Nombre<input type="number" inputmode="numeric" min="0" max="99" value="6" data-champ="nombre" aria-describedby="sol-ampoule"></label>
+                <label><span class="visuellement-cache">Ampoules LED : </span>Heures/jour<input type="number" inputmode="numeric" min="0" max="24" value="6" data-champ="heures" aria-describedby="sol-ampoule"></label>
+              </li>
+              <li data-puissance="50">
+                <span class="solaire__nom" id="sol-ventilateur">Ventilateurs <small>50 W</small></span>
+                <label><span class="visuellement-cache">Ventilateurs : </span>Nombre<input type="number" inputmode="numeric" min="0" max="99" value="2" data-champ="nombre" aria-describedby="sol-ventilateur"></label>
+                <label><span class="visuellement-cache">Ventilateurs : </span>Heures/jour<input type="number" inputmode="numeric" min="0" max="24" value="8" data-champ="heures" aria-describedby="sol-ventilateur"></label>
+              </li>
+              <li data-puissance="80">
+                <span class="solaire__nom" id="sol-tv">Téléviseur <small>80 W</small></span>
+                <label><span class="visuellement-cache">Téléviseur : </span>Nombre<input type="number" inputmode="numeric" min="0" max="99" value="1" data-champ="nombre" aria-describedby="sol-tv"></label>
+                <label><span class="visuellement-cache">Téléviseur : </span>Heures/jour<input type="number" inputmode="numeric" min="0" max="24" value="5" data-champ="heures" aria-describedby="sol-tv"></label>
+              </li>
+              <li data-puissance="150" data-demarrage="3">
+                <span class="solaire__nom" id="sol-frigo">Réfrigérateur ou congélateur <small>150 W</small></span>
+                <label><span class="visuellement-cache">Réfrigérateur ou congélateur : </span>Nombre<input type="number" inputmode="numeric" min="0" max="99" value="0" data-champ="nombre" aria-describedby="sol-frigo"></label>
+                <label><span class="visuellement-cache">Réfrigérateur ou congélateur : </span>Heures/jour<input type="number" inputmode="numeric" min="0" max="24" value="10" data-champ="heures" aria-describedby="sol-frigo"></label>
+              </li>
+              <li data-puissance="60">
+                <span class="solaire__nom" id="sol-ordinateur">Ordinateur portable <small>60 W</small></span>
+                <label><span class="visuellement-cache">Ordinateur portable : </span>Nombre<input type="number" inputmode="numeric" min="0" max="99" value="1" data-champ="nombre" aria-describedby="sol-ordinateur"></label>
+                <label><span class="visuellement-cache">Ordinateur portable : </span>Heures/jour<input type="number" inputmode="numeric" min="0" max="24" value="6" data-champ="heures" aria-describedby="sol-ordinateur"></label>
+              </li>
+              <li data-puissance="75">
+                <span class="solaire__nom" id="sol-wifi">Routeur Wi-Fi et Starlink <small>75 W</small></span>
+                <label><span class="visuellement-cache">Routeur Wi-Fi et Starlink : </span>Nombre<input type="number" inputmode="numeric" min="0" max="99" value="0" data-champ="nombre" aria-describedby="sol-wifi"></label>
+                <label><span class="visuellement-cache">Routeur Wi-Fi et Starlink : </span>Heures/jour<input type="number" inputmode="numeric" min="0" max="24" value="24" data-champ="heures" aria-describedby="sol-wifi"></label>
+              </li>
+              <li data-puissance="10">
+                <span class="solaire__nom" id="sol-chargeur">Chargeurs de téléphone <small>10 W</small></span>
+                <label><span class="visuellement-cache">Chargeurs de téléphone : </span>Nombre<input type="number" inputmode="numeric" min="0" max="99" value="3" data-champ="nombre" aria-describedby="sol-chargeur"></label>
+                <label><span class="visuellement-cache">Chargeurs de téléphone : </span>Heures/jour<input type="number" inputmode="numeric" min="0" max="24" value="3" data-champ="heures" aria-describedby="sol-chargeur"></label>
+              </li>
+            </ul>
+          </fieldset>
+          <div class="solaire__resultat" aria-live="polite">
+            <p class="simulateur__libelle">Votre besoin estimé</p>
+            <p class="solaire__conso"><output data-sortie="conso">2,0 kWh</output> par jour</p>
+            <dl class="solaire__materiel">
+              <div><dt>Panneaux</dt><dd data-sortie="panneaux">2 × 400 W</dd></div>
+              <div><dt>Batterie</dt><dd data-sortie="batterie">3 kWh</dd></div>
+              <div><dt>Onduleur</dt><dd data-sortie="onduleur">1 kVA</dd></div>
+            </dl>
+            <div class="solaire__jauge" aria-hidden="true"><span></span></div>
+            <p class="simulateur__note">Estimation indicative pour une journée d'autonomie. Le dimensionnement définitif se fait après visite : ombre, câblage, appareils réels.</p>
+            <a class="bouton" data-action="solaire-whatsapp" href="https://wa.me/22793191920">Recevoir un devis solaire</a>
+          </div>
         </form>
       </div>
     </section>
@@ -255,8 +320,8 @@
         <div class="realisations">
           <article class="realisation realisation--large" data-categorie="numerique">
             <div class="realisation__captures">
-              <div class="tel tel--petit"><div class="tel__ecran"><div class="tel__barre" aria-hidden="true"><span>08:30</span><span class="tel__icones"><i class="tel__reseau"></i><i class="tel__wifi"></i><i class="tel__batterie"></i></span></div><img src="img/photos/ncc-creer-cartes.jpg" alt="Écran NICRESI Control : choix du forfait, de 30 minutes à 30 jours, et du nombre de cartes à créer" loading="lazy" width="390" height="844"></div></div>
-              <div class="tel tel--petit"><div class="tel__ecran"><div class="tel__barre" aria-hidden="true"><span>08:30</span><span class="tel__icones"><i class="tel__reseau"></i><i class="tel__wifi"></i><i class="tel__batterie"></i></span></div><img src="img/photos/ncc-cartes-pretes.jpg" alt="Écran NICRESI Control : un lot de 40 cartes prêt à télécharger et à imprimer" loading="lazy" width="390" height="844"></div></div>
+              <div class="tel tel--petit"><div class="tel__ecran"><div class="tel__barre" aria-hidden="true"><span>08:30</span><span class="tel__icones"><i class="tel__reseau"></i><i class="tel__wifi"></i><i class="tel__batterie"></i></span></div><img src="img/photos/ncc-creer-cartes.webp" alt="Écran NICRESI Control : choix du forfait, de 30 minutes à 30 jours, et du nombre de cartes à créer" loading="lazy" width="390" height="844"></div></div>
+              <div class="tel tel--petit"><div class="tel__ecran"><div class="tel__barre" aria-hidden="true"><span>08:30</span><span class="tel__icones"><i class="tel__reseau"></i><i class="tel__wifi"></i><i class="tel__batterie"></i></span></div><img src="img/photos/ncc-cartes-pretes.webp" alt="Écran NICRESI Control : un lot de 40 cartes prêt à télécharger et à imprimer" loading="lazy" width="390" height="844"></div></div>
             </div>
             <div class="realisation__corps">
               <p class="etiquette">Numérique · Logiciel conçu par NICRESI</p>
@@ -269,7 +334,7 @@
             </div>
           </article>
           <article class="realisation" data-categorie="reseau">
-            <img src="img/photos/installation.jpg" alt="Technicien NICRESI préparant un point d'accès Wi-Fi et un convertisseur sur un chantier" loading="lazy" width="693" height="1536">
+            <img src="img/photos/installation.webp" alt="Technicien NICRESI préparant un point d'accès Wi-Fi et un convertisseur sur un chantier" loading="lazy" width="693" height="1536">
             <div class="realisation__corps">
               <p class="etiquette">Réseau</p>
               <h3>Préparation d'un point d'accès Wi-Fi</h3>
@@ -277,7 +342,7 @@
             </div>
           </article>
           <article class="realisation" data-categorie="reseau">
-            <img src="img/photos/antenne.jpg" alt="Deux techniciens fixant un mât d'antenne sur un toit" loading="lazy" width="720" height="955">
+            <img src="img/photos/antenne.webp" alt="Deux techniciens fixant un mât d'antenne sur un toit" loading="lazy" width="720" height="955">
             <div class="realisation__corps">
               <p class="etiquette">Réseau</p>
               <h3>Pose d'un mât d'antenne</h3>
@@ -285,7 +350,7 @@
             </div>
           </article>
           <article class="realisation" data-categorie="energie">
-            <img src="img/photos/solaire.jpg" alt="Technicien NICRESI raccordant un panneau solaire" loading="lazy" width="460" height="1020">
+            <img src="img/photos/solaire.webp" alt="Technicien NICRESI raccordant un panneau solaire" loading="lazy" width="460" height="1020">
             <div class="realisation__corps">
               <p class="etiquette">Énergie</p>
               <h3>Raccordement d'un panneau solaire</h3>
@@ -293,7 +358,7 @@
             </div>
           </article>
           <article class="realisation" data-categorie="informatique">
-            <img src="img/photos/boutique.jpg" alt="Technicien NICRESI en boutique devant un ordinateur et du matériel réseau" loading="lazy" width="692" height="1536" style="object-position: center 8%">
+            <img src="img/photos/boutique.webp" alt="Technicien NICRESI en boutique devant un ordinateur et du matériel réseau" loading="lazy" width="692" height="1536" style="object-position: center 8%">
             <div class="realisation__corps">
               <p class="etiquette">Informatique</p>
               <h3>Configuration et fourniture de matériel</h3>
@@ -663,6 +728,11 @@
             <li><span>E-mail</span><a href="mailto:servicenicresi@gmail.com">servicenicresi@gmail.com</a></li>
             <li><span>Localisation</span>Téra, région de Tillabéri, Niger</li>
           </ul>
+          <!-- Visible seulement sur ordinateur : on continue la discussion sur son téléphone. -->
+          <div class="qr-whatsapp">
+            <img src="img/qr-whatsapp.svg" alt="QR code qui ouvre une discussion WhatsApp avec NICRESI" width="132" height="132" loading="lazy">
+            <p><strong>Vous êtes sur ordinateur ?</strong> Scannez ce code avec l'appareil photo de votre téléphone : la discussion WhatsApp avec NICRESI s'ouvre, déjà commencée.</p>
+          </div>
         </div>
 
         <!-- Formulaire : avec data-endpoint vide, la demande est préparée dans WhatsApp (envoi confirmé par le visiteur).
@@ -706,7 +776,7 @@
             <label for="f-site">Ne pas remplir</label>
             <input id="f-site" name="site_web" type="text" tabindex="-1" autocomplete="off">
           </div>
-          <p class="formulaire__confidentialite">Vos informations servent uniquement à répondre à votre demande. Elles ne sont ni vendues ni transmises à des tiers. Pour les consulter ou les faire supprimer, écrivez à servicenicresi@gmail.com.</p>
+          <p class="formulaire__confidentialite">Vos informations servent uniquement à répondre à votre demande. Elles ne sont ni vendues ni cédées à des tiers. Pour les consulter ou les faire supprimer, écrivez à servicenicresi@gmail.com. Détails dans notre <a href="/confidentialite/">politique de confidentialité</a>.</p>
           <p class="formulaire__annonce" id="annonce-whatsapp">Votre demande s'ouvrira dans WhatsApp, déjà rédigée. Elle nous parvient quand vous appuyez sur « Envoyer » dans WhatsApp.</p>
           <button class="bouton" type="submit" aria-describedby="annonce-whatsapp">Préparer ma demande dans WhatsApp</button>
           <p class="formulaire__message" role="status" aria-live="polite"></p>
@@ -741,6 +811,8 @@
         <li><a href="#solutions">Nos solutions</a></li>
         <li><a href="#realisations">Nos réalisations</a></li>
         <li><a href="/owner">Espace propriétaire NICRESI Control</a></li>
+        <li><a href="/confidentialite/">Confidentialité</a></li>
+        <li><a href="/conditions/">Mentions légales et conditions</a></li>
       </ul>
     </div>
     <div class="conteneur pied__bas">© <span id="annee">2026</span> NICRESI</div>

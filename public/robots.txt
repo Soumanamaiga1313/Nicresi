@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+# Espaces de connexion de NICRESI Control : rien à indexer.
+Disallow: /owner
+Disallow: /start
+Disallow: /api/
 
 Sitemap: https://nicresi.com/sitemap.xml

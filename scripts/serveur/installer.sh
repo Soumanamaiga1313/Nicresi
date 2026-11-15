@@ -147,6 +147,8 @@ else
   # Les navigateurs gardent style.css et site.js 7 jours : chaque version les appelle avec ?v=<commit>
   # pour que la nouvelle page ne s'affiche jamais avec l'ancienne mise en forme.
   find "$tmp/public" -name '*.html' -exec sed -i -E "s#(css/style\.css|js/site\.js)\"#\1?v=$COURT\"#g" {} +
+  # Le site hors connexion (sw.js) change de version à chaque mise à jour : les anciennes copies sont effacées.
+  [ -f "$tmp/public/sw.js" ] && sed -i "s/__VERSION__/$COURT/" "$tmp/public/sw.js"
   echo "$COMMIT" > "$tmp/public/version.txt"
   chmod -R a+rX "$tmp"
   mv "$tmp" "$VERSION"
@@ -167,6 +169,8 @@ fi
 # Garde le relais vers le NCC (/start, /owner) installé par relier-ncc.sh.
 INCLUDE_NCC=""
 [ -f /etc/apache2/nicresi-site-ncc.inc ] && INCLUDE_NCC=$'\n    Include /etc/apache2/nicresi-site-ncc.inc'
+# Garde le renforcement (HSTS, politique de contenu, compression) installé par renforcer-securite.sh.
+[ -f /etc/apache2/nicresi-site-securite.inc ] && INCLUDE_NCC="$INCLUDE_NCC"$'\n    Include /etc/apache2/nicresi-site-securite.inc'
 COMMUN="    DocumentRoot $RACINE/current/public$INCLUDE_NCC
     <Directory $RACINE/current/public>
         AllowOverride None
@@ -178,7 +182,7 @@ COMMUN="    DocumentRoot $RACINE/current/public$INCLUDE_NCC
         Header always set X-Content-Type-Options \"nosniff\"
         Header always set X-Frame-Options \"SAMEORIGIN\"
         Header always set Referrer-Policy \"strict-origin-when-cross-origin\"
-        <FilesMatch \"\\.(css|js|png|jpg|svg)\$\">
+        <FilesMatch \"\\.(css|js|png|jpg|svg|webp|ico|webmanifest)\$\">
             Header set Cache-Control \"public, max-age=604800\"
         </FilesMatch>
     </IfModule>
