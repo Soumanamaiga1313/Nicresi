@@ -490,6 +490,55 @@ p { margin: 0 0 1em; }
 .tel--accueil { position: absolute; left: -34px; bottom: 70px; width: 30%; max-width: 130px; z-index: 2; }
 .realisation__captures .tel { max-width: 190px; justify-self: center; }
 .tel--simulateur { max-width: 300px; justify-self: center; }
+/* Calculateur solaire */
+.solaire { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start;
+  background: var(--fond-doux); border: 1px solid var(--bord); border-top: 5px solid var(--orange); border-radius: var(--rayon); padding: 26px; }
+.solaire h3 { font-size: 1.35rem; margin: 8px 0 8px; }
+.solaire__appareils { border: 0; margin: 0; padding: 0; min-width: 0; }
+.solaire__appareils ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.solaire__appareils li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 12px; background: var(--surface); border: 1px solid var(--bord); }
+.solaire__nom { font-weight: 700; color: var(--titre); line-height: 1.25; }
+.solaire__nom small { display: block; font-weight: 400; color: var(--texte-doux); }
+.solaire__appareils label { display: grid; gap: 2px; font-size: .75rem; color: var(--texte-doux); text-align: center; }
+.solaire__appareils input { width: 4.2em; font: inherit; font-size: 1rem; font-weight: 700; text-align: center; padding: 8px 4px; border-radius: 10px; border: 1px solid #b9ada0; background: var(--surface); color: var(--encre); }
+.solaire__appareils input:focus-visible { outline: 3px solid var(--orange); outline-offset: 1px; }
+.solaire__resultat { background: var(--noir); color: #e6e6e6; border-radius: 18px; padding: 22px; position: sticky; top: 90px; }
+.solaire__conso { margin: 4px 0 14px; color: #cfcfcf; }
+.solaire__conso output { display: inline-block; font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 900; color: var(--blanc); letter-spacing: -0.02em; }
+.solaire__materiel { margin: 0 0 14px; display: grid; gap: 8px; }
+.solaire__materiel div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 10px; background: #1f1f1f; }
+.solaire__materiel dt { color: #cfcfcf; }
+.solaire__materiel dd { margin: 0; font-weight: 800; color: var(--or); text-align: right; white-space: nowrap; }
+.solaire__materiel dd small { display: block; font-weight: 400; font-size: .8rem; color: #cfcfcf; }
+.solaire__jauge { height: 8px; border-radius: 99px; background: #2a2a2a; overflow: hidden; margin-bottom: 12px; }
+.solaire__jauge span { display: block; height: 100%; width: 20%; background: linear-gradient(90deg, var(--or), var(--orange)); border-radius: inherit; transition: width .4s ease; }
+@media (prefers-reduced-motion: reduce) { .solaire__jauge span { transition: none; } }
+@media (max-width: 1020px) { .solaire { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .solaire > .simulateur__texte { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .solaire { grid-template-columns: minmax(0, 1fr); padding: 18px; } .solaire__resultat { position: static; } }
+
+/* QR code WhatsApp : seulement sur un écran large avec souris (ordinateur). */
+.qr-whatsapp { display: none; }
+@media (min-width: 900px) and (hover: hover) {
+  .qr-whatsapp { display: flex; gap: 18px; align-items: center; margin-top: 28px; padding: 16px; border: 1px dashed var(--bord); border-radius: var(--rayon); max-width: 30rem; }
+  .qr-whatsapp img { flex: none; border-radius: 8px; background: #fff; padding: 4px; }
+  .qr-whatsapp p { margin: 0; font-size: .95rem; color: var(--texte-doux); }
+  .qr-whatsapp strong { color: var(--titre); }
+}
+
+/* Mode léger (connexion lente ou économie de données) : pas d'animation, images chargées à la demande. */
+.leger *, .leger *::before, .leger *::after { animation: none !important; transition: none !important; }
+.img-leger { cursor: pointer; background: var(--fond-doux) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='40' height='40' fill='none' stroke='%23b4460a' stroke-width='1.6'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Ccircle cx='9' cy='10' r='1.6'/%3E%3Cpath d='m4 17 5-5 4 4 3-3 4 4'/%3E%3C/svg%3E") center / 40px no-repeat; outline: 1px dashed var(--bord); outline-offset: -1px; min-height: 80px; }
+.bandeau-leger { background: var(--or); color: var(--noir); font-size: .9rem; }
+.bandeau-leger .conteneur { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; padding-top: 8px; padding-bottom: 8px; }
+.bandeau-leger p { margin: 0; flex: 1 1 16rem; }
+.bandeau-leger button, .pied__outils button { font: inherit; font-weight: 700; cursor: pointer; border-radius: 999px; padding: 6px 14px; }
+.bandeau-leger button { background: var(--noir); color: var(--blanc); border: 0; }
+.bandeau-leger button + button { background: transparent; color: var(--noir); border: 1px solid var(--noir); }
+.pied__outils { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.pied__outils button { background: transparent; color: var(--blanc); border: 1px solid #555; font-size: .9rem; }
+.pied__outils button:hover, .pied__outils button:focus-visible { border-color: var(--or); color: var(--or); }
+.pied__outils button[aria-pressed="true"] { background: var(--or); color: var(--noir); border-color: var(--or); }
+
 .tel--simulateur .simulateur__resultat { border-radius: 0; padding: 14px 20px 26px; }
 
 /* Apparition au défilement (classes posées par site.js uniquement si les animations sont permises). */

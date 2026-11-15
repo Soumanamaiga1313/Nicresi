@@ -45,6 +45,13 @@ Tout le contenu est dans `public/index.html`, organisé en huit sections : accue
 - **Anti-spam du formulaire** : champ piège invisible, envoi refusé moins de 3 secondes après l'arrivée sur la page ou avec plus de deux liens dans le message. Pas de captcha.
 - **Mesure d'audience** : préparée mais inactive. Pour l'activer, coller le jeton Cloudflare Web Analytics dans `MESURE_AUDIENCE` (fin de `site.js`) ; c'est un outil sans cookie, donc sans bandeau de consentement. Mettre à jour la section 3 de la page Confidentialité.
 
+## Innovations
+
+- **Site hors connexion et installable** (`sw.js`, `hors-ligne.html`, `site.webmanifest`) : les pages déjà ouvertes restent lisibles sans Internet ; une page jamais vue affiche la page « Hors connexion » avec l'appel et le SMS (qui marchent sans données). Sur Android, le bouton « Installer l'application NICRESI » (bas de page) ajoute le site à l'écran d'accueil. Les pages viennent toujours du réseau d'abord ; `installer.sh` remplace `__VERSION__` dans `sw.js` pour effacer les anciennes copies à chaque mise à jour. Les chemins du NCC (`/owner`, `/start`, `/api`) ne passent jamais par `sw.js`.
+- **Mode léger** : activé tout seul si le téléphone est en « économie de données » ou en 2G, ou par le bouton en bas de page (choix mémorisé). Animations coupées, images du bas de page remplacées par un cadre ; elles se chargent quand on les touche ou avec « Afficher les images ».
+- **Calculateur solaire** (`#calcul-solaire`, section services) : appareils × heures → consommation, panneaux, batterie lithium (une journée d'autonomie), onduleur, puis demande de devis WhatsApp avec la liste. Hypothèses dans `CALCUL_SOLAIRE` (`site.js`) : 5,5 h de soleil utile, 75 % de rendement, panneaux de 400 W ; puissances et heures par défaut dans le HTML (`data-puissance`, `data-demarrage` pour le pic au démarrage d'un moteur).
+- **QR code WhatsApp** (`img/qr-whatsapp.svg`, section contact) : affiché seulement sur ordinateur, il ouvre la discussion WhatsApp sur le téléphone. Si le numéro change, régénérer le QR code.
+
 ## Formulaire de contact
 
 Le formulaire a un attribut `data-endpoint` :

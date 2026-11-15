@@ -4,6 +4,77 @@
 
   var reduireMouvements = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Mode léger : activé tout seul si le téléphone demande d'économiser les données ou si la connexion est en 2G,
+  // ou choisi par le visiteur (bouton en bas de page, mémorisé sur cet appareil). Pas d'animation, images à la demande.
+  var CLE_LEGER = 'nicresi-mode-leger', choixLeger = null;
+  try { choixLeger = localStorage.getItem(CLE_LEGER); } catch (e) { /* stockage indisponible : on suit la connexion */ }
+  var connexion = navigator.connection || {};
+  var legerAuto = !!(connexion.saveData || /(^|-)2g$/.test(connexion.effectiveType || ''));
+  var modeLeger = choixLeger ? choixLeger === '1' : legerAuto;
+  var choisirLeger = function (actif) {
+    try { localStorage.setItem(CLE_LEGER, actif ? '1' : '0'); } catch (e) { /* tant pis : le choix vaut pour cette page */ }
+    location.reload();
+  };
+  if (modeLeger) {
+    document.documentElement.classList.add('leger');
+    reduireMouvements = true;
+    // Les images plus bas dans la page ne sont pas encore téléchargées : on les garde en attente.
+    var enAttenteImages = [];
+    document.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+      if (img.complete && img.naturalWidth) return;
+      img.dataset.src = img.getAttribute('src');
+      // Image vide aux mêmes proportions (aucun téléchargement) : la mise en page ne bouge pas.
+      img.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="' +
+        (img.getAttribute('width') || 4) + '" height="' + (img.getAttribute('height') || 3) + '"/>');
+      img.classList.add('img-leger');
+      img.title = 'Toucher pour afficher l\'image';
+      img.addEventListener('click', function charger() { afficherImage(img); img.removeEventListener('click', charger); });
+      enAttenteImages.push(img);
+    });
+    var afficherImage = function (img) {
+      if (!img.dataset.src) return;
+      img.src = img.dataset.src; delete img.dataset.src; img.classList.remove('img-leger'); img.removeAttribute('title');
+    };
+    var bandeau = document.createElement('div');
+    bandeau.className = 'bandeau-leger';
+    bandeau.setAttribute('role', 'status');
+    bandeau.innerHTML = '<div class="conteneur"><p><strong>' + (choixLeger === '1' ? 'Mode léger activé.' : 'Connexion lente ou économie de données détectée : mode léger activé.') +
+      '</strong> Animations coupées, images affichées seulement si vous les touchez.</p>' +
+      '<button type="button" data-action="tout-afficher">Afficher les images</button><button type="button" data-action="quitter-leger">Mode normal</button></div>';
+    var entete = document.querySelector('.entete');
+    if (entete) entete.appendChild(bandeau); else document.body.insertBefore(bandeau, document.body.firstChild);
+    bandeau.querySelector('[data-action="tout-afficher"]').addEventListener('click', function () {
+      enAttenteImages.forEach(afficherImage); this.hidden = true;
+    });
+    bandeau.querySelector('[data-action="quitter-leger"]').addEventListener('click', function () { choisirLeger(false); });
+  }
+
+  // Outils en bas de page : mode léger et installation du site comme une application.
+  var basDePage = document.querySelector('.pied__bas');
+  if (basDePage) {
+    var outils = document.createElement('div');
+    outils.className = 'pied__outils';
+    outils.innerHTML = '<button type="button" data-action="mode-leger" aria-pressed="' + modeLeger + '">Mode léger (économise vos données)</button>' +
+      '<button type="button" data-action="installer" hidden>Installer l\'application NICRESI</button>';
+    basDePage.appendChild(outils);
+    outils.querySelector('[data-action="mode-leger"]').addEventListener('click', function () { choisirLeger(!modeLeger); });
+    var boutonInstaller = outils.querySelector('[data-action="installer"]'), invitation = null;
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault(); invitation = e; boutonInstaller.hidden = false;
+    });
+    boutonInstaller.addEventListener('click', function () {
+      if (!invitation) return;
+      invitation.prompt();
+      invitation.userChoice.then(function () { invitation = null; boutonInstaller.hidden = true; });
+    });
+    window.addEventListener('appinstalled', function () { boutonInstaller.hidden = true; });
+  }
+
+  // Site disponible hors connexion (sw.js) : pages déjà visitées et contacts restent accessibles sans Internet.
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () { /* le site marche sans */ }); });
+  }
+
   // Menu sur téléphone
   var bouton = document.querySelector('.menu-bouton');
   var menu = document.getElementById('menu');
@@ -232,6 +303,48 @@
     [champClients, champPrix, champJours].forEach(function (c) { c.addEventListener('input', calculer); });
     sim.hidden = false;
     calculer();
+  }
+
+  // Calculateur solaire : énergie par jour = somme (puissance × nombre × heures).
+  // Hypothèses volontairement prudentes, à ajuster ici si NICRESI change de matériel de référence.
+  var CALCUL_SOLAIRE = { soleil: 5.5, rendement: 0.75, panneau: 400, decharge: 0.8, rendementBatterie: 0.9, marge: 1.25,
+    onduleurs: [1, 1.5, 2, 3, 5, 8, 10] };
+  var solaire = document.getElementById('calcul-solaire');
+  if (solaire) {
+    solaire.addEventListener('submit', function (e) { e.preventDefault(); });
+    var lignes = solaire.querySelectorAll('.solaire__appareils li');
+    var sortie = function (n) { return solaire.querySelector('[data-sortie="' + n + '"]'); };
+    var virgule = function (n, d) { return n.toFixed(d).replace('.', ','); };
+    var lienSolaire = solaire.querySelector('[data-action="solaire-whatsapp"]'), jauge = solaire.querySelector('.solaire__jauge span');
+    var calculerSolaire = function () {
+      var energie = 0, pointe = 0, liste = [];
+      lignes.forEach(function (li) {
+        var p = +li.dataset.puissance;
+        var champN = li.querySelector('[data-champ="nombre"]'), champH = li.querySelector('[data-champ="heures"]');
+        var n = Math.max(0, Math.min(99, Math.round(+champN.value || 0))), h = Math.max(0, Math.min(24, +champH.value || 0));
+        energie += p * n * h; pointe += p * n * (+li.dataset.demarrage || 1);
+        if (n > 0 && h > 0) liste.push(n + ' × ' + li.querySelector('.solaire__nom').firstChild.textContent.trim() + ' (' + h + ' h/j)');
+      });
+      var C = CALCUL_SOLAIRE, kwh = energie / 1000;
+      var crete = energie / (C.soleil * C.rendement);
+      var panneaux = energie > 0 ? Math.max(1, Math.ceil(crete / C.panneau)) : 0;
+      var batterie = energie > 0 ? Math.ceil(energie / (C.decharge * C.rendementBatterie) / 500) * 0.5 : 0;
+      var besoinOnduleur = pointe * C.marge / 1000, onduleur = null;
+      for (var i = 0; i < C.onduleurs.length; i++) if (C.onduleurs[i] >= besoinOnduleur) { onduleur = C.onduleurs[i]; break; }
+      sortie('conso').textContent = virgule(kwh, 1) + ' kWh';
+      var texteCrete = virgule(panneaux * C.panneau / 1000, 1) + ' kWc';
+      sortie('panneaux').textContent = panneaux ? panneaux + ' × ' + C.panneau + ' W' : '—';
+      if (panneaux) { var petit = document.createElement('small'); petit.textContent = ' ' + texteCrete; sortie('panneaux').appendChild(petit); }
+      sortie('batterie').textContent = batterie ? virgule(batterie, batterie % 1 ? 1 : 0) + ' kWh (lithium)' : '—';
+      sortie('onduleur').textContent = pointe === 0 ? '—' : onduleur ? virgule(onduleur, onduleur % 1 ? 1 : 0) + ' kVA' : 'plus de 10 kVA, sur étude';
+      jauge.style.width = Math.min(100, Math.max(4, kwh / 15 * 100)) + '%';
+      lienSolaire.href = 'https://wa.me/22793191920?text=' + encodeURIComponent('Bonjour NICRESI, je voudrais un devis solaire. Mes appareils : ' +
+        (liste.join(', ') || 'à préciser') + '. Estimation du site : ' + virgule(kwh, 1) + ' kWh par jour, panneaux ' + (panneaux ? panneaux + ' × ' + C.panneau + ' W (' + texteCrete + ')' : 'aucun') +
+        ', batterie ' + sortie('batterie').textContent + ', onduleur ' + sortie('onduleur').textContent + '.');
+    };
+    solaire.addEventListener('input', calculerSolaire);
+    solaire.hidden = false;
+    calculerSolaire();
   }
 
   // Démo cliquable de NICRESI Control : choisir un forfait et un nombre de pages, puis « créer » des cartes d'exemple.

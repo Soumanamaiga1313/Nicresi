@@ -129,6 +129,9 @@ AddType image/webp .webp
         <FilesMatch "\.(webp|ico|webmanifest|png|jpg|svg)$">
             Header set Cache-Control "public, max-age=604800"
         </FilesMatch>
+        <Files "sw.js">
+            Header set Cache-Control "no-cache"
+        </Files>
     </IfModule>
     <IfModule mod_deflate.c>
         AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript text/javascript image/svg+xml application/manifest+json

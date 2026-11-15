@@ -147,6 +147,8 @@ else
   # Les navigateurs gardent style.css et site.js 7 jours : chaque version les appelle avec ?v=<commit>
   # pour que la nouvelle page ne s'affiche jamais avec l'ancienne mise en forme.
   find "$tmp/public" -name '*.html' -exec sed -i -E "s#(css/style\.css|js/site\.js)\"#\1?v=$COURT\"#g" {} +
+  # Le site hors connexion (sw.js) change de version à chaque mise à jour : les anciennes copies sont effacées.
+  [ -f "$tmp/public/sw.js" ] && sed -i "s/__VERSION__/$COURT/" "$tmp/public/sw.js"
   echo "$COMMIT" > "$tmp/public/version.txt"
   chmod -R a+rX "$tmp"
   mv "$tmp" "$VERSION"
