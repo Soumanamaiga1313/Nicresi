@@ -189,19 +189,25 @@
       });
       zone.addEventListener('pointerleave', function () { incliner(0, 0); });
     } else {
+      // Une mesure par image affichée (requestAnimationFrame) : pas de recalcul forcé de la page à chaque défilement.
+      var reliefEnAttente = false;
       var auDefilement = function () {
+        reliefEnAttente = false;
         var b = relief.getBoundingClientRect();
         var p = Math.max(-1, Math.min(1, (b.top + b.height / 2 - window.innerHeight / 2) / window.innerHeight));
         incliner(p * 12, p * -6);
       };
-      window.addEventListener('scroll', auDefilement, { passive: true });
-      auDefilement();
+      window.addEventListener('scroll', function () {
+        if (!reliefEnAttente) { reliefEnAttente = true; requestAnimationFrame(auDefilement); }
+      }, { passive: true });
+      requestAnimationFrame(auDefilement);
     }
   }
 
   // Simulateur de recettes : clients par jour × prix moyen × jours d'ouverture, avec un montant qui défile.
   var sim = document.getElementById('simulateur');
   if (sim) {
+    sim.addEventListener('submit', function (e) { e.preventDefault(); }); // calcul en direct, rien à envoyer
     var champClients = sim.querySelector('#sim-clients'), champPrix = sim.querySelector('#sim-prix'), champJours = sim.querySelector('#sim-jours');
     var montant = sim.querySelector('.simulateur__montant'), lienSim = sim.querySelector('[data-action="sim-whatsapp"]');
     var affiche = 0, animation = null;
@@ -384,6 +390,7 @@
   //   Le bouton et la phrase au-dessus l'annoncent avant le clic ; copie, e-mail et appel restent proposés ensuite.
   // - data-endpoint renseigné : envoi direct (JSON). La confirmation ne s'affiche que si le service répond « OK ».
   var form = document.getElementById('formulaire-contact');
+  var arriveeFormulaire = Date.now();
   if (form) {
     var message = form.querySelector('.formulaire__message');
     var envoyer = form.querySelector('button[type="submit"]');
@@ -471,8 +478,15 @@
         premier.focus();
         return;
       }
-      // Robot détecté : on n'envoie rien et on ne confirme rien.
+      // Robot détecté (champ piège rempli) : on n'envoie rien et on ne confirme rien.
       if (form.elements.site_web.value) return;
+      // Anti-spam sans captcha : un envoi moins de 3 secondes après l'arrivée sur la page,
+      // ou un message rempli de liens, n'est pas celui d'une personne.
+      var besoinTexte = form.elements.besoin.value;
+      if (Date.now() - arriveeFormulaire < 3000 || (besoinTexte.match(/https?:\/\/|www\./gi) || []).length > 2) {
+        afficherMessage('Votre demande n\'a pas pu être préparée. Relisez-la puis réessayez, ou écrivez-nous directement sur WhatsApp.', 'erreur');
+        return;
+      }
 
       var type = form.querySelector('input[name="type"]:checked');
       var donnees = {
@@ -515,5 +529,16 @@
         proposerRepli(texte, sujet);
       }).then(function () { envoyer.disabled = false; });
     });
+  }
+
+  // Mesure d'audience sans cookie (Cloudflare Web Analytics) : inactive tant que le jeton est vide.
+  // Pour l'activer, coller ici le jeton fourni par Cloudflare, puis mettre à jour la page Confidentialité.
+  var MESURE_AUDIENCE = '';
+  if (MESURE_AUDIENCE && location.hostname === 'nicresi.com') {
+    var balise = document.createElement('script');
+    balise.defer = true;
+    balise.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    balise.setAttribute('data-cf-beacon', JSON.stringify({ token: MESURE_AUDIENCE }));
+    document.body.appendChild(balise);
   }
 })();

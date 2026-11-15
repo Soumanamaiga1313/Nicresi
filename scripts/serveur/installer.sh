@@ -167,6 +167,8 @@ fi
 # Garde le relais vers le NCC (/start, /owner) installé par relier-ncc.sh.
 INCLUDE_NCC=""
 [ -f /etc/apache2/nicresi-site-ncc.inc ] && INCLUDE_NCC=$'\n    Include /etc/apache2/nicresi-site-ncc.inc'
+# Garde le renforcement (HSTS, politique de contenu, compression) installé par renforcer-securite.sh.
+[ -f /etc/apache2/nicresi-site-securite.inc ] && INCLUDE_NCC="$INCLUDE_NCC"$'\n    Include /etc/apache2/nicresi-site-securite.inc'
 COMMUN="    DocumentRoot $RACINE/current/public$INCLUDE_NCC
     <Directory $RACINE/current/public>
         AllowOverride None
@@ -178,7 +180,7 @@ COMMUN="    DocumentRoot $RACINE/current/public$INCLUDE_NCC
         Header always set X-Content-Type-Options \"nosniff\"
         Header always set X-Frame-Options \"SAMEORIGIN\"
         Header always set Referrer-Policy \"strict-origin-when-cross-origin\"
-        <FilesMatch \"\\.(css|js|png|jpg|svg)\$\">
+        <FilesMatch \"\\.(css|js|png|jpg|svg|webp|ico|webmanifest)\$\">
             Header set Cache-Control \"public, max-age=604800\"
         </FilesMatch>
     </IfModule>

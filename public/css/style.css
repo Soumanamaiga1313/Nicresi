@@ -638,8 +638,29 @@ p { margin: 0 0 1em; }
 .pied a.whatsapp, .pied a.whatsapp:hover { color: var(--blanc); }
 .whatsapp:hover { background: #0e6534; }
 
-/* Page d'erreur */
-.page-erreur { min-height: 80vh; display: grid; place-items: center; text-align: center; padding: 48px 0; }
+/* Page d'erreur (404) */
+.page-erreur { min-height: 70vh; display: grid; place-items: center; text-align: center; padding: 48px 0; }
+.page-erreur__code { font-size: clamp(4.5rem, 18vw, 9rem); font-weight: 900; line-height: 1; margin: 0; color: var(--orange-fonce); letter-spacing: -0.04em; }
+.page-erreur__girafe { margin: 0 auto 8px; }
+.page-erreur p { max-width: 32em; margin-left: auto; margin-right: auto; }
+.page-erreur .actions { justify-content: center; }
+.page-erreur__liens { list-style: none; padding: 0; margin: 28px auto 0; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.page-erreur__liens a { display: inline-block; padding: 8px 14px; border: 1px solid var(--bord); border-radius: 999px; color: var(--encre); text-decoration: none; }
+.page-erreur__liens a:hover, .page-erreur__liens a:focus-visible { border-color: var(--orange); color: var(--orange-fonce); }
+
+/* Pages légales (confidentialité, conditions) */
+.texte-legal { max-width: 46rem; }
+.texte-legal h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); margin-top: 2em; scroll-margin-top: 90px; }
+.texte-legal h3 { font-size: 1.1rem; margin-top: 1.4em; }
+.texte-legal li { margin-bottom: 0.4em; }
+.texte-legal__maj { color: var(--texte-doux); font-size: 0.95rem; }
+.sommaire { background: var(--fond-doux); border: 1px solid var(--bord); border-radius: var(--rayon); padding: 18px 22px; margin: 24px 0 8px; }
+.sommaire p { margin: 0 0 6px; font-weight: 700; color: var(--titre); }
+.sommaire ol { margin: 0; padding-left: 1.3em; columns: 2 16rem; column-gap: 32px; }
+.fiche-legale { display: grid; grid-template-columns: max-content 1fr; gap: 8px 20px; margin: 0; }
+.fiche-legale dt { font-weight: 700; color: var(--titre); }
+.fiche-legale dd { margin: 0; }
+@media (max-width: 640px) { .fiche-legale { grid-template-columns: 1fr; gap: 2px; } .fiche-legale dd { margin-bottom: 10px; } }
 
 /* Tablette */
 @media (max-width: 1020px) {
